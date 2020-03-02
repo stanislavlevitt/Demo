@@ -28,12 +28,6 @@ const User = db.define('user', {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   },
-  creditNumber: {
-    type: Sequelize.STRING
-    // validate: {
-    //   isCreditCard: true
-    // }
-  },
   password: {
     type: Sequelize.STRING,
     // Making `.password` act like a func hides it when serializing to JSON.
