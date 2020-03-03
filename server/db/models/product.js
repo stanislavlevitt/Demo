@@ -18,6 +18,10 @@ const Product = db.define('product', {
       min: 0
     }
   },
+  purchaseQuantity: {
+    type: Sequelize.INTEGER,
+    defaultValue: 1
+  },
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue: '/images/productDefault.png'

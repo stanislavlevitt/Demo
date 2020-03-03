@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {gotProductFromServer} from '../store/product'
+import {gotProductFromServer, updateCart} from '../store/product'
 
 class Product extends React.Component {
   constructor() {
@@ -12,6 +12,7 @@ class Product extends React.Component {
     }
     this.decrement = this.decrement.bind(this)
     this.increment = this.increment.bind(this)
+    this.updateCart = this.updateCart.bind(this)
   }
 
   componentDidMount() {
@@ -36,6 +37,11 @@ class Product extends React.Component {
     }
   }
 
+  updateCart() {
+    this.props.selectedProduct.purchaseQuantity = this.state.itemQty
+    this.props.updateCart(this.props.selectedProduct)
+  }
+
   render() {
     const product = this.props.selectedProduct
     return (
@@ -53,17 +59,10 @@ class Product extends React.Component {
               +
             </button>
           </div>
-          {/* <div id="productQty">
-            <button type="button">
-                -
-            </button>
-              <div> {this.state.itemQty} </div>
-              <button type="button">
-                +
-              </button>
-          </div> */}
           <p>
-            <button>Add to cart</button>
+            <button onClick={this.updateCart}>
+              <Link to="/cart">Add to cart</Link>
+            </button>
           </p>
         </div>
       </div>
@@ -79,7 +78,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    gotProductFromServer: robotId => dispatch(gotProductFromServer(robotId))
+    gotProductFromServer: productId =>
+      dispatch(gotProductFromServer(productId)),
+    updateCart: product => dispatch(updateCart(product))
   }
 }
 

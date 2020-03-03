@@ -11,7 +11,6 @@ class ProductList extends Component {
     this.state = {
       products: []
     }
-    this.handleClick = this.handleClick.bind(this)
   }
 
   async componentDidMount() {
@@ -20,10 +19,6 @@ class ProductList extends Component {
     if (this._isMounted) {
       this.setState({products})
     }
-  }
-
-  handleClick(productId) {
-    this.props.history.push(`/products/${productId}`)
   }
 
   render() {
