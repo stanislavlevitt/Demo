@@ -1,16 +1,58 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Product, Order} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({
+      name: 'Codye',
+      email: 'cody@email.com',
+      password: '123',
+      phoneNum: '(123) 456-7899'
+    }),
+    User.create({
+      name: 'Murphy',
+      email: 'murphy@email.com',
+      password: '123',
+      phoneNum: '(134) 932-7326'
+    }),
+    User.create({
+      name: 'Dan',
+      email: 'dan@email.com',
+      password: '1234535',
+      phoneNum: '(134) 932-3929'
+    })
   ])
+
+  const products = await Promise.all([
+    Product.create({
+      name: 'MacBookPro 13-inch',
+      type: 'Mac',
+      price: 1500,
+      imageUrl: 'https://www.adorama.com/images/Large/acmv962lla13.jpg',
+      quantity: 40
+    }),
+    Product.create({
+      name: 'MacBookPro Air',
+      type: 'Mac',
+      price: 1099,
+      imageUrl: 'https://www.adorama.com/images/Large/acmvfh2lla.jpg',
+      quantity: 70
+    })
+  ])
+
+  // const orders = await Promise.all([
+  //   Order.create({status: true, productId: 1, userId: 1}),
+  //   Order.create({status: true, productId: 1, userId: 2})
+  // ])
+
+  // await users[0].addProduct(1)
+  // await users[1].addProduct(1)
+  // await users[2].addProduct(2)
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
