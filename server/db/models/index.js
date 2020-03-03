@@ -1,7 +1,7 @@
 const User = require('./user')
-const Product = require('./product')
 const Order = require('./order')
-const History = require('./history')
+const Product = require('./product')
+const Itemized = require('./itemized')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -10,6 +10,12 @@ const History = require('./history')
  *    BlogPost.belongsTo(User)
  */
 
+User.hasMany(Order)
+Order.belongsTo(User)
+
+Product.belongsToMany(Order, {through: 'itemized'})
+Order.belongsToMany(Product, {through: 'itemized'})
+
 /**
  * We'll export all of our models here, so that any time a module needs a model,
  * we can just require it from 'db/models'
@@ -17,15 +23,9 @@ const History = require('./history')
  * instead of: const User = require('../db/models/user')
  */
 
-Product.belongsToMany(User, {through: 'History'})
-User.belongsToMany(Product, {through: 'History'})
-
-Order.belongsTo(Product)
-Order.belongsTo(User)
-
 module.exports = {
   User,
   Product,
   Order,
-  History
+  Itemized
 }

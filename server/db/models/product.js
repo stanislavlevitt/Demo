@@ -1,3 +1,4 @@
+// const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
 
@@ -9,28 +10,34 @@ const Product = db.define('product', {
       notEmpty: true
     }
   },
-  type: {
-    type: Sequelize.STRING
-  },
-  quantity: {
-    type: Sequelize.INTEGER,
-    validate: {
-      min: 0
-    }
-  },
-  purchaseQuantity: {
-    type: Sequelize.INTEGER,
-    defaultValue: 1
-  },
-  imageUrl: {
-    type: Sequelize.STRING,
-    defaultValue: '/images/productDefault.png'
-  },
+  // type: {
+  //   type: Sequelize.STRING,
+  //   allowNull: false,
+  //   validate: {
+  //     isEmpty: true
+  //   }
+  // },
+
   price: {
     type: Sequelize.DECIMAL(),
     allowNull: false,
     validate: {
-      min: 0.99
+      min: 0,
+      isNumeric: true
+    }
+  },
+  // brand: {
+  //   type: Sequelize.STRING,
+  //   defaultValue: 'Generic'
+  // },
+  imageUrl: {
+    type: Sequelize.STRING
+  },
+
+  quantity: {
+    type: Sequelize.INTEGER,
+    validate: {
+      min: 0
     }
   }
 })

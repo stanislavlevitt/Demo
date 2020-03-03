@@ -2,31 +2,26 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Order = db.define('order', {
+const Itemized = db.define('itemized', {
   // orderNum : {
   //   type: Sequelize.INTEGER
   //   allowNull
   // }
 
   // status is TRUE if purchased, false if in cart not purchased
-  status: {
-    type: Sequelize.STRING,
-    defaultValue: false,
+  purchasePrice: {
+    type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
-      notEmpty: true
+      min: 0,
+      isNumeric: true
     }
   },
 
-  purchaseDate: {
-    type: Sequelize.DATE,
-    defaultValue: null
-  },
-
-  totalPrice: {
+  quantity: {
     type: Sequelize.INTEGER,
     defaultValue: 0
   }
 })
 
-module.exports = Order
+module.exports = Itemized
