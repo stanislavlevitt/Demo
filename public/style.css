@@ -46,10 +46,17 @@ img {
 }
 
 .product-item {
+  background-color: rgba(250, 235, 215, 0.338);
   display: flex;
   flex-basis: 21%;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin: 0 24px;
+}
+
+#productQty {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
