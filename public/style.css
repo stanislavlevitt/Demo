@@ -1,7 +1,9 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Inconsolata', sans-serif;
+  text-align: center;
+  background-image: url('https://i.ytimg.com/vi/7dkrwPrmH-Y/maxresdefault.jpg');
+  background-size: 100%;
 }
-
 a {
   text-decoration: none;
 }
@@ -18,4 +20,67 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+#homeImg {
+  margin: 60px;
+  width: 1000px;
+}
+
+img {
+  width: 200px;
+  height: 230px;
+}
+
+#product-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba(250, 235, 215, 0.338);
+  margin: 0 auto;
+  margin-top: 30px;
+  border-radius: 30px;
+  justify-content: center;
+  padding-left: 2em;
+  width: 60%;
+  height: 500px;
+}
+
+.product-item {
+  background-color: rgba(250, 235, 215, 0.338);
+  display: flex;
+  flex-basis: 21%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 24px;
+}
+
+#productQty {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#cart-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: rgba(250, 235, 215, 0.338);
+  border-radius: 30px;
+  justify-content: space-evenly;
+  flex-direction: row;
+  padding-left: 2em;
+  width: 30%;
+  height: 200px;
+}
+
+.cart-line {
+  display: 'flex';
+  flex-direction: row;
+  justify-content: 'center';
+  margin-bottom: '10px';
+}
+
+#productName {
+  border-bottom: '1px solid black';
 }
