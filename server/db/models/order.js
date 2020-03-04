@@ -10,7 +10,7 @@ const Order = db.define('order', {
 
   // status is TRUE if purchased, false if in cart not purchased
   status: {
-    type: Sequelize.STRING,
+    type: Sequelize.BOOLEAN,
     defaultValue: false,
     // allowNull: false,
     validate: {

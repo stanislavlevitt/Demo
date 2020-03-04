@@ -1,15 +1,7 @@
 const router = require('express').Router()
 const {Order} = require('../db/models')
+const {Product} = require('../db/models')
 module.exports = router
-
-router.get('/', async (req, res, next) => {
-  try {
-    const products = await Order.findAll()
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
 
 router.post('/', async (req, res, next) => {
   try {
@@ -20,10 +12,21 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const product = await Order.findByPk(req.params.id)
-    res.json(product)
+    const order = await Order.findOne({
+      where: {
+        userId: req.session.passport.user,
+        status: false
+      },
+      include: [
+        {
+          model: Product
+        }
+      ]
+    })
+    console.log(order.products)
+    res.json(order)
   } catch (error) {
     next(error)
   }

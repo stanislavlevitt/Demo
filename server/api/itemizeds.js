@@ -30,6 +30,8 @@ router.post('/', async (req, res, next) => {
     if (currentItem !== null) {
       currentItem.quantity = currentItem.quantity + req.body.itemQty
       await currentItem.save()
+      currentItem.totalPrice = currentItem.quantity * currentItem.purchasePrice
+      await currentItem.save()
       res.send(currentItem)
     } else {
       const newItem = {
@@ -39,6 +41,8 @@ router.post('/', async (req, res, next) => {
         orderId: order.id
       }
       const item = await Itemized.create(newItem)
+      item.totalPrice = item.quantity * item.purchasePrice
+      await item.save()
       res.send(item)
     }
   } catch (error) {
