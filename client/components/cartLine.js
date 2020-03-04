@@ -8,17 +8,47 @@ class CartLine extends Component {
 
   render() {
     const cartLine = this.props.cartLine
-    console.log(cartLine)
     return (
-      <div id="cart-container">
+      <div>
         <li>
-          <div>
-            <p id="productName">{cartLine.name}</p>
-            <p id="productName">Price: ${cartLine.price}</p>
-            <p id="productName">Quantity: {cartLine.purchaseQuantity}</p>
-            <p id="productName">
-              Total: ${cartLine.purchaseQuantity * cartLine.price}
-            </p>
+          <div
+            className="cart-line"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginBottom: '10px'
+            }}
+          >
+            <div
+              style={{
+                width: '25%',
+                fontSize: '20px',
+                borderBottom: '1px solid black'
+              }}
+            >
+              {cartLine.name}
+            </div>
+            <div style={{width: '15%', borderBottom: '1px solid black'}}>
+              <p style={{marginTop: 0}}>Price</p>
+              <p>${cartLine.price}</p>
+            </div>
+            <div style={{width: '15%', borderBottom: '1px solid black'}}>
+              <p style={{marginTop: 0}}>Quantity</p>
+              <p>
+                <input
+                  onChange={evt => this.handleChange(evt.target.value)}
+                  type="number"
+                  id="itemQuantity"
+                  name="itemQuantity"
+                  value={cartLine.purchaseQuantity}
+                  style={{width: '25px'}}
+                />
+              </p>
+            </div>
+            <div style={{width: '15%', borderBottom: '1px solid black'}}>
+              <p style={{marginTop: 0}}>Total</p>
+              <p>${cartLine.purchaseQuantity * cartLine.price}</p>
+            </div>
           </div>
         </li>
       </div>

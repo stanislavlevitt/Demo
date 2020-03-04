@@ -39,23 +39,23 @@ class Product extends React.Component {
 
   updateCart() {
     this.props.selectedProduct.purchaseQuantity = this.state.itemQty
-    this.props.updateCart(this.props.selectedProduct)
+    this.props.updateCart(this.props.selectedProduct, this.state.itemQty)
   }
 
   render() {
     const product = this.props.selectedProduct
     return (
-      <div className="product-item">
+      <div className="single-product-div">
         <div id="backgrounding">
           <h3>{product.name}</h3>
           <img src={product.imageUrl} />
           <p>Price: {product.price}$</p>
           <div id="productQty">
-            <button type="button" onClick={this.decrement}>
+            <button id="ButtonQTY" type="button" onClick={this.decrement}>
               -
             </button>
-            <div>{this.state.itemQty}</div>
-            <button type="button" onClick={this.increment}>
+            <div id="productQtyValue">{this.state.itemQty}</div>
+            <button id="ButtonQTY" type="button" onClick={this.increment}>
               +
             </button>
           </div>
@@ -80,7 +80,7 @@ const mapDispatchToProps = dispatch => {
   return {
     gotProductFromServer: productId =>
       dispatch(gotProductFromServer(productId)),
-    updateCart: product => dispatch(updateCart(product))
+    updateCart: (product, itemQty) => dispatch(updateCart(product, itemQty))
   }
 }
 

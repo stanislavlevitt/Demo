@@ -18,7 +18,7 @@ for (let i = 0; i < 10; i++) {
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
-
+  
   await Promise.all([usersArr.map(user => User.create(user))])
 
   const products = await Promise.all([
