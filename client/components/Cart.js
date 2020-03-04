@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
-import CartLine from './cartLine'
+import CartLine from './CartLine'
 
 class Cart extends Component {
   constructor(props) {
@@ -9,10 +9,8 @@ class Cart extends Component {
   }
 
   async componentDidMount() {
-    console.log('eeeeeeee')
     this._isMounted = true
-    const {data} = await axios.get('/api/itemizeds/order')
-    console.log('----->', data)
+    // const {data} = await axios.get('/api/itemizeds/order')
     // if (this._isMounted) {
     //   this.setState({products})
     // }

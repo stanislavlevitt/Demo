@@ -45,21 +45,3 @@ router.post('/', async (req, res, next) => {
     next(error)
   }
 })
-
-router.get('/order', async (req, res, next) => {
-  try {
-    const order = await Order.findOne({
-      where: {
-        userId: req.session.passport.user
-      }
-    })
-    const items = await Itemized.findAll({
-      where: {
-        orderId: order.id
-      }
-    })
-    res.json(items)
-  } catch (err) {
-    next(err)
-  }
-})
