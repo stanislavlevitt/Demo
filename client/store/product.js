@@ -11,6 +11,7 @@ const initialState = {
  */
 const GOT_PRODUCT = 'GOT_PRODUCT'
 const UPDATE_CART = 'UPDATE_CART'
+const GET_CART = 'GET_CART'
 
 /**
  * INITIAL STATE
@@ -22,6 +23,7 @@ const defaultProduct = {}
  */
 export const gotProduct = product => ({type: GOT_PRODUCT, product})
 export const UpdateCart = product => ({type: UPDATE_CART, product})
+export const GetCart = () => ({type: GET_CART})
 
 /**
  * THUNK CREATORS
@@ -39,6 +41,15 @@ export const updateCart = (product, itemQty) => async dispatch => {
   try {
     await axios.post(`/api/itemizeds`, {product, itemQty})
     dispatch(UpdateCart(product))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const getCart = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/itemizeds/order')
+    dispatch(GetCart(data))
   } catch (err) {
     console.error(err)
   }

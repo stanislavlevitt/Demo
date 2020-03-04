@@ -9,8 +9,10 @@ class Cart extends Component {
   }
 
   async componentDidMount() {
+    console.log('eeeeeeee')
     this._isMounted = true
-    const {data} = await axios.get('/api/itemizeds')
+    const {data} = await axios.get('/api/itemizeds/order')
+    console.log('----->', data)
     // if (this._isMounted) {
     //   this.setState({products})
     // }

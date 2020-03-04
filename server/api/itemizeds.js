@@ -26,12 +26,10 @@ router.post('/', async (req, res, next) => {
         orderId: order.id
       }
     })
-    console.log(currentItem)
 
     if (currentItem !== null) {
       currentItem.quantity = currentItem.quantity + req.body.itemQty
       await currentItem.save()
-      console.log(currentItem)
       res.send(currentItem)
     } else {
       const newItem = {
@@ -45,5 +43,23 @@ router.post('/', async (req, res, next) => {
     }
   } catch (error) {
     next(error)
+  }
+})
+
+router.get('/order', async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
+      where: {
+        userId: req.session.passport.user
+      }
+    })
+    const items = await Itemized.findAll({
+      where: {
+        orderId: order.id
+      }
+    })
+    res.json(items)
+  } catch (err) {
+    next(err)
   }
 })
