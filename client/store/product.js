@@ -35,8 +35,9 @@ export const gotProductFromServer = productId => async dispatch => {
   }
 }
 
-export const updateCart = product => async dispatch => {
+export const updateCart = (product, itemQty) => async dispatch => {
   try {
+    await axios.post(`/api/itemizeds`, {product, itemQty})
     dispatch(UpdateCart(product))
   } catch (err) {
     console.error(err)

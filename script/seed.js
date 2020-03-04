@@ -11,20 +11,17 @@ async function seed() {
     User.create({
       name: 'Codye',
       email: 'cody@email.com',
-      password: '123',
-      phoneNum: '(123) 456-7899'
+      password: '123'
     }),
     User.create({
       name: 'Murphy',
       email: 'murphy@email.com',
-      password: '123',
-      phoneNum: '(134) 932-7326'
+      password: '123'
     }),
     User.create({
       name: 'Dan',
       email: 'dan@email.com',
-      password: '1234535',
-      phoneNum: '(134) 932-3929'
+      password: '1234535'
     })
   ])
 
