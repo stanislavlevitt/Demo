@@ -1,46 +1,71 @@
 'use strict'
 
 const db = require('../server/db')
+const faker = require('faker')
 const {User, Product, Order} = require('../server/db/models')
+
+const usersArr = []
+for (let i = 0; i < 10; i++) {
+  const user = {
+    name: faker.fake('{{name.firstName}} {{name.lastName}}'),
+    email: faker.fake('{{internet.email}}'),
+    address: faker.fake('{{address.streetAddress}}'),
+    password: faker.fake('{{internet.password}}')
+  }
+  usersArr.push(user)
+}
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({
-      name: 'Codye',
-      email: 'cody@email.com',
-      password: '123',
-      phoneNum: '(123) 456-7899'
-    }),
-    User.create({
-      name: 'Murphy',
-      email: 'murphy@email.com',
-      password: '123',
-      phoneNum: '(134) 932-7326'
-    }),
-    User.create({
-      name: 'Dan',
-      email: 'dan@email.com',
-      password: '1234535',
-      phoneNum: '(134) 932-3929'
-    })
-  ])
+  await Promise.all([usersArr.map(user => User.create(user))])
 
   const products = await Promise.all([
     Product.create({
       name: 'MacBookPro 13-inch',
-      type: 'Mac',
+      type: 'Laptop',
       price: 1500,
       imageUrl: 'https://www.adorama.com/images/Large/acmv962lla13.jpg',
       quantity: 40
     }),
     Product.create({
       name: 'MacBookPro Air',
-      type: 'Mac',
+      type: 'Laptop',
       price: 1099,
       imageUrl: 'https://www.adorama.com/images/Large/acmvfh2lla.jpg',
+      quantity: 70
+    }),
+    Product.create({
+      name: 'MacBookPro 16-inch',
+      type: 'Laptop',
+      price: 2399,
+      imageUrl:
+        'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16touch-silver-select-201911?wid=1808&hei=1686&fmt=jpeg&qlt=80&.v=1572825196932',
+      quantity: 10
+    }),
+    Product.create({
+      name: 'iPad Pro',
+      type: 'Tablet',
+      price: 799,
+      imageUrl:
+        'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-12-select-wifi-silver-201810_GEO_US?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1576264060419',
+      quantity: 100
+    }),
+    Product.create({
+      name: 'iPad Air',
+      type: 'Tablet',
+      price: 499,
+      imageUrl:
+        'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-select-wifi-gold-201911?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1573800135063',
+      quantity: 500
+    }),
+    Product.create({
+      name: 'iPad mini',
+      type: 'Tablet',
+      price: 399,
+      imageUrl:
+        'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-select-wifi-silver-201911?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1573825370078',
       quantity: 70
     })
   ])
@@ -54,7 +79,7 @@ async function seed() {
   // await users[1].addProduct(1)
   // await users[2].addProduct(2)
 
-  console.log(`seeded ${users.length} users`)
+  //console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
 
