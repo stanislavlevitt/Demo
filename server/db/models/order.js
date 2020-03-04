@@ -12,7 +12,7 @@ const Order = db.define('order', {
   status: {
     type: Sequelize.STRING,
     defaultValue: false,
-    allowNull: false,
+    // allowNull: false,
     validate: {
       notEmpty: true
     }

@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {Itemized} = require('../db/models')
+const {Order} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -13,15 +14,20 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    const order = await Order.findOne({
+      where: {
+        userId: req.session.passport.user
+      }
+    })
     const newItem = {
       quantity: req.body.itemQty,
       purchasePrice: req.body.product.price,
       productId: req.body.product.id,
-      orderId: 1
+      orderId: order.id
     }
     const item = Itemized.create(newItem)
     res.send(item)
   } catch (error) {
-    next(err)
+    next(error)
   }
 })
