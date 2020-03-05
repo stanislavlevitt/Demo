@@ -42,9 +42,33 @@ router.post('/', async (req, res, next) => {
       }
       const item = await Itemized.create(newItem)
       item.totalPrice = item.quantity * item.purchasePrice
+      item.productName = req.body.product.name
       await item.save()
       res.send(item)
     }
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/', async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
+      where: {
+        userId: req.session.passport.user
+      }
+    })
+    const currentItem = await Itemized.findOne({
+      where: {
+        productId: req.body.product.id,
+        orderId: order.id
+      }
+    })
+    currentItem.quantity = req.body.itemQty
+    await currentItem.save()
+    console.log(currentItem.quantity)
+    console.log(req.body.itemQty)
+    res.send(currentItem)
   } catch (error) {
     next(error)
   }

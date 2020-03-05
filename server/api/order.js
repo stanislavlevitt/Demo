@@ -25,7 +25,6 @@ router.get('/', async (req, res, next) => {
         }
       ]
     })
-    console.log(order.products)
     res.json(order)
   } catch (error) {
     next(error)
