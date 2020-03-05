@@ -12,7 +12,10 @@ const Order = db.define('order', {
       notEmpty: true
     }
   },
-
+  totalPrice: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
   purchaseDate: {
     type: Sequelize.DATE,
     defaultValue: null

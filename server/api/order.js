@@ -65,14 +65,17 @@ router.put('/', async (req, res, next) => {
     })
     let sum = 0
     itemsFromOrder.forEach(el => (sum += el.dataValues.totalPrice))
-    console.log('DIM SUM', sum)
     await order.update({
       status: true,
       purchaseDate: Date.now(),
-      totalPrice: 88
+      totalPrice: sum
     })
     await order.save()
-    res.send()
+    console.log('HYE', req.session.passport.user)
+    await Order.create({
+      userId: req.session.passport.user
+    })
+    res.send(order)
   } catch (error) {
     next(error)
   }
