@@ -13,10 +13,21 @@ class Cart extends Component {
     return (
       <div id="cart">
         <h2>Cart</h2>
-        <ul>{cart.map(item => <CartLine key={item.id} cartLine={item} />)}</ul>
-        <button type="button">
-          <a href="/checkout">checkout</a>
-        </button>
+        {cart.length ? (
+          <div>
+            <ul>
+              {cart.map(item => <CartLine key={item.id} cartLine={item} />)}
+            </ul>
+            <button type="button">
+              <a href="/checkout">checkout</a>
+            </button>
+          </div>
+        ) : (
+          <div>
+            <h3>You should probably buy something!</h3>
+            <button>Dude don't be so cheap.</button>
+          </div>
+        )}
       </div>
     )
   }
