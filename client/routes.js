@@ -10,7 +10,8 @@ import {
   ProductList,
   Product,
   Cart,
-  AdminPage
+  AdminPage,
+  SingleUser
 } from './components'
 import {me} from './store'
 
@@ -23,7 +24,7 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const {isLoggedIn, admin} = this.props
     console.log('state.user', isLoggedIn)
     return (
       <Switch>
@@ -48,6 +49,8 @@ class Routes extends Component {
             <Route exact path="/adminPage" component={AdminPage} />
           </Switch>
         )}
+        {isLoggedIn &&
+          admin && <Route exact path="/user/:id" component={SingleUser} />}
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>
@@ -62,7 +65,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.selectedUser.id
+    isLoggedIn: !!state.user.selectedUser.id,
+    admin: state.user.selectedUser.isAdmin
   }
 }
 
