@@ -13,6 +13,7 @@ const GOT_PRODUCT = 'GOT_PRODUCT'
 const UPDATE_CART = 'UPDATE_CART'
 const GET_CART = 'GET_CART'
 const UPDATE_QTY = 'UPDATE_QTY'
+const PURCHASE_ORDER = 'PURCHASE_ORDER'
 
 /**
  * INITIAL STATE
@@ -26,6 +27,8 @@ export const gotProduct = product => ({type: GOT_PRODUCT, product})
 export const UpdateCart = () => ({type: UPDATE_CART})
 export const GetCart = products => ({type: GET_CART, products})
 export const UpdateQty = item => ({type: UPDATE_QTY, item})
+export const Purchase = status => ({type: PURCHASE_ORDER, status})
+
 /**
  * THUNK CREATORS
  */
@@ -66,6 +69,14 @@ export const updateQtyItem = (itemQty, product) => async dispatch => {
   }
 }
 
+export const purchaseOrder = status => async dispatch => {
+  try {
+    const {data} = await axios.put('api/orders', {status})
+    dispatch(Purchase(data))
+  } catch (error) {
+    console.error(error)
+  }
+}
 /**
  * REDUCER
  */
