@@ -27,7 +27,7 @@ export const gotProduct = product => ({type: GOT_PRODUCT, product})
 export const UpdateCart = () => ({type: UPDATE_CART})
 export const GetCart = products => ({type: GET_CART, products})
 export const UpdateQty = item => ({type: UPDATE_QTY, item})
-export const Purchase = status => ({type: PURCHASE_ORDER, status})
+export const Purchase = user => ({type: PURCHASE_ORDER, user})
 
 /**
  * THUNK CREATORS
@@ -69,9 +69,9 @@ export const updateQtyItem = (itemQty, product) => async dispatch => {
   }
 }
 
-export const purchaseOrder = status => async dispatch => {
+export const purchaseOrder = user => async dispatch => {
   try {
-    const {data} = await axios.put('api/orders', {status})
+    const {data} = await axios.put('api/orders', {user})
     dispatch(Purchase(data))
   } catch (error) {
     console.error(error)

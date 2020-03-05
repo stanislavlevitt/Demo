@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order} = require('../db/models')
+const {Order, Itemized} = require('../db/models')
 const {Product} = require('../db/models')
 module.exports = router
 
@@ -56,17 +56,20 @@ router.put('/', async (req, res, next) => {
       where: {
         userId: req.session.passport.user,
         status: false
-      },
-      include: [
-        {
-          model: Product
-        }
-      ]
+      }
     })
+    // const itemsFromOrder = await Itemized.findAll({
+    //   where: {
+    //     orderId: order.id
+    //   }
+    // })
     await order.update({
-      status: true
+      status: true,
+      purchaseDate: Date.now()
     })
     await order.save()
+    console.log('ORDER', order)
+    console.log('ORDER DOT ID', order.id)
     res.send()
   } catch (error) {
     next(error)

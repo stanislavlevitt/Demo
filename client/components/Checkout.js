@@ -15,16 +15,17 @@ class Checkout extends Component {
   }
 
   purchaseOrder() {
-    this.props.purchaseOrder(this.props.status)
+    this.props.purchaseOrder(this.props.user)
   }
 
   render() {
     const cart = this.props.cart
+    console.log('PROPS DOT USER', this.props.user)
     return (
       <div id="cart">
         <h2>Purchase</h2>
         <ul>{cart.map(cart => <CartLine key={cart.id} cartLine={cart} />)}</ul>
-        <button>
+        <button onClick={this.purchaseOrder}>
           <a>Purchase</a>
         </button>
       </div>
@@ -33,7 +34,8 @@ class Checkout extends Component {
 }
 
 const mapStateToProps = state => ({
-  cart: state.product.cart
+  cart: state.product.cart,
+  user: state.user
 })
 
 const mapDispatchToProps = dispatch => {
