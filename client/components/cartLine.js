@@ -4,24 +4,6 @@ import {updateQtyItem, updateCart, getCart} from '../store/product'
 import {get} from 'http'
 
 class CartLine extends Component {
-  constructor(props) {
-    super(props)
-    // this.decrement = this.decrement.bind(this)
-    // this.increment = this.increment.bind(this)
-  }
-
-  // increment(){
-  //   const itemQty = this.props.cartLine.itemized.quantity + 1;
-  //   this.props.updateQtyItem(itemQty, this.props.cartLine)
-  //   this.props.getCart()
-  // }
-
-  // decrement(){
-  //   const itemQty = this.props.cartLine.itemized.quantity - 1;
-  //   this.props.updateQtyItem(itemQty, this.props.cartLine)
-  //   this.props.getCart()
-  // }
-
   render() {
     const cartLine = this.props.cartLine.itemized
     return (

@@ -1,15 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import axios from 'axios'
 import CartLine from './CartLine'
 import {getCart} from '../store/product'
 
 class Cart extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  async componentDidMount() {
+  componentDidMount() {
     this.props.getCart()
   }
 
@@ -18,7 +13,11 @@ class Cart extends Component {
     return (
       <div id="cart">
         <h2>Cart</h2>
-        <ul>{cart.map(cart => <CartLine key={cart.id} cartLine={cart} />)}</ul>
+        <ul>
+          {cart.map(cartSingle => (
+            <CartLine key={cart.id} cartLine={cartSingle} />
+          ))}
+        </ul>
       </div>
     )
   }
