@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import axios from 'axios'
 import CartLine from './CartLine'
 import {getCart} from '../store/product'
 
-class Cart extends Component {
+class Checkout extends Component {
   constructor(props) {
     super(props)
   }
@@ -33,4 +32,4 @@ const mapDispatchToProps = dispatch => ({
   getCart: () => dispatch(getCart())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout)

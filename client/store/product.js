@@ -52,7 +52,7 @@ export const getCart = () => async dispatch => {
     const {data} = await axios.get('/api/orders')
     dispatch(GetCart(data.products))
   } catch (error) {
-    next(error)
+    console.error(error)
   }
 }
 
@@ -62,7 +62,7 @@ export const updateQtyItem = (itemQty, product) => async dispatch => {
     console.log('------>', data)
     dispatch(UpdateQty(data))
   } catch (error) {
-    next(error)
+    console.error(error)
   }
 }
 
