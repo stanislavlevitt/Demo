@@ -50,8 +50,7 @@ router.get('/checkout', async (req, res, next) => {
   }
 })
 
-//
-router.put('/checkout', async (req, res, next) => {
+router.put('/', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {

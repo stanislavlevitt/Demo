@@ -10,7 +10,7 @@ class Checkout extends Component {
     this.purchaseOrder = this.purchaseOrder.bind(this)
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.props.getCart()
   }
 
@@ -22,10 +22,10 @@ class Checkout extends Component {
     const cart = this.props.cart
     return (
       <div id="cart">
-        <h2>Payment</h2>
+        <h2>Purchase</h2>
         <ul>{cart.map(cart => <CartLine key={cart.id} cartLine={cart} />)}</ul>
         <button>
-          <a href="/checkout">checkout</a>
+          <a>Purchase</a>
         </button>
       </div>
     )
@@ -36,8 +36,11 @@ const mapStateToProps = state => ({
   cart: state.product.cart
 })
 
-const mapDispatchToProps = dispatch => ({
-  getCart: () => dispatch(getCart())
-})
+const mapDispatchToProps = dispatch => {
+  return {
+    getCart: () => dispatch(getCart()),
+    purchaseOrder: status => dispatch(purchaseOrder(status))
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout)
