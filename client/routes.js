@@ -9,7 +9,8 @@ import {
   Home,
   ProductList,
   Product,
-  Cart
+  Cart,
+  Checkout
 } from './components'
 import {me} from './store'
 
@@ -44,6 +45,7 @@ class Routes extends Component {
             <Route exact path="/" component={ProductList} />
             <Route exact path="/products/:id" component={Product} />
             <Route exact path="/cart" component={Cart} />
+            <Route exact path="/checkout" component={Checkout} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

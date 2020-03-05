@@ -21,6 +21,14 @@ const Itemized = db.define('itemized', {
   quantity: {
     type: Sequelize.INTEGER,
     defaultValue: 0
+  },
+
+  totalPrice: {
+    type: Sequelize.INTEGER
+  },
+
+  productName: {
+    type: Sequelize.STRING
   }
 })
 
