@@ -20,12 +20,11 @@ class Checkout extends Component {
 
   render() {
     const cart = this.props.cart
-    console.log('PROPS DOT USER', this.props.user)
     return (
       <div id="cart">
         <h2>Purchase</h2>
-        <ul>{cart.map(cart => <CartLine key={cart.id} cartLine={cart} />)}</ul>
-        <button onClick={this.purchaseOrder}>
+        <ul>{cart.map(item => <CartLine key={item.id} cartLine={item} />)}</ul>
+        <button type="button" onClick={this.purchaseOrder}>
           <a>Purchase</a>
         </button>
       </div>

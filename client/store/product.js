@@ -1,5 +1,4 @@
 import axios from 'axios'
-import history from '../history'
 
 const initialState = {
   products: [],
@@ -18,8 +17,7 @@ const PURCHASE_ORDER = 'PURCHASE_ORDER'
 
 /**
  * INITIAL STATE
- */
-const defaultProduct = {}
+
 
 /**
  * ACTION CREATORS
@@ -49,25 +47,21 @@ export const gotProductFromServer = productId => async dispatch => {
   }
 }
 
+export const getCart = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/orders')
+    dispatch(GetCart(data.products))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const updateCart = (product, itemQty) => async dispatch => {
   try {
     await axios.post(`/api/itemizeds`, {product, itemQty})
     dispatch(getCart())
   } catch (err) {
     console.error(err)
-  }
-}
-
-export const getCart = () => async dispatch => {
-  try {
-    const {data} = await axios.get('/api/orders')
-    dispatch(GetCart(data.products))
-  } catch (error) {
-
-console.log(error)
-
-console.error(error)
-
   }
 }
 
@@ -80,7 +74,6 @@ export const updateQtyItem = (itemQty, product) => async dispatch => {
     dispatch(UpdateQty(data))
     dispatch(getCart())
   } catch (error) {
-
     console.log(error)
   }
 }
@@ -91,9 +84,6 @@ export const deleteItem = (productId, orderId) => async dispatch => {
     dispatch(getCart())
   } catch (error) {
     console.log(error)
-
-    console.error(error)
-
   }
 }
 

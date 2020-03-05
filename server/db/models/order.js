@@ -3,7 +3,6 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Order = db.define('order', {
-
   // status is TRUE if purchased, false if in cart not purchased
 
   status: {
@@ -13,22 +12,13 @@ const Order = db.define('order', {
       notEmpty: true
     }
   },
-
   purchaseDate: {
     type: Sequelize.DATE,
     defaultValue: null
   },
-
-  
-
-  
   totalPrice: {
     type: Sequelize.INTEGER,
     defaultValue: 0
-  },
-  purchaseDate: {
-    type: Sequelize.DATE,
-    defaultValue: null
   }
 })
 

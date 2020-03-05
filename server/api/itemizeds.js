@@ -17,7 +17,8 @@ router.post('/', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
-        userId: req.session.passport.user
+        userId: req.session.passport.user,
+        status: false
       }
     })
     const currentItem = await Itemized.findOne({
