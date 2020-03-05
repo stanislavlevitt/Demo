@@ -74,12 +74,6 @@ img {
   height: 200px;
 }
 
-#cart-line {
-  display: 'flex';
-  justify-content: 'center';
-  margin-bottom: '10px';
-}
-
 #cart {
   background-color: rgba(250, 235, 215, 0.338);
   margin: 0 auto;
@@ -105,4 +99,30 @@ img {
 #ButtonQTY {
   border-radius: 5px;
   margin-top: 30px;
+}
+
+.cart-line {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.nameOnTheCart {
+  width: 25%;
+  font-size: 20px;
+  border-bottom: 1px solid black;
+}
+
+.purchasePrice {
+  width: 15%;
+  border-bottom: 1px solid black;
+}
+
+.pTag {
+  margin-top: 0;
+}
+
+.totalPrice {
+  width: 15%;
+  border-bottom: 1px solid black;
 }

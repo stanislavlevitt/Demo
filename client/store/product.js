@@ -13,6 +13,7 @@ const GOT_PRODUCT = 'GOT_PRODUCT'
 const UPDATE_CART = 'UPDATE_CART'
 const GET_CART = 'GET_CART'
 const UPDATE_QTY = 'UPDATE_QTY'
+const DELETE = 'DELETE'
 
 /**
  * INITIAL STATE
@@ -26,6 +27,11 @@ export const gotProduct = product => ({type: GOT_PRODUCT, product})
 export const UpdateCart = () => ({type: UPDATE_CART})
 export const GetCart = products => ({type: GET_CART, products})
 export const UpdateQty = item => ({type: UPDATE_QTY, item})
+export const DeleteItem = (productId, orderId) => ({
+  type: DELETE,
+  productId,
+  orderId
+})
 /**
  * THUNK CREATORS
  */
@@ -52,17 +58,29 @@ export const getCart = () => async dispatch => {
     const {data} = await axios.get('/api/orders')
     dispatch(GetCart(data.products))
   } catch (error) {
-    next(error)
+    console.log(error)
   }
 }
 
 export const updateQtyItem = (itemQty, product) => async dispatch => {
   try {
-    const {data} = await axios.put('/api/itemizeds', {itemQty, product})
-    console.log('------>', data)
+    const {data} = await axios.put('/api/itemizeds/updateQty', {
+      itemQty,
+      product
+    })
     dispatch(UpdateQty(data))
+    dispatch(getCart())
   } catch (error) {
-    next(error)
+    console.log(error)
+  }
+}
+
+export const deleteItem = (productId, orderId) => async dispatch => {
+  try {
+    await axios.delete(`/api/itemizeds/${productId}/${orderId}`)
+    dispatch(getCart())
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -78,17 +96,7 @@ export default function(state = initialState, action) {
     case GET_CART:
       return {...state, cart: action.products}
     case UPDATE_QTY:
-      const copieCart = [...state.cart]
-      copieCart.map(product => {
-        if (
-          product.itemized.productId === action.item.productId &&
-          product.itemized.orderId === action.item.orderId
-        ) {
-          product.itemized = action.item
-        }
-      })
-
-      return {...state, cart: copieCart}
+      return {...state}
     default:
       return state
   }
