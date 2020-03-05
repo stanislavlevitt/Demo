@@ -19,7 +19,7 @@ class Cart extends Component {
       <div id="cart">
         <h2>Cart</h2>
         <ul>{cart.map(cart => <CartLine key={cart.id} cartLine={cart} />)}</ul>
-        <a href="/checkout">checkout</a>
+        <button>Checkout</button>
       </div>
     )
   }
