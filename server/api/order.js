@@ -58,18 +58,20 @@ router.put('/', async (req, res, next) => {
         status: false
       }
     })
-    // const itemsFromOrder = await Itemized.findAll({
-    //   where: {
-    //     orderId: order.id
-    //   }
-    // })
+    const itemsFromOrder = await Itemized.findAll({
+      where: {
+        orderId: order.id
+      }
+    })
+    let sum = 0
+    itemsFromOrder.forEach(el => (sum += el.dataValues.totalPrice))
+    console.log('DIM SUM', sum)
     await order.update({
       status: true,
-      purchaseDate: Date.now()
+      purchaseDate: Date.now(),
+      totalPrice: 88
     })
     await order.save()
-    console.log('ORDER', order)
-    console.log('ORDER DOT ID', order.id)
     res.send()
   } catch (error) {
     next(error)
