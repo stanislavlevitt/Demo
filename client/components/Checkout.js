@@ -16,9 +16,15 @@ class Checkout extends Component {
     const cart = this.props.cart
     return (
       <div id="cart">
-        <h2>Cart</h2>
+        <h2>Payment</h2>
         <ul>{cart.map(cart => <CartLine key={cart.id} cartLine={cart} />)}</ul>
-        <a href="/checkout">checkout</a>
+        <form>
+          <input placeholder="credit card info" />
+          <input placeholder="shipping address" />
+        </form>
+        <button>
+          <a href="/checkout">Purchase</a>
+        </button>
       </div>
     )
   }

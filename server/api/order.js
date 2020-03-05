@@ -49,3 +49,27 @@ router.get('/checkout', async (req, res, next) => {
     next(error)
   }
 })
+
+//
+router.put('/checkout', async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
+      where: {
+        userId: req.session.passport.user,
+        status: false
+      },
+      include: [
+        {
+          model: Product
+        }
+      ]
+    })
+    await order.update({
+      status: true
+    })
+    await order.save()
+    res.send()
+  } catch (error) {
+    next(error)
+  }
+})
