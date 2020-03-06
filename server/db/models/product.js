@@ -10,14 +10,6 @@ const Product = db.define('product', {
       notEmpty: true
     }
   },
-  // type: {
-  //   type: Sequelize.STRING,
-  //   allowNull: false,
-  //   validate: {
-  //     isEmpty: true
-  //   }
-  // },
-
   price: {
     type: Sequelize.DECIMAL(),
     allowNull: false,
@@ -26,14 +18,9 @@ const Product = db.define('product', {
       isNumeric: true
     }
   },
-  // brand: {
-  //   type: Sequelize.STRING,
-  //   defaultValue: 'Generic'
-  // },
   imageUrl: {
     type: Sequelize.STRING
   },
-
   quantity: {
     type: Sequelize.INTEGER,
     validate: {

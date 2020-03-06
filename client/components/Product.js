@@ -7,7 +7,6 @@ class Product extends React.Component {
   constructor() {
     super()
     this.state = {
-      product: {},
       itemQty: 1
     }
     this.decrement = this.decrement.bind(this)
@@ -38,7 +37,6 @@ class Product extends React.Component {
   }
 
   updateCart() {
-    this.props.selectedProduct.purchaseQuantity = this.state.itemQty
     this.props.updateCart(this.props.selectedProduct, this.state.itemQty)
   }
 
@@ -60,7 +58,7 @@ class Product extends React.Component {
             </button>
           </div>
           <p>
-            <button onClick={this.updateCart}>
+            <button type="button" onClick={this.updateCart}>
               <Link to="/cart">Add to cart</Link>
             </button>
           </p>

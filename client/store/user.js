@@ -4,27 +4,66 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const GET_USER = 'GET_USER'
+const GOT_USER = 'GOT_USER'
+// const CHANGE_ADMIN_STATUS = 'CHANGE_ADMIN_STATUS'
+const VIEW_USER = 'VIEW_USER'
+const GOT_ALL_USERS = 'GOT_ALL_USERS'
 const REMOVE_USER = 'REMOVE_USER'
 
 /**
  * INITIAL STATE
  */
-const defaultUser = {}
+const defaultUser = {
+  allUsers: [],
+  selectedUser: {},
+  viewedUser: {}
+}
 
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
+const gotUser = user => ({type: GOT_USER, user})
+const adminViewUser = user => ({type: VIEW_USER, user})
+// const adminStatusChanged = user => ({type: CHANGE_ADMIN_STATUS, user})
+const gotAllUsers = users => ({type: GOT_ALL_USERS, users})
 const removeUser = () => ({type: REMOVE_USER})
 
 /**
  * THUNK CREATORS
  */
+
+export const viewUser = id => async dispatch => {
+  try {
+    const {data} = await axios.get(`/api/users/${id}`)
+    dispatch(adminViewUser(data || defaultUser))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const UpdateAdminStatus = id => async dispatch => {
+  try {
+    const {data} = await axios.get(`/api/users/${id}`)
+    data.isAdmin = !data.isAdmin
+    await axios.put(`/api/users/${id}`, data)
+    dispatch(adminViewUser(data || defaultUser))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const getAllUsers = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/users')
+    dispatch(gotAllUsers(res.data || defaultUser))
+  } catch (err) {
+    console.error(err)
+  }
+}
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
-    dispatch(getUser(res.data || defaultUser))
+    dispatch(gotUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
   }
@@ -35,11 +74,11 @@ export const auth = (name, email, password, method) => async dispatch => {
   try {
     res = await axios.post(`/auth/${method}`, {name, email, password})
   } catch (authError) {
-    return dispatch(getUser({error: authError}))
+    return dispatch(gotUser({error: authError}))
   }
 
   try {
-    dispatch(getUser(res.data))
+    dispatch(gotUser(res.data))
     alert("YOU'RE LOGGED IN!")
     history.push('/products')
   } catch (dispatchOrHistoryErr) {
@@ -62,10 +101,16 @@ export const logout = () => async dispatch => {
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER:
-      return action.user
+    case GOT_USER:
+      return {...state, selectedUser: action.user}
     case REMOVE_USER:
-      return defaultUser
+      return {...state, selectedUser: {}}
+    case GOT_ALL_USERS:
+      return {...state, allUsers: action.users}
+    case VIEW_USER:
+      return {...state, viewedUser: action.user}
+    // case CHANGE_ADMIN_STATUS:
+    //   return {...state, viewedUser: action.user}
     default:
       return state
   }

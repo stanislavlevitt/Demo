@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import axios from 'axios'
-import CartLine from './cartLine'
+import CartLine from './CartLine'
+import {getCart} from '../store/product'
 
 class Cart extends Component {
-  constructor(props) {
-    super(props)
+  componentDidMount() {
+    this.props.getCart()
   }
 
   render() {
@@ -13,7 +13,21 @@ class Cart extends Component {
     return (
       <div id="cart">
         <h2>Cart</h2>
-        <ul>{cart.map(cart => <CartLine key={cart.id} cartLine={cart} />)}</ul>
+        {cart.length ? (
+          <div>
+            <ul>
+              {cart.map(item => <CartLine key={item.id} cartLine={item} />)}
+            </ul>
+            <button type="button">
+              <a href="/checkout">checkout</a>
+            </button>
+          </div>
+        ) : (
+          <div>
+            <h3>You should probably buy something!</h3>
+            <button>Dude don't be so cheap.</button>
+          </div>
+        )}
       </div>
     )
   }
@@ -23,6 +37,8 @@ const mapStateToProps = state => ({
   cart: state.product.cart
 })
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = dispatch => ({
+  getCart: () => dispatch(getCart())
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)

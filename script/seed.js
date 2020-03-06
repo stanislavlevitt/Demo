@@ -18,8 +18,33 @@ for (let i = 0; i < 10; i++) {
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
-  
-  await Promise.all([usersArr.map(user => User.create(user))])
+
+  const Codye = await User.create({
+    name: 'Codye',
+    email: 'cody@email.com',
+    password: '123'
+  })
+  const Murphy = await User.create({
+    name: 'Murphy',
+    email: 'murphy@email.com',
+    password: '123'
+  })
+  const Dan = await User.create({
+    name: 'Dan',
+    email: 'dan@email.com',
+    password: '1234535'
+  })
+  const stas = await User.create({
+    name: 'stas',
+    email: 'stas@stas.com',
+    password: 'stas',
+    isAdmin: true
+  })
+
+  await Order.create({userId: stas.id})
+  await Order.create({userId: Dan.id})
+  await Order.create({userId: Murphy.id})
+  await Order.create({userId: Codye.id})
 
   const products = await Promise.all([
     Product.create({

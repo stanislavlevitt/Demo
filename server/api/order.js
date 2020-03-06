@@ -1,15 +1,7 @@
 const router = require('express').Router()
-const {Order} = require('../db/models')
+const {Order, Itemized} = require('../db/models')
+const {Product} = require('../db/models')
 module.exports = router
-
-router.get('/', async (req, res, next) => {
-  try {
-    const products = await Order.findAll()
-    res.json(products)
-  } catch (err) {
-    next(err)
-  }
-})
 
 router.post('/', async (req, res, next) => {
   try {
@@ -20,10 +12,70 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const product = await Order.findByPk(req.params.id)
-    res.json(product)
+    const order = await Order.findOne({
+      where: {
+        userId: req.session.passport.user,
+        status: false
+      },
+      include: [
+        {
+          model: Product
+        }
+      ]
+    })
+    res.json(order)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/checkout', async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
+      where: {
+        userId: req.session.passport.user,
+        status: false
+      },
+      include: [
+        {
+          model: Product
+        }
+      ]
+    })
+    res.json(order)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/', async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
+      where: {
+        userId: req.session.passport.user,
+        status: false
+      }
+    })
+    const itemsFromOrder = await Itemized.findAll({
+      where: {
+        orderId: order.id
+      }
+    })
+    let sum = 0
+    itemsFromOrder.forEach(el => (sum += el.dataValues.totalPrice))
+    await order.update({
+      status: true,
+      purchaseDate: Date.now(),
+      totalPrice: sum
+    })
+    await order.save()
+    console.log('HYE', req.session.passport.user)
+    await Order.create({
+      userId: req.session.passport.user
+    })
+    res.send(order)
   } catch (error) {
     next(error)
   }
