@@ -5,6 +5,7 @@ import history from '../history'
  * ACTION TYPES
  */
 const GOT_USER = 'GOT_USER'
+// const CHANGE_ADMIN_STATUS = 'CHANGE_ADMIN_STATUS'
 const VIEW_USER = 'VIEW_USER'
 const GOT_ALL_USERS = 'GOT_ALL_USERS'
 const REMOVE_USER = 'REMOVE_USER'
@@ -23,6 +24,7 @@ const defaultUser = {
  */
 const gotUser = user => ({type: GOT_USER, user})
 const adminViewUser = user => ({type: VIEW_USER, user})
+// const adminStatusChanged = user => ({type: CHANGE_ADMIN_STATUS, user})
 const gotAllUsers = users => ({type: GOT_ALL_USERS, users})
 const removeUser = () => ({type: REMOVE_USER})
 
@@ -32,8 +34,18 @@ const removeUser = () => ({type: REMOVE_USER})
 
 export const viewUser = id => async dispatch => {
   try {
-    console.log('In View Think')
     const {data} = await axios.get(`/api/users/${id}`)
+    dispatch(adminViewUser(data || defaultUser))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const UpdateAdminStatus = id => async dispatch => {
+  try {
+    const {data} = await axios.get(`/api/users/${id}`)
+    data.isAdmin = !data.isAdmin
+    await axios.put(`/api/users/${id}`, data)
     dispatch(adminViewUser(data || defaultUser))
   } catch (err) {
     console.error(err)
@@ -97,6 +109,8 @@ export default function(state = defaultUser, action) {
       return {...state, allUsers: action.users}
     case VIEW_USER:
       return {...state, viewedUser: action.user}
+    // case CHANGE_ADMIN_STATUS:
+    //   return {...state, viewedUser: action.user}
     default:
       return state
   }
