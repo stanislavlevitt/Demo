@@ -22,7 +22,7 @@ export class SingleUser extends Component {
         <h1>SINGLE USER</h1>
         <div>
           <h3>{user.name}</h3>
-          <p>Email: {user.email}$</p>
+          <p>Email: {user.email}</p>
           {user.isAdmin && <p>{user.name} is an Admin user</p>}
           {!user.isAdmin && (
             <p>{user.name} doesn't not have Admin Privileges</p>
