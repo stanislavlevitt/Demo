@@ -17,7 +17,8 @@ router.post('/', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
-        userId: req.session.passport.user
+        userId: req.session.passport.user,
+        status: false
       }
     })
     const currentItem = await Itemized.findOne({
@@ -37,13 +38,11 @@ router.post('/', async (req, res, next) => {
       const newItem = {
         quantity: req.body.itemQty,
         purchasePrice: req.body.product.price,
+        totalPrice: req.body.itemQty * req.body.product.price,
         productId: req.body.product.id,
         orderId: order.id
       }
       const item = await Itemized.create(newItem)
-      item.totalPrice = item.quantity * item.purchasePrice
-      item.productName = req.body.product.name
-      await item.save()
       res.send(item)
     }
   } catch (error) {
@@ -51,24 +50,31 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/', async (req, res, next) => {
+router.put('/updateQty', async (req, res, next) => {
   try {
-    const order = await Order.findOne({
+    const item = await Itemized.findOne({
       where: {
-        userId: req.session.passport.user
+        productId: req.body.product.itemized.productId,
+        orderId: req.body.product.itemized.orderId
       }
     })
-    const currentItem = await Itemized.findOne({
+    item.quantity = req.body.itemQty
+    await item.save()
+    res.send(item)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.delete('/:productId/:orderId', async (req, res, next) => {
+  try {
+    const item = await Itemized.destroy({
       where: {
-        productId: req.body.product.id,
-        orderId: order.id
+        productId: req.params.productId,
+        orderId: req.params.orderId
       }
     })
-    currentItem.quantity = req.body.itemQty
-    await currentItem.save()
-    console.log(currentItem.quantity)
-    console.log(req.body.itemQty)
-    res.send(currentItem)
+    res.json(item)
   } catch (error) {
     next(error)
   }
