@@ -1,7 +1,19 @@
 'use strict'
 
 const db = require('../server/db')
+const faker = require('faker')
 const {User, Product, Order} = require('../server/db/models')
+
+const usersArr = []
+for (let i = 0; i < 10; i++) {
+  const user = {
+    name: faker.fake('{{name.firstName}} {{name.lastName}}'),
+    email: faker.fake('{{internet.email}}'),
+    address: faker.fake('{{address.streetAddress}}'),
+    password: faker.fake('{{internet.password}}')
+  }
+  usersArr.push(user)
+}
 
 async function seed() {
   await db.sync({force: true})

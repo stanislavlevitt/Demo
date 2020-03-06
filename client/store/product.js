@@ -1,5 +1,4 @@
 import axios from 'axios'
-import history from '../history'
 
 const initialState = {
   products: [],
@@ -13,11 +12,12 @@ const GOT_PRODUCT = 'GOT_PRODUCT'
 const UPDATE_CART = 'UPDATE_CART'
 const GET_CART = 'GET_CART'
 const UPDATE_QTY = 'UPDATE_QTY'
+const DELETE = 'DELETE'
+const PURCHASE_ORDER = 'PURCHASE_ORDER'
 
 /**
  * INITIAL STATE
- */
-const defaultProduct = {}
+
 
 /**
  * ACTION CREATORS
@@ -26,6 +26,15 @@ export const gotProduct = product => ({type: GOT_PRODUCT, product})
 export const UpdateCart = () => ({type: UPDATE_CART})
 export const GetCart = products => ({type: GET_CART, products})
 export const UpdateQty = item => ({type: UPDATE_QTY, item})
+
+export const DeleteItem = (productId, orderId) => ({
+  type: DELETE,
+  productId,
+  orderId
+})
+
+export const Purchase = user => ({type: PURCHASE_ORDER, user})
+
 /**
  * THUNK CREATORS
  */
@@ -38,6 +47,15 @@ export const gotProductFromServer = productId => async dispatch => {
   }
 }
 
+export const getCart = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/orders')
+    dispatch(GetCart(data.products))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const updateCart = (product, itemQty) => async dispatch => {
   try {
     await axios.post(`/api/itemizeds`, {product, itemQty})
@@ -47,25 +65,36 @@ export const updateCart = (product, itemQty) => async dispatch => {
   }
 }
 
-export const getCart = () => async dispatch => {
-  try {
-    const {data} = await axios.get('/api/orders')
-    dispatch(GetCart(data.products))
-  } catch (error) {
-    next(error)
-  }
-}
-
 export const updateQtyItem = (itemQty, product) => async dispatch => {
   try {
-    const {data} = await axios.put('/api/itemizeds', {itemQty, product})
-    console.log('------>', data)
+    const {data} = await axios.put('/api/itemizeds/updateQty', {
+      itemQty,
+      product
+    })
     dispatch(UpdateQty(data))
+    dispatch(getCart())
   } catch (error) {
-    next(error)
+    console.log(error)
   }
 }
 
+export const deleteItem = (productId, orderId) => async dispatch => {
+  try {
+    await axios.delete(`/api/itemizeds/${productId}/${orderId}`)
+    dispatch(getCart())
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const purchaseOrder = user => async dispatch => {
+  try {
+    const {data} = await axios.put('api/orders', {user})
+    dispatch(Purchase(data))
+  } catch (error) {
+    console.error(error)
+  }
+}
 /**
  * REDUCER
  */
@@ -78,17 +107,7 @@ export default function(state = initialState, action) {
     case GET_CART:
       return {...state, cart: action.products}
     case UPDATE_QTY:
-      const copieCart = [...state.cart]
-      copieCart.map(product => {
-        if (
-          product.itemized.productId === action.item.productId &&
-          product.itemized.orderId === action.item.orderId
-        ) {
-          product.itemized = action.item
-        }
-      })
-
-      return {...state, cart: copieCart}
+      return {...state}
     default:
       return state
   }

@@ -58,7 +58,7 @@ class Product extends React.Component {
             </button>
           </div>
           <p>
-            <button onClick={this.updateCart}>
+            <button type="button" onClick={this.updateCart}>
               <Link to="/cart">Add to cart</Link>
             </button>
           </p>

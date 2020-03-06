@@ -1,62 +1,80 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {updateQtyItem, updateCart, getCart} from '../store/product'
-import {get} from 'http'
+import {updateQtyItem, updateCart, getCart, deleteItem} from '../store/product'
 
 class CartLine extends Component {
+  constructor(props) {
+    super(props)
+    this.handleDelete = this.handleDelete.bind(this)
+    this.decrement = this.decrement.bind(this)
+    this.increment = this.increment.bind(this)
+  }
+
+  increment() {
+    if (this.props.cartLine.itemized.quantity >= this.props.cartLine.quantity) {
+      alert('PRODUCT SOLD OUT')
+    } else {
+      this.props.cartLine.itemized.quantity =
+        this.props.cartLine.itemized.quantity + 1
+      this.props.updateQtyItem(
+        this.props.cartLine.itemized.quantity,
+        this.props.cartLine
+      )
+    }
+  }
+
+  decrement() {
+    if (this.props.cartLine.itemized.quantity > 0) {
+      this.props.cartLine.itemized.quantity =
+        this.props.cartLine.itemized.quantity - 1
+      this.props.updateQtyItem(
+        this.props.cartLine.itemized.quantity,
+        this.props.cartLine
+      )
+    }
+  }
+
+  handleDelete() {
+    const cartLine = this.props.cartLine.itemized
+    this.props.deleteItem(cartLine.productId, cartLine.orderId)
+  }
   render() {
     const cartLine = this.props.cartLine.itemized
     return (
       <div>
         <li>
-          <div
-            className="cart-line"
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginBottom: '10px'
-            }}
-          >
-            <div
-              style={{
-                width: '25%',
-                fontSize: '20px',
-                borderBottom: '1px solid black'
-              }}
-            >
-              {cartLine.productName}
-            </div>
-            <div style={{width: '15%', borderBottom: '1px solid black'}}>
-              <p style={{marginTop: 0}}>Price</p>
+          <div className="cart-line">
+            <div className="nameOnTheCart">{this.props.cartLine.name}</div>
+            <div className="purchasePrice">
+              <p className="pTag">Price</p>
               <p>${cartLine.purchasePrice}</p>
             </div>
-
             <div id="productQt">
               <button id="ButtonQT" type="button" onClick={this.increment}>
                 +
               </button>
-              <div id="productQtyValu">{cartLine.quantity}</div>
+              <div id="productQtyValu">
+                {this.props.cartLine.itemized.quantity}
+              </div>
               <button id="ButtonQT" type="button" onClick={this.decrement}>
                 -
               </button>
             </div>
-
-            {/* <div style={{width: '15%', borderBottom: '1px solid black'}}>
-              <p style={{marginTop: 0}}>Quantity</p>
+            <div className="totalPrice">
+              <p className="pTag">Total</p>
+              <p>${cartLine.totalPrice}</p>
+            </div>
+            <div>
               <p>
                 <input
-                  onChange={evt => this.handleChange(evt.target.value)}
-                  type="number"
-                  id="itemQuantity"
-                  name="itemQuantity"
-                  value={cartLine.quantity}
-                  style={{width: '25px'}}
+                  productid={this.props.cartLine.itemized.productId}
+                  orderid={this.props.cartLine.itemized.orderId}
+                  className="deleteRobot"
+                  type="button"
+                  value="Delete"
+                  onClick={this.handleDelete}
                 />
               </p>
-            </div> */}
-            <div style={{width: '15%', borderBottom: '1px solid black'}}>
-              <p style={{marginTop: 0}}>Total</p>
-              <p>${cartLine.totalPrice}</p>
             </div>
           </div>
         </li>
@@ -76,7 +94,8 @@ const mapDispatchToProps = dispatch => {
     updateQtyItem: (itemQty, product) =>
       dispatch(updateQtyItem(itemQty, product)),
     updateCart: (product, itemQty) => dispatch(updateCart(product, itemQty)),
-    getCart: () => dispatch(getCart())
+    getCart: () => dispatch(getCart()),
+    deleteItem: (productId, orderId) => dispatch(deleteItem(productId, orderId))
   }
 }
 
