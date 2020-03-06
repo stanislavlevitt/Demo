@@ -4,7 +4,8 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const GET_USER = 'GET_USER'
+const GOT_USER = 'GOT_USER'
+const VIEW_USER = 'VIEW_USER'
 const GOT_ALL_USERS = 'GOT_ALL_USERS'
 const REMOVE_USER = 'REMOVE_USER'
 
@@ -13,13 +14,15 @@ const REMOVE_USER = 'REMOVE_USER'
  */
 const defaultUser = {
   allUsers: [],
-  selectedUser: {}
+  selectedUser: {},
+  viewedUser: {}
 }
 
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
+const gotUser = user => ({type: GOT_USER, user})
+const adminViewUser = user => ({type: VIEW_USER, user})
 const gotAllUsers = users => ({type: GOT_ALL_USERS, users})
 const removeUser = () => ({type: REMOVE_USER})
 
@@ -27,11 +30,19 @@ const removeUser = () => ({type: REMOVE_USER})
  * THUNK CREATORS
  */
 
+export const viewUser = id => async dispatch => {
+  try {
+    console.log('In View Think')
+    const {data} = await axios.get(`/api/users/${id}`)
+    dispatch(adminViewUser(data || defaultUser))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const getAllUsers = () => async dispatch => {
-  console.log('In the Get Alluser')
   try {
     const res = await axios.get('/api/users')
-    console.log('In the Get Alluser -DATA', res.data)
     dispatch(gotAllUsers(res.data || defaultUser))
   } catch (err) {
     console.error(err)
@@ -40,7 +51,7 @@ export const getAllUsers = () => async dispatch => {
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
-    dispatch(getUser(res.data || defaultUser))
+    dispatch(gotUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
   }
@@ -51,11 +62,11 @@ export const auth = (name, email, password, method) => async dispatch => {
   try {
     res = await axios.post(`/auth/${method}`, {name, email, password})
   } catch (authError) {
-    return dispatch(getUser({error: authError}))
+    return dispatch(gotUser({error: authError}))
   }
 
   try {
-    dispatch(getUser(res.data))
+    dispatch(gotUser(res.data))
     alert("YOU'RE LOGGED IN!")
     history.push('/products')
   } catch (dispatchOrHistoryErr) {
@@ -78,14 +89,14 @@ export const logout = () => async dispatch => {
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER:
-      console.log("What's the action", action.user)
+    case GOT_USER:
       return {...state, selectedUser: action.user}
     case REMOVE_USER:
       return {...state, selectedUser: {}}
     case GOT_ALL_USERS:
-      console.log("What's the action", action)
       return {...state, allUsers: action.users}
+    case VIEW_USER:
+      return {...state, viewedUser: action.user}
     default:
       return state
   }

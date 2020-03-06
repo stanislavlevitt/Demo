@@ -17,11 +17,6 @@ export class AdminPage extends Component {
           <Link key={user.id} to={`/user/${user.id}`}>
             <div>
               <h3>{user.name}</h3>
-              <p>Email: {user.email}$</p>
-              {user.isAdmin && <p>{user.name} is an Admin user</p>}
-              {!user.isAdmin && (
-                <p>{user.name} doesn't not have Admin Privileges</p>
-              )}
             </div>
           </Link>
         ))}

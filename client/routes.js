@@ -25,7 +25,8 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn, admin} = this.props
-    console.log('state.user', isLoggedIn)
+    console.log('Are you admin', admin)
+    console.log('Are you logged', isLoggedIn)
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
@@ -47,10 +48,15 @@ class Routes extends Component {
             <Route exact path="/products/:id" component={Product} />
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/adminPage" component={AdminPage} />
+            <Route exact path="/user/:id" component={SingleUser} />
           </Switch>
         )}
-        {isLoggedIn &&
-          admin && <Route exact path="/user/:id" component={SingleUser} />}
+        {/* {isLoggedIn && admin && (
+        <Switch>
+           <Route exact path="/adminPage" component={AdminPage} />
+          <Route exact path="/user/:id" component={SingleUser} />
+          </Switch>
+          )} */}
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>
