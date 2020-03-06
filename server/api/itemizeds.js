@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {Itemized} = require('../db/models')
 const {Order} = require('../db/models')
-const {Product} = require('../db/models')
+
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -27,7 +27,6 @@ router.post('/', async (req, res, next) => {
         orderId: order.id
       }
     })
-
     if (currentItem !== null) {
       currentItem.quantity = currentItem.quantity + req.body.itemQty
       await currentItem.save()
