@@ -125,3 +125,24 @@ img {
   width: 15%;
   border-bottom: 1px solid black;
 }
+
+h4:last-child {
+  border-right: none;
+}
+
+h4 a {
+  text-decoration: none;
+  color: #ccc;
+  font: 25px/1 Helvetica, Verdana, sans-serif;
+  text-transform: uppercase;
+  -webkit-transition: all 0.5s ease;
+}
+
+h4 a:hover {
+  color: rgb(92, 86, 86);
+}
+
+h4.active a {
+  font-weight: bold;
+  color: #333;
+}

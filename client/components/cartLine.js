@@ -1,6 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {updateQtyItem, updateCart, getCart, deleteItem} from '../store/product'
+import {
+  updateQtyItem,
+  updateCart,
+  getCart,
+  deleteItem,
+  deleteItemLocally,
+  updateQtyItemLocally
+} from '../store/product'
 
 class CartLine extends Component {
   constructor(props) {
@@ -11,34 +18,43 @@ class CartLine extends Component {
   }
 
   increment() {
-    if (this.props.cartLine.itemized.quantity >= this.props.cartLine.quantity) {
+    const cartLine = this.props.cartLine.itemized
+    if (cartLine.quantity >= this.props.cartLine.quantity) {
       alert('PRODUCT SOLD OUT')
     } else {
-      this.props.cartLine.itemized.quantity =
-        this.props.cartLine.itemized.quantity + 1
-      this.props.updateQtyItem(
-        this.props.cartLine.itemized.quantity,
-        this.props.cartLine
-      )
+      cartLine.quantity = cartLine.quantity + 1
+      if (this.props.isLoggedIn) {
+        console.log('hhhhh')
+        this.props.updateQtyItem(cartLine.quantity, this.props.cartLine)
+      }
+      if (!this.props.isLoggedIn) {
+        this.props.updateQtyItemLocally(cartLine.quantity, cartLine.productId)
+      }
     }
   }
 
   decrement() {
-    if (this.props.cartLine.itemized.quantity > 0) {
-      this.props.cartLine.itemized.quantity =
-        this.props.cartLine.itemized.quantity - 1
-      this.props.updateQtyItem(
-        this.props.cartLine.itemized.quantity,
-        this.props.cartLine
-      )
+    const cartLine = this.props.cartLine.itemized
+    if (cartLine.quantity > 0) {
+      cartLine.quantity = cartLine.quantity - 1
+      if (this.props.isLoggedIn) {
+        this.props.updateQtyItem(cartLine.quantity, this.props.cartLine)
+      }
+      if (!this.props.isLoggedIn) {
+        this.props.updateQtyItemLocally(cartLine.quantity, cartLine.productId)
+      }
     }
   }
 
   handleDelete() {
     const cartLine = this.props.cartLine.itemized
-    this.props.deleteItem(cartLine.productId, cartLine.orderId)
+    if (this.props.isLoggedIn) {
+      this.props.deleteItem(cartLine.productId, cartLine.orderId)
+    }
+    if (!this.props.isLoggedIn) {
+      this.props.deleteItemLocally(cartLine.productId)
+    }
   }
-
   render() {
     const cartLine = this.props.cartLine.itemized
     return (
@@ -70,7 +86,7 @@ class CartLine extends Component {
                 <input
                   productid={this.props.cartLine.itemized.productId}
                   orderid={this.props.cartLine.itemized.orderId}
-                  className="deleteRobot"
+                  className="deleteitem"
                   type="button"
                   value="Delete"
                   onClick={this.handleDelete}
@@ -86,7 +102,7 @@ class CartLine extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.selectedUser.id
   }
 }
 
@@ -96,7 +112,11 @@ const mapDispatchToProps = dispatch => {
       dispatch(updateQtyItem(itemQty, product)),
     updateCart: (product, itemQty) => dispatch(updateCart(product, itemQty)),
     getCart: () => dispatch(getCart()),
-    deleteItem: (productId, orderId) => dispatch(deleteItem(productId, orderId))
+    deleteItem: (productId, orderId) =>
+      dispatch(deleteItem(productId, orderId)),
+    deleteItemLocally: productId => dispatch(deleteItemLocally(productId)),
+    updateQtyItemLocally: (itemQuantity, productId) =>
+      dispatch(updateQtyItemLocally(itemQuantity, productId))
   }
 }
 

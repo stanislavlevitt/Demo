@@ -59,6 +59,8 @@ router.put('/updateQty', async (req, res, next) => {
     })
     item.quantity = req.body.itemQty
     await item.save()
+    item.totalPrice = item.quantity * item.purchasePrice
+    await item.save()
     res.send(item)
   } catch (error) {
     next(error)
@@ -74,6 +76,15 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
       }
     })
     res.json(item)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/local', async (req, res, next) => {
+  try {
+    console.log(req.body)
+    console.log(req.session)
   } catch (error) {
     next(error)
   }

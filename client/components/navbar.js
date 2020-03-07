@@ -1,44 +1,49 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {getCart, getCartLocally} from '../store/product'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <Link to="/products">Products</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/cart">Cart</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/products">Products</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/cart">Cart</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
-)
+class Navbar extends Component {
+  componentDidMount(){
+    if(this.props.isLoggedIn){
+      this.props.getCart()
+    }
+    if(!this.props.isLoggedIn){
+      this.props.getCartLocally()
+    }
+  }
+  render(){
+    return(
+      <div>
+          <nav>
+            <div>
+              <Link to="/home">Home</Link>
+              {this.props.isLoggedIn && this.props.admin && <Link to="/adminPage">Admin Page</Link>}
+              <Link to="/products">Products</Link>
+              <Link to="/cart">Cart({this.props.cart.length})</Link>
+              {this.props.isLoggedIn && <a href="#" onClick={this.props.handleClick}>
+                Logout
+              </a>}
+              {!this.props.isLoggedIn && <Link to="/login">Login</Link>}
+              {!this.props.isLoggedIn && <Link to="/signup">Sign Up</Link>}
+            </div>
+          </nav>
+      <hr />
+      </div>
+    )
+  }
+} 
 
 /** s
  * CONTAINER
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.selectedUser.id,
+    admin: state.user.selectedUser.isAdmin,
+    cart: state.product.cart
   }
 }
 
@@ -46,7 +51,9 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout())
-    }
+    },
+    getCart: () => dispatch(getCart()),
+    getCartLocally: () => dispatch(getCartLocally())
   }
 }
 

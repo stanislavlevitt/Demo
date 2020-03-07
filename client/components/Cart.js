@@ -1,33 +1,51 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import CartLine from './CartLine'
-import {getCart} from '../store/product'
+import {getCart, getCartLocally} from '../store/product'
 
 class Cart extends Component {
   componentDidMount() {
-    this.props.getCart()
+    if (this.props.isLoggedIn) {
+      this.props.getCart()
+    }
+    if (!this.props.isLoggedIn) {
+      this.props.getCartLocally()
+    }
   }
-
   render() {
     const cart = this.props.cart
     return (
       <div id="cart">
-        <h2>Cart</h2>
-        <ul>{cart.map(item => <CartLine key={item.id} cartLine={item} />)}</ul>
-        <button type="button">
-          <a href="/checkout">checkout</a>
-        </button>
+        <h2>Cart({cart.length})</h2>
+        {cart.length ? (
+          <div>
+            <ul>
+              {cart.map(item => <CartLine key={item.id} cartLine={item} />)}
+            </ul>
+            <button type="button">
+              <a href="/checkout">checkout</a>
+            </button>
+          </div>
+        ) : (
+          <div>
+            <h3>You should probably buy something!</h3>
+            <button>Dude don't be so cheap.</button>
+          </div>
+        )}
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  cart: state.product.cart
+  isLoggedIn: !!state.user.selectedUser.id,
+  cart: state.product.cart,
+  guestCart: state.product.guestCart
 })
 
 const mapDispatchToProps = dispatch => ({
-  getCart: () => dispatch(getCart())
+  getCart: () => dispatch(getCart()),
+  getCartLocally: () => dispatch(getCartLocally())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)
