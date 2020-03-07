@@ -38,7 +38,6 @@ class CartLine extends Component {
     const cartLine = this.props.cartLine.itemized
     this.props.deleteItem(cartLine.productId, cartLine.orderId)
   }
-
   render() {
     const cartLine = this.props.cartLine.itemized
     return (

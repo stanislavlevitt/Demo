@@ -16,6 +16,8 @@ class Checkout extends Component {
 
   purchaseOrder() {
     this.props.purchaseOrder(this.props.user)
+    alert('Purchase Success!')
+    this.props.history.push('/products')
   }
 
   render() {

@@ -24,3 +24,13 @@ router.get('/:id', async (req, res, next) => {
     next(err)
   }
 })
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    const specificUser = await User.findByPk(req.params.id)
+    await specificUser.update(req.body)
+    res.json(specificUser)
+  } catch (err) {
+    next(err)
+  }
+})
