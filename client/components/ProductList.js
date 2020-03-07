@@ -2,34 +2,42 @@ import React, {Component} from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {deleteProudct, gotAllProductFromServer} from '../store/product'
 
 class ProductList extends Component {
-  _isMounted = false
-
   constructor() {
     super()
-    this.state = {
-      products: []
-    }
+    this.deleteProduct = this.deleteProduct.bind(this)
   }
 
-  async componentDidMount() {
-    this._isMounted = true
-    const {data: products} = await axios.get('/api/products')
-    if (this._isMounted) {
-      this.setState({products})
-    }
+  componentDidMount() {
+    this.props.getAllProducts()
+  }
+
+  deleteProduct(id) {
+    this.props.deleteProduct(id)
   }
 
   render() {
+    const {admin, products} = this.props
     return (
       <div id="product-container">
-        {this.state.products.map(product => (
+        {products.map(product => (
           <div key={product.id} className="product-item">
             <div id="backgroundimg">
               <h3>{product.name}</h3>
               <h3>Price: {product.price}$</h3>
               <img src={product.imageUrl} />
+              {admin && (
+                <p>
+                  <button
+                    type="button"
+                    onClick={() => this.deleteProduct(product.id)}
+                  >
+                    Delete this item
+                  </button>
+                </p>
+              )}
               <p>
                 <Link to={`/products/${product.id}`}>Purchase here</Link>
               </p>
@@ -43,13 +51,15 @@ class ProductList extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    products: state.product.products,
+    admin: state.user.selectedUser.isAdmin
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    dispatchProduct: productId => dispatch(gotProductFromServer(productId))
+    getAllProducts: () => dispatch(gotAllProductFromServer()),
+    deleteProduct: productId => dispatch(deleteProudct(productId))
   }
 }
 

@@ -9,6 +9,7 @@ const initialState = {
 /**
  * ACTION TYPES
  */
+const GOT_ALL_PRODUCTS = 'GOT_ALL_PRODUCTS'
 const GOT_PRODUCT = 'GOT_PRODUCT'
 const UPDATE_CART = 'UPDATE_CART'
 const GET_CART = 'GET_CART'
@@ -26,6 +27,7 @@ const DELETE_ITEM_LOCALLY = 'DELETE_ITEM_LOCALLY'
 /**
  * ACTION CREATORS
  */
+export const gotAllProduct = products => ({type: GOT_ALL_PRODUCTS, products})
 export const gotProduct = product => ({type: GOT_PRODUCT, product})
 export const UpdateCart = () => ({type: UPDATE_CART})
 export const GetCart = products => ({type: GET_CART, products})
@@ -43,12 +45,30 @@ export const DeleteItemLocally = () => ({type: DELETE_ITEM_LOCALLY})
 /**
  * THUNK CREATORS
  */
+
 export const gotProductFromServer = productId => async dispatch => {
   try {
     const {data: product} = await axios.get(`/api/products/${productId}`)
     dispatch(gotProduct(product))
   } catch (err) {
     console.error(err)
+  }
+}
+
+export const gotAllProductFromServer = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/products')
+    dispatch(gotAllProduct(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const deleteProudct = id => async dispatch => {
+  try {
+    await axios.delete(`/api/products/${id}`)
+    dispatch(gotAllProductFromServer())
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -176,6 +196,8 @@ export const updateQtyItemLocally = (itemQty, productId) => async dispatch => {
  */
 export default function(state = initialState, action) {
   switch (action.type) {
+    case GOT_ALL_PRODUCTS:
+      return {...state, products: action.products}
     case GOT_PRODUCT:
       return {...state, selectedProduct: action.product}
     case UPDATE_CART:

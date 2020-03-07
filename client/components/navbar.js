@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import {getCart, getCartLocally} from '../store/product'
 
+
 class Navbar extends Component {
   componentDidMount(){
     if(this.props.isLoggedIn){
@@ -36,6 +37,7 @@ class Navbar extends Component {
   }
 } 
 
+
 /** s
  * CONTAINER
  */
@@ -49,9 +51,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    handleClick() {
-      dispatch(logout())
-    },
+    handleClick() {dispatch(logout())},
     getCart: () => dispatch(getCart()),
     getCartLocally: () => dispatch(getCartLocally())
   }
