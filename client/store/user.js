@@ -34,6 +34,7 @@ const removeUser = () => ({type: REMOVE_USER})
 
 export const viewUser = id => async dispatch => {
   try {
+    console.log('In View Think')
     const {data} = await axios.get(`/api/users/${id}`)
     dispatch(adminViewUser(data || defaultUser))
   } catch (err) {
@@ -51,6 +52,7 @@ export const UpdateAdminStatus = id => async dispatch => {
     console.error(err)
   }
 }
+
 
 export const getAllUsers = () => async dispatch => {
   try {

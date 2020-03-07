@@ -16,6 +16,7 @@ import {
   Checkout
 } from './components'
 import {me} from './store'
+import {getCart, getCartLocally} from './store/product'
 
 /**
  * COMPONENT
@@ -24,7 +25,6 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
   }
-
   render() {
     const {isLoggedIn, admin} = this.props
     console.log('Are you admin', admin)
@@ -85,7 +85,9 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-    }
+    },
+    getCart: () => dispatch(getCart()),
+    getCartLocally: () => dispatch(getCartLocally())
   }
 }
 

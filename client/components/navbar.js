@@ -1,26 +1,42 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {getCart, getCartLocally} from '../store/product'
 
-const Navbar = ({handleClick, isLoggedIn, admin}) => (
-<div>
-  <nav>
-    <div>
-      <Link to="/home">Home</Link>
-        {isLoggedIn && admin && <Link to="/adminPage">Admin Page</Link>}
-      <Link to="/products">Products</Link>
-      <Link to="/cart">Cart</Link>
-      {isLoggedIn && <a href="#" onClick={handleClick}>
+
+class Navbar extends Component {
+  componentDidMount(){
+    if(this.props.isLoggedIn){
+      this.props.getCart()
+    }
+    if(!this.props.isLoggedIn){
+      this.props.getCartLocally()
+    }
+  }
+  render(){
+    return(
+      <div>
+          <nav>
+            <div>
+              <Link to="/home">Home</Link>
+              {this.props.isLoggedIn && this.props.admin && <Link to="/adminPage">Admin Page</Link>}
+              <Link to="/products">Products</Link>
+              <Link to="/cart">Cart({this.props.cart.length})</Link>
+              {this.props.isLoggedIn && <a href="#" onClick={this.props.handleClick}>
                 Logout
-            </a>}
-      {!isLoggedIn && <Link to="/login">Login</Link>}
-      {!isLoggedIn && <Link to="/signup">Sign Up</Link>}
-      </div>
-      </nav>
+              </a>}
+              {!this.props.isLoggedIn && <Link to="/login">Login</Link>}
+              {!this.props.isLoggedIn && <Link to="/signup">Sign Up</Link>}
+            </div>
+          </nav>
       <hr />
-      </div>)
+      </div>
+    )
+  }
+} 
+
 
 /** s
  * CONTAINER
@@ -28,15 +44,16 @@ const Navbar = ({handleClick, isLoggedIn, admin}) => (
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.selectedUser.id,
-    admin: state.user.selectedUser.isAdmin
+    admin: state.user.selectedUser.isAdmin,
+    cart: state.product.cart
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    handleClick() {
-      dispatch(logout())
-    }
+    handleClick() {dispatch(logout())},
+    getCart: () => dispatch(getCart()),
+    getCartLocally: () => dispatch(getCartLocally())
   }
 }
 
