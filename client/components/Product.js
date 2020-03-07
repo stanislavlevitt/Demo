@@ -1,7 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {gotProductFromServer, updateCart} from '../store/product'
+import {
+  gotProductFromServer,
+  updateCart,
+  updateCartLocally
+} from '../store/product'
 
 class Product extends React.Component {
   constructor() {
@@ -12,6 +16,7 @@ class Product extends React.Component {
     this.decrement = this.decrement.bind(this)
     this.increment = this.increment.bind(this)
     this.updateCart = this.updateCart.bind(this)
+    this.updateCartLocally = this.updateCartLocally.bind(this)
   }
 
   componentDidMount() {
@@ -38,6 +43,12 @@ class Product extends React.Component {
 
   updateCart() {
     this.props.updateCart(this.props.selectedProduct, this.state.itemQty)
+    alert('THIS ITEM HAS BEEN ADDED TO YOUR CART')
+  }
+
+  updateCartLocally() {
+    this.props.updateCartLocally(this.props.selectedProduct, this.state.itemQty)
+    alert('THIS ITEM HAS BEEN ADDED TO YOUR CART')
   }
 
   render() {
@@ -58,9 +69,16 @@ class Product extends React.Component {
             </button>
           </div>
           <p>
-            <button type="button" onClick={this.updateCart}>
-              <Link to="/cart">Add to cart</Link>
-            </button>
+            {this.props.isLoggedIn && (
+              <button type="button" onClick={this.updateCart}>
+                <Link to="/products">Add to cart</Link>
+              </button>
+            )}
+            {!this.props.isLoggedIn && (
+              <button type="button" onClick={this.updateCartLocally}>
+                <Link to="/products">Add to cart</Link>
+              </button>
+            )}
           </p>
         </div>
       </div>
@@ -70,7 +88,8 @@ class Product extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    selectedProduct: state.product.selectedProduct
+    selectedProduct: state.product.selectedProduct,
+    isLoggedIn: !!state.user.selectedUser.id
   }
 }
 
@@ -78,7 +97,9 @@ const mapDispatchToProps = dispatch => {
   return {
     gotProductFromServer: productId =>
       dispatch(gotProductFromServer(productId)),
-    updateCart: (product, itemQty) => dispatch(updateCart(product, itemQty))
+    updateCart: (product, itemQty) => dispatch(updateCart(product, itemQty)),
+    updateCartLocally: (product, itemQty) =>
+      dispatch(updateCartLocally(product, itemQty))
   }
 }
 
