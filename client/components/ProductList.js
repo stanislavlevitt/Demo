@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {
@@ -24,34 +24,59 @@ class ProductList extends Component {
     const {admin, products} = this.props
     return (
       <div id="product-container">
-        {products.map(product => (
-          <div key={product.id} className="product-item">
-            <div id="backgroundimg">
-              <h3>{product.name}</h3>
-              <h3>Price: {product.price}$</h3>
-              {admin ? (
-                <Link to={`/products/update/${product.id}`}>
+        {products.map(product => {
+          const NotSoldOut = products[product.id - 1].quantity
+          return (
+            <div key={product.id} className="product-item">
+              <div id="backgroundimg">
+                <h3>{product.name}</h3>
+                <h3>Price: {product.price}$</h3>
+                {/* {admin ? ( <Link to={`/products/update/${product.id}`}>
                   <img src={product.imageUrl} />
-                </Link>
-              ) : (
-                <img src={product.imageUrl} />
-              )}
-              {admin && (
+                </Link>) : (
+                  <img src={product.imageUrl} />
+                  )} */}
+                {admin &&
+                  NotSoldOut && (
+                    <Link to={`/products/update/${product.id}`}>
+                      <img src={product.imageUrl} />
+                    </Link>
+                  )}
+                {admin &&
+                  !NotSoldOut && (
+                    <Fragment>
+                      <p>This Product is Sold Out</p>
+                      <Link to={`/products/update/${product.id}`}>
+                        <img className="soldOut" src={product.imageUrl} />
+                      </Link>
+                    </Fragment>
+                  )}
+                {!admin && NotSoldOut && <img src={product.imageUrl} />}
+                {!admin &&
+                  !NotSoldOut && (
+                    <Fragment>
+                      <p>This Product is Sold Out</p>
+                      <img className="soldOut" src={product.imageUrl} />
+                    </Fragment>
+                  )}
+
+                {admin && (
+                  <p>
+                    <button
+                      type="button"
+                      onClick={() => this.deleteProduct(product.id)}
+                    >
+                      Delete this item
+                    </button>
+                  </p>
+                )}
                 <p>
-                  <button
-                    type="button"
-                    onClick={() => this.deleteProduct(product.id)}
-                  >
-                    Delete this item
-                  </button>
+                  <Link to={`/products/${product.id}`}>Purchase here</Link>
                 </p>
-              )}
-              <p>
-                <Link to={`/products/${product.id}`}>Purchase here</Link>
-              </p>
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     )
   }

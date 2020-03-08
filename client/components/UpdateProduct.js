@@ -1,54 +1,67 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {
-  gotProductFromServer,
-  updateCart,
-  updateCartLocally
-} from '../store/product'
+import Axios from 'axios'
+import {gotProductFromServer} from '../store/product'
+import UpdateForm from './UpdateProductForm'
 
 class UpdateProduct extends React.Component {
   constructor() {
     super()
     this.state = {
-      itemQty: 1
+      name: '',
+      price: 0,
+      imageUrl: '',
+      quantity: 0
     }
-    this.decrement = this.decrement.bind(this)
-    this.increment = this.increment.bind(this)
-    this.updateCart = this.updateCart.bind(this)
-    this.updateCartLocally = this.updateCartLocally.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
     this.props.gotProductFromServer(this.props.match.params.id)
   }
 
-  decrement() {
-    if (this.state.itemQty > 0) {
+  componentDidUpdate(oldProps) {
+    if (oldProps.selectedProduct !== this.props.selectedProduct) {
       this.setState({
-        itemQty: this.state.itemQty - 1
+        name: this.props.selectedProduct.name,
+        price: this.props.selectedProduct.price,
+        imageUrl: this.props.selectedProduct.imageUrl,
+        quantity: this.props.selectedProduct.quantity
       })
     }
   }
 
-  increment() {
-    if (this.state.itemQty >= this.props.selectedProduct.quantity) {
-      alert('PRODUCT SOLD OUT')
-    } else {
+  async handleSubmit(event) {
+    try {
+      event.preventDefault()
+      const {name, price, imageUrl, quantity} = this.state
+      // const { updateTodo } = this.props;
+      const {data} = await Axios.put(
+        `/api/products/${this.props.match.params.id}`,
+        {name, price, imageUrl, quantity}
+      )
+      // updateTodo(res.data);
       this.setState({
-        itemQty: this.state.itemQty + 1
+        taskName: '',
+        assignee: ''
+      })
+    } catch (error) {
+      this.setState({
+        error: error.toString()
       })
     }
   }
 
-  updateCart() {
-    this.props.updateCart(this.props.selectedProduct, this.state.itemQty)
-    alert('THIS ITEM HAS BEEN ADDED TO YOUR CART')
-  }
-
-  updateCartLocally() {
-    this.props.updateCartLocally(this.props.selectedProduct, this.state.itemQty)
-    alert('THIS ITEM HAS BEEN ADDED TO YOUR CART')
+  handleChange(event) {
+    try {
+      console.log('Changing', this.state)
+      this.setState({
+        [event.target.name]: event.target.value
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   render() {
@@ -57,30 +70,14 @@ class UpdateProduct extends React.Component {
       <div className="single-product-div">
         <div id="backgrounding">
           <h1>EDIT PRODUCT PAGE</h1>
-          <h3>{product.name}</h3>
-          <img src={product.imageUrl} />
-          <p>Price: {product.price}$</p>
-          <div id="productQty">
-            <button id="ButtonQTY" type="button" onClick={this.decrement}>
-              -
-            </button>
-            <div id="productQtyValue">{this.state.itemQty}</div>
-            <button id="ButtonQTY" type="button" onClick={this.increment}>
-              +
-            </button>
-          </div>
-          <p>
-            {this.props.isLoggedIn && (
-              <button type="button" onClick={this.updateCart}>
-                <Link to="/products">Add to cart</Link>
-              </button>
-            )}
-            {!this.props.isLoggedIn && (
-              <button type="button" onClick={this.updateCartLocally}>
-                <Link to="/products">Add to cart</Link>
-              </button>
-            )}
-          </p>
+          <UpdateForm
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
+            name={this.state.name}
+            price={this.state.price}
+            imageUrl={this.state.imageUrl}
+            quantity={this.state.quantity}
+          />
         </div>
       </div>
     )
@@ -89,18 +86,13 @@ class UpdateProduct extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    selectedProduct: state.product.selectedProduct,
-    isLoggedIn: !!state.user.selectedUser.id
+    selectedProduct: state.product.selectedProduct
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    gotProductFromServer: productId =>
-      dispatch(gotProductFromServer(productId)),
-    updateCart: (product, itemQty) => dispatch(updateCart(product, itemQty)),
-    updateCartLocally: (product, itemQty) =>
-      dispatch(updateCartLocally(product, itemQty))
+    gotProductFromServer: productId => dispatch(gotProductFromServer(productId))
   }
 }
 

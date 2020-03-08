@@ -28,7 +28,9 @@ export class SingleUser extends Component {
             <p>{user.name} doesn't not have Admin Privileges</p>
           )}
           <p>
-            <button onClick={this.adminUpdate}>Change Admin Status</button>
+            <button type="button" onClick={this.adminUpdate}>
+              Change Admin Status
+            </button>
           </p>
         </div>
       </div>
@@ -46,5 +48,3 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleUser)
-
-
