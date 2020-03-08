@@ -11,6 +11,7 @@ const initialState = {
  */
 const GOT_ALL_PRODUCTS = 'GOT_ALL_PRODUCTS'
 const GOT_PRODUCT = 'GOT_PRODUCT'
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const UPDATE_CART = 'UPDATE_CART'
 const GET_CART = 'GET_CART'
 const UPDATE_QTY = 'UPDATE_QTY'
@@ -30,6 +31,7 @@ const DELETE_ITEM_LOCALLY = 'DELETE_ITEM_LOCALLY'
 export const gotAllProduct = products => ({type: GOT_ALL_PRODUCTS, products})
 export const gotProduct = product => ({type: GOT_PRODUCT, product})
 export const UpdateCart = () => ({type: UPDATE_CART})
+export const UpdatedProduct = product => ({type: UPDATE_PRODUCT, product})
 export const GetCart = products => ({type: GET_CART, products})
 export const UpdateQty = item => ({type: UPDATE_QTY, item})
 export const DeleteItem = (productId, orderId) => ({
@@ -69,6 +71,16 @@ export const deleteProudct = id => async dispatch => {
     dispatch(gotAllProductFromServer())
   } catch (error) {
     console.log(error)
+  }
+}
+
+export const updateProduct = (id, product) => async dispatch => {
+  try {
+    const {data} = await axios.put(`/api/products/${id}`, product)
+    dispatch(gotProduct(data))
+    console.log('data reducer', data)
+  } catch (err) {
+    console.error(err)
   }
 }
 

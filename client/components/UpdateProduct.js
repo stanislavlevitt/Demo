@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import Axios from 'axios'
-import {gotProductFromServer} from '../store/product'
+import {gotProductFromServer, updateProduct} from '../store/product'
 import UpdateForm from './UpdateProductForm'
 
 class UpdateProduct extends React.Component {
@@ -32,30 +31,24 @@ class UpdateProduct extends React.Component {
     }
   }
 
-  async handleSubmit(event) {
+  handleSubmit(event) {
     try {
       event.preventDefault()
+      this.props.updateProduct(this.props.match.params.id, this.state)
       const {name, price, imageUrl, quantity} = this.state
-      // const { updateTodo } = this.props;
-      const {data} = await Axios.put(
-        `/api/products/${this.props.match.params.id}`,
-        {name, price, imageUrl, quantity}
-      )
-      // updateTodo(res.data);
       this.setState({
-        taskName: '',
-        assignee: ''
+        name: name,
+        price: price,
+        imageUrl: imageUrl,
+        quantity: quantity
       })
     } catch (error) {
-      this.setState({
-        error: error.toString()
-      })
+      console.error(error)
     }
   }
 
   handleChange(event) {
     try {
-      console.log('Changing', this.state)
       this.setState({
         [event.target.name]: event.target.value
       })
@@ -65,7 +58,6 @@ class UpdateProduct extends React.Component {
   }
 
   render() {
-    const product = this.props.selectedProduct
     return (
       <div className="single-product-div">
         <div id="backgrounding">
@@ -92,7 +84,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    gotProductFromServer: productId => dispatch(gotProductFromServer(productId))
+    gotProductFromServer: productId =>
+      dispatch(gotProductFromServer(productId)),
+    updateProduct: (productId, product) =>
+      dispatch(updateProduct(productId, product))
   }
 }
 

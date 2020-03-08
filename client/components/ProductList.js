@@ -70,9 +70,13 @@ class ProductList extends Component {
                     </button>
                   </p>
                 )}
-                <p>
-                  <Link to={`/products/${product.id}`}>Purchase here</Link>
-                </p>
+                {NotSoldOut ? (
+                  <p>
+                    <Link to={`/products/${product.id}`}>Purchase here</Link>
+                  </p>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
           )
