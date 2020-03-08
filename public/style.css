@@ -146,3 +146,16 @@ h4.active a {
   font-weight: bold;
   color: #333;
 }
+
+.all-users {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.ButtonDeleteUser {
+  border-radius: 5px;
+  width: 15%;
+  height: 50%;
+}

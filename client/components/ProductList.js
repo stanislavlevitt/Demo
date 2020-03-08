@@ -2,7 +2,10 @@ import React, {Component} from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {deleteProudct, gotAllProductFromServer} from '../store/product'
+import {
+  deleteProudct as deleteProduct,
+  gotAllProductFromServer
+} from '../store/product'
 
 class ProductList extends Component {
   constructor() {
@@ -59,7 +62,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getAllProducts: () => dispatch(gotAllProductFromServer()),
-    deleteProduct: productId => dispatch(deleteProudct(productId))
+    deleteProduct: productId => dispatch(deleteProduct(productId))
   }
 }
 
