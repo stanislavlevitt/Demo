@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {
@@ -30,7 +29,13 @@ class ProductList extends Component {
             <div id="backgroundimg">
               <h3>{product.name}</h3>
               <h3>Price: {product.price}$</h3>
-              <img src={product.imageUrl} />
+              {admin ? (
+                <Link to={`/products/update/${product.id}`}>
+                  <img src={product.imageUrl} />
+                </Link>
+              ) : (
+                <img src={product.imageUrl} />
+              )}
               {admin && (
                 <p>
                   <button
