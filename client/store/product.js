@@ -128,7 +128,7 @@ export const getCartLocally = () => dispatch => {
   }
 }
 
-export const updateCartLocally = (product, itemQty) => {
+export const updateCartLocally = (product, itemQty) => dispatch => {
   try {
     if (localStorage.getItem(`product${product.id}`) === null) {
       const item = {
@@ -152,6 +152,7 @@ export const updateCartLocally = (product, itemQty) => {
         product.price * deserialize.itemized.quantity
       localStorage.setItem(`product${product.id}`, JSON.stringify(deserialize))
     }
+    dispatch(getCartLocally())
   } catch (error) {
     console.error(error)
   }
