@@ -1,3 +1,5 @@
+/* eslint-disable no-case-declarations */
+/* eslint-disable complexity */
 import axios from 'axios'
 
 const initialState = {
@@ -77,7 +79,7 @@ export const deleteProudct = id => async dispatch => {
 export const updateProduct = (id, product) => async dispatch => {
   try {
     const {data} = await axios.put(`/api/products/${id}`, product)
-    dispatch(gotProduct(data))
+    dispatch(UpdatedProduct(data))
     console.log('data reducer', data)
   } catch (err) {
     console.error(err)
@@ -212,6 +214,17 @@ export default function(state = initialState, action) {
       return {...state, products: action.products}
     case GOT_PRODUCT:
       return {...state, selectedProduct: action.product}
+    case UPDATE_PRODUCT:
+      const UpdatedProducts = state.products.map(product => {
+        if (product.id === action.product.id) {
+          return action.product
+        } else return product
+      })
+      return {
+        ...state,
+        selectedProduct: action.product,
+        products: UpdatedProducts
+      }
     case UPDATE_CART:
       return {...state}
     case GET_CART:
