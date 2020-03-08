@@ -15,12 +15,21 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const order = await Order.findOne({
+    const order = await Order.findOrCreate({
       where: {
         userId: req.session.passport.user,
         status: false
+      },
+      defaults: {
+        userId: req.session.passport.user
       }
     })
+    // const order = await Order.findOne({
+    //   where: {
+    //     userId: req.session.passport.user,
+    //     status: false
+    //   }
+    // })
     const currentItem = await Itemized.findOne({
       where: {
         productId: req.body.product.id,
