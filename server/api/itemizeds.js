@@ -80,12 +80,3 @@ router.delete('/:productId/:orderId', async (req, res, next) => {
     next(error)
   }
 })
-
-router.post('/local', async (req, res, next) => {
-  try {
-    console.log(req.body)
-    console.log(req.session)
-  } catch (error) {
-    next(error)
-  }
-})

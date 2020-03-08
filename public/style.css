@@ -1,7 +1,8 @@
 body {
   font-family: 'Inconsolata', sans-serif;
   text-align: center;
-  background-image: url('https://i.ytimg.com/vi/7dkrwPrmH-Y/maxresdefault.jpg');
+  background-color: #f4f7f6;
+  /* background-image: url('https://i.ytimg.com/vi/7dkrwPrmH-Y/maxresdefault.jpg'); */
   background-size: 100%;
 }
 a {
@@ -45,7 +46,6 @@ img {
 }
 
 .product-item {
-  background-color: rgba(250, 235, 215, 0.338);
   display: flex;
   flex-basis: 21%;
   flex-direction: column;
@@ -145,4 +145,9 @@ h4 a:hover {
 h4.active a {
   font-weight: bold;
   color: #333;
+}
+
+#submitForm {
+  display: flex;
+  flex-direction: column;
 }

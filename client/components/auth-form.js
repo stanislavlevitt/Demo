@@ -10,7 +10,8 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
   return (
     <div>
-      <form onSubmit={handleSubmit} name={name}>
+      <h1>{displayName}</h1>
+      <form id="submitForm" onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="Name">
             <small>Name</small>
@@ -29,6 +30,14 @@ const AuthForm = props => {
           </label>
           <input name="password" type="password" />
         </div>
+        {name === 'signup' && (
+          <div>
+            <label htmlFor="confirmationPassword">
+              <small>Confirmation password</small>
+            </label>
+            <input name="confirmationPassword" type="password" />
+          </div>
+        )}
         <div>
           <button type="submit">{displayName}</button>
         </div>
@@ -65,11 +74,18 @@ const mapSignup = state => {
 const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
-      evt.preventDefault()
       const name = evt.target.Name.value
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
+      evt.preventDefault()
+      if (formName === 'signup') {
+        if (
+          evt.target.password.value !== event.target.confirmationPassword.value
+        ) {
+          alert('WARNING: THE CONFIRMATION PASSWORD IS WRONG')
+        }
+      }
       dispatch(auth(name, email, password, formName))
     }
   }
