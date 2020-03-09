@@ -18,6 +18,7 @@ class Navbar extends Component {
               {this.props.isLoggedIn && <a href="#" onClick={this.props.handleClick}>
                 Logout
               </a>}
+              {this.props.isLoggedIn && <Link to="/account">My Account</Link>}
               {!this.props.isLoggedIn && <Link to="/login">Login</Link>}
               {!this.props.isLoggedIn && <Link to="/signup">Sign Up</Link>}
             </div>
@@ -26,7 +27,7 @@ class Navbar extends Component {
       </div>
     )
   }
-} 
+}
 
 
 /** s
