@@ -21,7 +21,7 @@ const Product = db.define('product', {
   imageUrl: {
     type: Sequelize.STRING
   },
-  quantity: {
+  stock: {
     type: Sequelize.INTEGER,
     validate: {
       min: 0

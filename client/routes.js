@@ -28,8 +28,12 @@ class Routes extends Component {
   }
   render() {
     const {isLoggedIn, admin} = this.props
-    console.log('Are you admin', admin)
-    console.log('Are you logged', isLoggedIn)
+    if (isLoggedIn) {
+      this.props.getCart()
+    }
+    if (!isLoggedIn) {
+      this.props.getCartLocally()
+    }
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}

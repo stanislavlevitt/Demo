@@ -5,19 +5,10 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import {getCart, getCartLocally} from '../store/product'
 
-
 class Navbar extends Component {
-  componentDidMount(){
-    if(this.props.isLoggedIn){
-      this.props.getCart()
-    }
-    if(!this.props.isLoggedIn){
-      this.props.getCartLocally()
-    }
-  }
   render(){
     return(
-      <div>
+      <div className="flex-wrapper">
           <nav>
             <div>
               <Link to="/home">Home</Link>
@@ -66,3 +57,4 @@ Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired
 }
+

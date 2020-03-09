@@ -1,38 +1,24 @@
 import axios from 'axios'
 import history from '../history'
 
-/**
- * ACTION TYPES
- */
 const GOT_USER = 'GOT_USER'
 const VIEW_USER = 'VIEW_USER'
 const GOT_ALL_USERS = 'GOT_ALL_USERS'
 const REMOVE_USER = 'REMOVE_USER'
 
-/**
- * INITIAL STATE
- */
 const defaultUser = {
   allUsers: [],
   selectedUser: {},
   viewedUser: {}
 }
 
-/**
- * ACTION CREATORS
- */
 const gotUser = user => ({type: GOT_USER, user})
 const adminViewUser = user => ({type: VIEW_USER, user})
 const gotAllUsers = users => ({type: GOT_ALL_USERS, users})
 const removeUser = () => ({type: REMOVE_USER})
 
-/**
- * THUNK CREATORS
- */
-
 export const viewUser = id => async dispatch => {
   try {
-    console.log('In View Think')
     const {data} = await axios.get(`/api/users/${id}`)
     dispatch(adminViewUser(data || defaultUser))
   } catch (err) {
@@ -85,7 +71,6 @@ export const auth = (name, email, password, method) => async dispatch => {
   } catch (authError) {
     return dispatch(gotUser({error: authError}))
   }
-
   try {
     dispatch(gotUser(res.data))
     alert("YOU'RE LOGGED IN!")
@@ -105,9 +90,6 @@ export const logout = () => async dispatch => {
   }
 }
 
-/**
- * REDUCER
- */
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case GOT_USER:

@@ -10,7 +10,7 @@ class UpdateProduct extends React.Component {
       name: '',
       price: 0,
       imageUrl: '',
-      quantity: 0
+      stock: 0
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -26,7 +26,7 @@ class UpdateProduct extends React.Component {
         name: this.props.selectedProduct.name,
         price: this.props.selectedProduct.price,
         imageUrl: this.props.selectedProduct.imageUrl,
-        quantity: this.props.selectedProduct.quantity
+        stock: this.props.selectedProduct.stock
       })
     }
   }
@@ -35,12 +35,12 @@ class UpdateProduct extends React.Component {
     try {
       event.preventDefault()
       this.props.updateProduct(this.props.match.params.id, this.state)
-      const {name, price, imageUrl, quantity} = this.state
+      const {name, price, imageUrl, stock} = this.state
       this.setState({
         name: name,
         price: price,
         imageUrl: imageUrl,
-        quantity: quantity
+        stock: stock
       })
     } catch (error) {
       console.error(error)
@@ -68,7 +68,7 @@ class UpdateProduct extends React.Component {
             name={this.state.name}
             price={this.state.price}
             imageUrl={this.state.imageUrl}
-            quantity={this.state.quantity}
+            stock={this.state.stock}
           />
         </div>
       </div>

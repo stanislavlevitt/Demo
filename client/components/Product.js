@@ -32,7 +32,7 @@ class Product extends React.Component {
   }
 
   increment() {
-    if (this.state.itemQty >= this.props.selectedProduct.quantity) {
+    if (this.state.itemQty >= this.props.selectedProduct.stock) {
       alert('PRODUCT SOLD OUT')
     } else {
       this.setState({

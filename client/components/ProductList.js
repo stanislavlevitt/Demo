@@ -2,10 +2,7 @@
 import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {
-  deleteProudct as deleteProduct,
-  gotAllProductFromServer
-} from '../store/product'
+import {deleteProduct, gotAllProductFromServer} from '../store/product'
 
 class ProductList extends Component {
   constructor() {

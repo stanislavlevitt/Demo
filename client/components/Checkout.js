@@ -26,6 +26,7 @@ class Checkout extends Component {
       <div id="cart">
         <h2>Purchase</h2>
         <ul>{cart.map(item => <CartLine key={item.id} cartLine={item} />)}</ul>
+        <h3>Total : ${this.props.totalPrice} </h3>
         <button type="button" onClick={this.purchaseOrder}>
           <a>Purchase</a>
         </button>
@@ -36,7 +37,8 @@ class Checkout extends Component {
 
 const mapStateToProps = state => ({
   cart: state.product.cart,
-  user: state.user
+  user: state.user,
+  totalPrice: state.product.totalPrice
 })
 
 const mapDispatchToProps = dispatch => {
