@@ -206,6 +206,9 @@ export default function(state = initialState, action) {
           return action.product
         } else return product
       })
+      UpdatedProducts.sort(function(a, b) {
+        return a.id - b.id
+      })
       return {
         ...state,
         selectedProduct: action.product,

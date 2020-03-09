@@ -23,27 +23,27 @@ class ProductList extends Component {
     return (
       <div id="product-container">
         {products.map(product => {
-          const stock = products[product.id - 1]
+          const current = products[product.id - 1]
           return (
             <div key={product.id} className="product-item">
               <div id="backgroundimg">
                 <h3>{product.name}</h3>
                 <h3>Price: {product.price}$</h3>
-                {admin ? (
+                {/* {admin ? (
                   <Link to={`/products/update/${product.id}`}>
                     <img src={product.imageUrl} />
                   </Link>
                 ) : (
                   <img src={product.imageUrl} />
-                )}
-                {/* {admin &&
-                  stock.quantity>0 && (
+                )} */}
+                {admin &&
+                  current.stock > 0 && (
                     <Link to={`/products/update/${product.id}`}>
                       <img src={product.imageUrl} />
                     </Link>
                   )}
                 {admin &&
-                  stock.quantity===0 && (
+                  current.stock === 0 && (
                     <Fragment>
                       <p>This Product is Sold Out</p>
                       <Link to={`/products/update/${product.id}`}>
@@ -51,14 +51,14 @@ class ProductList extends Component {
                       </Link>
                     </Fragment>
                   )}
-                {!admin && stock.quantity>0 && <img src={product.imageUrl} />}
+                {!admin && current.stock > 0 && <img src={product.imageUrl} />}
                 {!admin &&
-                  stock.quantity===0 && (
+                  current.stock === 0 && (
                     <Fragment>
                       <p>This Product is Sold Out</p>
                       <img className="soldOut" src={product.imageUrl} />
                     </Fragment>
-                  )} */}
+                  )}
 
                 {admin && (
                   <p>
@@ -70,17 +70,17 @@ class ProductList extends Component {
                     </button>
                   </p>
                 )}
-                {/* {stock.quantity>0 ? (
+                {current.stock > 0 ? (
                   <p>
                     <Link to={`/products/${product.id}`}>Purchase here</Link>
                   </p>
                 ) : (
                   ''
-                )} */}
+                )}
 
-                <p>
+                {/* <p>
                   <Link to={`/products/${product.id}`}>Purchase here</Link>
-                </p>
+                </p> */}
               </div>
             </div>
           )
