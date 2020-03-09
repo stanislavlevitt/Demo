@@ -3,6 +3,11 @@ const {User} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
+  if (!req.user.isAdmin) {
+    const err = new Error('Not allowed!')
+    err.status = 401
+    return next(err)
+  }
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
