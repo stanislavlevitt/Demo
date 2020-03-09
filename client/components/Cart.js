@@ -15,8 +15,11 @@ class Cart extends Component {
               {cart.map(item => <CartLine key={item.id} cartLine={item} />)}
             </ul>
             <h3>Total : ${this.props.totalPrice} </h3>
-            <button type="button">
-              <a href="/checkout">checkout</a>
+            <button className="cartbuttons" type="button">
+              <a href="/products">Continue Shopping</a>
+            </button>
+            <button className="cartbuttons" type="button">
+              <a href="/checkout">Checkout</a>
             </button>
           </div>
         ) : (
