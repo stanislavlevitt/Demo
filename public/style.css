@@ -13,6 +13,9 @@ label {
   display: block;
 }
 
+link {
+  color: aqua;
+}
 nav a {
   display: inline-block;
   margin: 1em;
