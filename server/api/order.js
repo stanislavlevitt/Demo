@@ -52,21 +52,6 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-// router.get('/checkout', async (req, res, next) => {
-//   try {
-//     const order = await Order.findOne({
-//       where: {
-//         userId: req.session.passport.user,
-//         status: false
-//       },
-//       include: [{model: Product}]
-//     })
-//     res.json(order)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
-
 router.put('/', async (req, res, next) => {
   try {
     const order = await Order.findOne({
@@ -77,8 +62,6 @@ router.put('/', async (req, res, next) => {
     })
     const current = new Date(Date.now())
     const currentDate = current.toDateString()
-
-    console.log('!!!!!!!!', currentDate)
     await order.update({
       status: true,
       purchaseDate: currentDate

@@ -38,7 +38,7 @@ class Checkout extends Component {
 const mapStateToProps = state => ({
   cart: state.product.cart,
   user: state.user,
-  totalPrice: state.product.totalPrice
+  totalPrice: state.product.total
 })
 
 const mapDispatchToProps = dispatch => {
