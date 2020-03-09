@@ -20,8 +20,12 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 router.put('/:id', async (req, res, next) => {
+  if (!req.user.isAdmin) {
+    const err = new Error('Not allowed!')
+    err.status = 401
+    return next(err)
+  }
   try {
-    console.log('req body', req.body)
     const Newproduct = await Product.findByPk(req.params.id)
     Newproduct.update(req.body)
     res.json(Newproduct)

@@ -58,7 +58,7 @@ export const updateCart = (product, itemQty) => async dispatch => {
     console.error(err)
   }
 }
-
+///Router doesn't need validation
 export const gotProductFromServer = productId => async dispatch => {
   try {
     const {data: product} = await axios.get(`/api/products/${productId}`)
@@ -67,7 +67,7 @@ export const gotProductFromServer = productId => async dispatch => {
     console.error(err)
   }
 }
-
+///Router doesn't need validation
 export const gotAllProductFromServer = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/products')
@@ -76,7 +76,7 @@ export const gotAllProductFromServer = () => async dispatch => {
     console.error(err)
   }
 }
-
+///Protected
 export const deleteProduct = id => async dispatch => {
   try {
     await axios.delete(`/api/products/${id}`)
@@ -85,7 +85,7 @@ export const deleteProduct = id => async dispatch => {
     console.log(error)
   }
 }
-
+///Protected
 export const updateProduct = (id, product) => async dispatch => {
   try {
     const {data} = await axios.put(`/api/products/${id}`, product)
