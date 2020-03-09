@@ -7,10 +7,10 @@ const SingleOrder = props => {
   return (
     <div className="order row" key={order.id}>
       <div className="column">
-        {/* <Link to={`/projects/${project.id}`}> */}
+        {/* <Link to={`/orders/${order.id}`}> */}
         <h3>Order No.{order.id}</h3>
         <h5>Date: {order.purchaseDate}</h5>
-        <h5>Total: {order.totalPrice}</h5>
+        <h5>Total: $ {order.totalPrice}</h5>
         {/* </Link> */}
       </div>
       <div className="column">{}</div>
