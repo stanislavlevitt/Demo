@@ -1,13 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-// import {viewUser} from '../store/user'
+import {getOrders} from '../store/user'
 
 export class UserAccount extends Component {
   constructor() {
     super()
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.getOrders(this.props.user.selectedUser.id)
+  }
 
   render() {
     const user = this.props.user.selectedUser
@@ -17,6 +19,7 @@ export class UserAccount extends Component {
         <div>
           <h3>Name: {user.name}</h3>
           <h3>Email: {user.email}</h3>
+          <h3>Address: {user.address}</h3>
           {user.isAdmin && <p>{user.name} is an Admin user</p>}
         </div>
       </div>
@@ -25,11 +28,12 @@ export class UserAccount extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  orders: state.user.orders
 })
 
 const mapDispatchToProps = dispatch => ({
-  // viewUser: id => dispatch(viewUser(id))
+  getOrders: id => dispatch(getOrders(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserAccount)

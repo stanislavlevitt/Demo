@@ -36,6 +36,22 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    const orders = await Order.findAll({
+      where: {
+        userId: req.session.passport.user,
+        status: true
+      },
+      include: [{model: Product}]
+    })
+
+    res.json(orders)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // router.get('/checkout', async (req, res, next) => {
 //   try {
 //     const order = await Order.findOne({

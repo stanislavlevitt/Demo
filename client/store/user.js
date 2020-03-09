@@ -5,23 +5,35 @@ const GOT_USER = 'GOT_USER'
 const VIEW_USER = 'VIEW_USER'
 const GOT_ALL_USERS = 'GOT_ALL_USERS'
 const REMOVE_USER = 'REMOVE_USER'
+const GOT_ORDERS = 'GOT_ORDERS'
 
 const defaultUser = {
   allUsers: [],
   selectedUser: {},
-  viewedUser: {}
+  viewedUser: {},
+  orders: {}
 }
 
 const gotUser = user => ({type: GOT_USER, user})
 const adminViewUser = user => ({type: VIEW_USER, user})
 const gotAllUsers = users => ({type: GOT_ALL_USERS, users})
 const removeUser = () => ({type: REMOVE_USER})
+const gotOrders = orders => ({type: GOT_ORDERS, orders})
 
 export const viewUser = id => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${id}`)
     dispatch(adminViewUser(data || defaultUser))
   } catch (err) {
+    console.error(err)
+  }
+}
+
+export const getOrders = id => async dispatch => {
+  try {
+    const {data} = await axios.get(`/api/orders/${id}`)
+    dispatch(gotOrders(data))
+  } catch (error) {
     console.error(err)
   }
 }
@@ -90,6 +102,8 @@ export default function(state = defaultUser, action) {
       return {...state, allUsers: action.users}
     case VIEW_USER:
       return {...state, viewedUser: action.user}
+    case GOT_ORDERS:
+      return {...state, orders: action.orders}
     default:
       return state
   }
