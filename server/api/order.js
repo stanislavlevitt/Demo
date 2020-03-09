@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
-        userId: req.session.passport.user,
+        userId: req.user.id,
         status: false
       },
       include: [{model: Product}]
@@ -40,7 +40,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       where: {
-        userId: req.session.passport.user,
+        userId: req.user.id,
         status: true
       },
       include: [{model: Product}]
@@ -56,7 +56,7 @@ router.put('/', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
-        userId: req.session.passport.user,
+        userId: req.user.id,
         status: false
       }
     })
@@ -67,7 +67,7 @@ router.put('/', async (req, res, next) => {
       purchaseDate: currentDate
     })
     await order.save()
-    await Order.create({userId: req.session.passport.user})
+    await Order.create({userId: req.user.id})
     res.send(order)
   } catch (error) {
     next(error)
