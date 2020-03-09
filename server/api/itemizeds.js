@@ -15,29 +15,16 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    // console.log("User",req.session.passport.user)
-    // const order = await Order.findOrCreate({
-    //   where: {
-    //     userId: req.session.passport.user,
-    //     status: false
-    //   },
-    //   defaults: {
-    //     userId: req.session.passport.user
-    //   }
-    // })
     const order = await Order.findOne({
       where: {
         userId: req.session.passport.user,
         status: false
       }
     })
-    // console.log("Order obj",order)
-    // console.log("Order id",order[0].id)
     const currentItem = await Itemized.findOne({
       where: {
         productId: req.body.product.id,
         orderId: order.id
-        // orderId: order[0].id
       }
     })
     if (currentItem !== null) {
