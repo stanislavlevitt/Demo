@@ -19,6 +19,17 @@ router.get('/:id', async (req, res, next) => {
     next(error)
   }
 })
+router.put('/:id', async (req, res, next) => {
+  try {
+    console.log('req body', req.body)
+    const Newproduct = await Product.findByPk(req.params.id)
+    Newproduct.update(req.body)
+    res.json(Newproduct)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.delete('/:id', async (req, res, next) => {
   try {
     await Product.destroy({
