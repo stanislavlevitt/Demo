@@ -60,6 +60,16 @@ export const getAllUsers = () => async dispatch => {
     console.error(err)
   }
 }
+
+export const deleteUser = id => async dispatch => {
+  try {
+    await axios.delete(`/api/users/${id}`)
+    dispatch(getAllUsers())
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
