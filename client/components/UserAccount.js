@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getOrders} from '../store/user'
 import SingleOrder from './SingleOrder'
+import {Link} from 'react-router-dom'
 
 export class UserAccount extends Component {
   constructor() {
@@ -27,8 +28,13 @@ export class UserAccount extends Component {
         <div>
           <h3>Name: {user.name}</h3>
           <h3>Email: {user.email}</h3>
-          <h3>Address: {user.address}</h3>
+          {user.address ? (
+            <h3>Address: {user.address}</h3>
+          ) : (
+            <p>No address is associated with this user</p>
+          )}
           {user.isAdmin && <p>{user.name} is an Admin user</p>}
+          <Link to={`/users/update/${user.id}`}>Edit user information</Link>
         </div>
         <h1> Order History </h1>
         {isFetching ? (
