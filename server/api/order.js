@@ -75,9 +75,13 @@ router.put('/', async (req, res, next) => {
         status: false
       }
     })
+    const current = new Date(Date.now())
+    const currentDate = current.toDateString()
+
+    console.log('!!!!!!!!', currentDate)
     await order.update({
       status: true,
-      purchaseDate: Date.now()
+      purchaseDate: currentDate
     })
     await order.save()
     await Order.create({userId: req.session.passport.user})

@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom'
 
 const SingleOrder = props => {
   const {order} = props
-  console.log('---1-1-1-1-1--', order)
   return (
     <div className="order row" key={order.id}>
       <div className="column">
