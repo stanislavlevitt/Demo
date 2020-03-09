@@ -36,6 +36,10 @@ img {
   height: 230px;
 }
 
+.cartbuttons {
+  margin: 5px;
+}
+
 #product-container {
   display: flex;
   flex-wrap: wrap;
@@ -150,6 +154,34 @@ h4.active a {
   color: #333;
 }
 
+.all-users {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.ButtonDeleteUser .ButtonUpdateProduct {
+  border-radius: 5px;
+  width: 15%;
+  height: 50%;
+}
+.UpdateProductForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.ProductFormInput {
+  margin-bottom: 15px;
+}
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+.soldOut {
+  opacity: 0.5;
+}
 #submitForm {
   display: flex;
   flex-direction: column;

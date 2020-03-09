@@ -92,6 +92,13 @@ async function seed() {
       imageUrl:
         'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-select-wifi-silver-201911?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1573825370078',
       stock: 70
+    }),
+    Product.create({
+      name: 'SOLD OUT PRODUCT',
+      type: 'Laptop',
+      price: 1500,
+      imageUrl: 'https://www.adorama.com/images/Large/acmv962lla13.jpg',
+      stock: 0
     })
   ])
   console.log(`seeded successfully`)

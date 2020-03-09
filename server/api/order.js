@@ -36,6 +36,22 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    const orders = await Order.findAll({
+      where: {
+        userId: req.session.passport.user,
+        status: true
+      },
+      include: [{model: Product}]
+    })
+
+    res.json(orders)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // router.get('/checkout', async (req, res, next) => {
 //   try {
 //     const order = await Order.findOne({
@@ -59,9 +75,13 @@ router.put('/', async (req, res, next) => {
         status: false
       }
     })
+    const current = new Date(Date.now())
+    const currentDate = current.toDateString()
+
+    console.log('!!!!!!!!', currentDate)
     await order.update({
       status: true,
-      purchaseDate: Date.now()
+      purchaseDate: currentDate
     })
     await order.save()
     await Order.create({userId: req.session.passport.user})

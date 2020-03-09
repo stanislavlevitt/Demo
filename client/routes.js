@@ -13,7 +13,10 @@ import {
   AdminPage,
   AllUsers,
   SingleUser,
-  Checkout
+  UpdateUser,
+  Checkout,
+  UserAccount,
+  UpdateProduct
 } from './components'
 import {me} from './store'
 import {getCart, getCartLocally} from './store/product'
@@ -46,17 +49,24 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/products" component={UserHome} />
+            <Route exact path="/products" component={UserHome} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/products" component={ProductList} />
             <Route exact path="/" component={ProductList} />
             <Route exact path="/products/:id" component={Product} />
+            <Route
+              exact
+              path="/products/update/:id"
+              component={UpdateProduct}
+            />
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/allUsers" component={AllUsers} />
             <Route exact path="/adminPage" component={AdminPage} />
             <Route exact path="/user/:id" component={SingleUser} />
             <Route exact path="/checkout" component={Checkout} />
+            <Route exact path="/account" component={UserAccount} />
+            <Route exact path="/users/update/:id" component={UpdateUser} />
           </Switch>
         )}
         {/* {isLoggedIn && admin && (

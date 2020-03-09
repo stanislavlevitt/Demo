@@ -1,3 +1,5 @@
+/* eslint-disable no-case-declarations */
+/* eslint-disable complexity */
 import axios from 'axios'
 
 const initialState = {
@@ -9,6 +11,7 @@ const initialState = {
 
 const GOT_ALL_PRODUCTS = 'GOT_ALL_PRODUCTS'
 const GOT_PRODUCT = 'GOT_PRODUCT'
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const GET_CART = 'GET_CART'
 const DELETE = 'DELETE'
 const PURCHASE_ORDER = 'PURCHASE_ORDER'
@@ -23,6 +26,7 @@ export const GetCart = (products, totalPrice) => ({
 })
 export const gotAllProduct = products => ({type: GOT_ALL_PRODUCTS, products})
 export const gotProduct = product => ({type: GOT_PRODUCT, product})
+export const UpdatedProduct = product => ({type: UPDATE_PRODUCT, product})
 export const DeleteItem = (productId, orderId) => ({
   type: DELETE,
   productId,
@@ -82,9 +86,19 @@ export const deleteProduct = id => async dispatch => {
   }
 }
 
+export const updateProduct = (id, product) => async dispatch => {
+  try {
+    const {data} = await axios.put(`/api/products/${id}`, product)
+    dispatch(UpdatedProduct(data))
+    console.log('data reducer', data)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const updateQtyItem = (itemQty, product) => async dispatch => {
   try {
-    const {data} = await axios.put('/api/itemizeds/updateQty', {
+    await axios.put('/api/itemizeds/updateQty', {
       itemQty,
       product
     })
@@ -158,7 +172,7 @@ export const updateCartLocally = (product, itemQty) => dispatch => {
   }
 }
 
-export const deleteItemLocally = productId => async dispatch => {
+export const deleteItemLocally = productId => dispatch => {
   try {
     localStorage.removeItem(`product${productId}`)
     dispatch(getCartLocally())
@@ -167,7 +181,7 @@ export const deleteItemLocally = productId => async dispatch => {
   }
 }
 
-export const updateQtyItemLocally = (itemQty, productId) => async dispatch => {
+export const updateQtyItemLocally = (itemQty, productId) => dispatch => {
   try {
     const itemToUpdate = JSON.parse(localStorage.getItem(`product${productId}`))
     itemToUpdate.itemized.quantity = itemQty
@@ -186,6 +200,20 @@ export default function(state = initialState, action) {
       return {...state, products: action.products}
     case GOT_PRODUCT:
       return {...state, selectedProduct: action.product}
+    case UPDATE_PRODUCT:
+      const UpdatedProducts = state.products.map(product => {
+        if (product.id === action.product.id) {
+          return action.product
+        } else return product
+      })
+      UpdatedProducts.sort(function(a, b) {
+        return a.id - b.id
+      })
+      return {
+        ...state,
+        selectedProduct: action.product,
+        products: UpdatedProducts
+      }
     case GET_CART:
       return {...state, cart: action.products, total: action.totalPrice}
     case UPDATE_CART_LOCALLY:
