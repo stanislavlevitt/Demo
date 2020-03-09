@@ -15,6 +15,7 @@ class Navbar extends Component {
               {this.props.isLoggedIn && this.props.admin && <Link to="/adminPage">Admin Page</Link>}
               <Link to="/products">Products</Link>
               <Link to="/cart">Cart({this.props.cart.length})</Link>
+              {this.props.isLoggedIn && <Link to="/account">My Account</Link>}
               {this.props.isLoggedIn && <a href="#" onClick={this.props.handleClick}>
                 Logout
               </a>}
@@ -26,7 +27,7 @@ class Navbar extends Component {
       </div>
     )
   }
-} 
+}
 
 
 /** s

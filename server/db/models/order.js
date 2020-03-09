@@ -11,7 +11,7 @@ const Order = db.define('order', {
     }
   },
   purchaseDate: {
-    type: Sequelize.DATE,
+    type: Sequelize.STRING,
     defaultValue: null
   },
   totalPrice: {

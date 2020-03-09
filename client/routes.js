@@ -13,8 +13,10 @@ import {
   AdminPage,
   AllUsers,
   SingleUser,
+  UpdateUser,
+  Checkout,
+  UserAccount,
   UpdateProduct,
-  Checkout
 } from './components'
 import {me} from './store'
 import {getCart, getCartLocally} from './store/product'
@@ -63,6 +65,8 @@ class Routes extends Component {
             <Route exact path="/adminPage" component={AdminPage} />
             <Route exact path="/user/:id" component={SingleUser} />
             <Route exact path="/checkout" component={Checkout} />
+            <Route exact path="/account" component={UserAccount} />
+            <Route exact path="/users/update/:id" component={UpdateUser} />
           </Switch>
         )}
         {/* {isLoggedIn && admin && (
