@@ -7,8 +7,8 @@ const adminsOnly = (req, res, next) => {
   next()
 }
 
-const isTrueUser = (req, res, next) => {
-  if (req.user.id !== req.params.id) {
+const isAdminOrTrueUser = (req, res, next) => {
+  if (!req.user.isAdmin || req.user.id !== req.params.id) {
     const err = new Error('Not allowed!')
     err.status = 401
     return next(err)
@@ -18,5 +18,5 @@ const isTrueUser = (req, res, next) => {
 
 module.exports = {
   adminsOnly,
-  isTrueUser
+  isAdminOrTrueUser
 }
