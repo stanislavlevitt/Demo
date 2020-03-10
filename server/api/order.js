@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {Order, Itemized} = require('../db/models')
 const {Product} = require('../db/models')
+const {isTrueUser} = require('../GateKeeper')
 module.exports = router
 
 router.post('/', async (req, res, next) => {
@@ -52,7 +53,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.put('/', async (req, res, next) => {
+router.put('/:id', isTrueUser, async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {

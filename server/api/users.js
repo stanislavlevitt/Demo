@@ -1,24 +1,8 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
+const {adminsOnly, isTrueUser} = require('../GateKeeper')
 module.exports = router
 
-const adminsOnly = (req, res, next) => {
-  if (!req.user.isAdmin) {
-    const err = new Error('Not allowed!')
-    err.status = 401
-    return next(err)
-  }
-  next()
-}
-
-const isUser = (req, res, next) => {
-  if (req.user.id != req.params.id) {
-    const err = new Error('Not allowed!')
-    err.status = 401
-    return next(err)
-  }
-  next()
-}
 router.get('/', adminsOnly, async (req, res, next) => {
   try {
     const users = await User.findAll({
@@ -42,7 +26,7 @@ router.get('/:id', adminsOnly, async (req, res, next) => {
   }
 })
 
-router.put('/:id', adminsOnly, isUser, async (req, res, next) => {
+router.put('/:id', adminsOnly, isTrueUser, async (req, res, next) => {
   try {
     const specificUser = await User.findByPk(req.params.id)
     await specificUser.update(req.body)

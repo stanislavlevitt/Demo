@@ -15,7 +15,7 @@ class Checkout extends Component {
   }
 
   purchaseOrder() {
-    this.props.purchaseOrder(this.props.user)
+    this.props.purchaseOrder(this.props.user, this.props.userId)
     alert('Purchase Success!')
     this.props.history.push('/products')
   }
@@ -38,13 +38,14 @@ class Checkout extends Component {
 const mapStateToProps = state => ({
   cart: state.product.cart,
   user: state.user,
+  userId: state.user.selectedUser.id,
   totalPrice: state.product.total
 })
 
 const mapDispatchToProps = dispatch => {
   return {
     getCart: () => dispatch(getCart()),
-    purchaseOrder: status => dispatch(purchaseOrder(status))
+    purchaseOrder: (status, id) => dispatch(purchaseOrder(status, id))
   }
 }
 
