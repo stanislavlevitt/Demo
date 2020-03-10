@@ -29,4 +29,16 @@ const Product = db.define('product', {
   }
 })
 
+Product.beforeValidate(product => {
+  if (
+    product.name.includes('<') ||
+    product.name.includes('>') ||
+    product.imageUrl.includes('<') ||
+    product.imageUrl.includes('>')
+  ) {
+    product.name = ''
+    product.imageUrl = ''
+  }
+})
+
 module.exports = Product
