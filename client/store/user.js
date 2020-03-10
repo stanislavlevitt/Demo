@@ -32,7 +32,7 @@ export const viewUser = id => async dispatch => {
     console.error(err)
   }
 }
-
+///Protected
 export const getOrders = id => async dispatch => {
   try {
     const {data} = await axios.get(`/api/orders/${id}`)
