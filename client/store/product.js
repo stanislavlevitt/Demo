@@ -119,7 +119,6 @@ export const deleteItem = (productId, orderId, userId) => async dispatch => {
 ///Protected
 export const purchaseOrder = (user, userId) => async dispatch => {
   try {
-    console.log('ORDER', user)
     const {data} = await axios.put(`api/orders/${userId}`, {user})
     dispatch(Purchase(data))
   } catch (error) {

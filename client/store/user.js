@@ -46,7 +46,7 @@ export const UpdateAdminStatus = id => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${id}`)
     data.isAdmin = !data.isAdmin
-    await axios.put(`/api/users/${id}`, data)
+    await axios.put(`/api/users/status/${id}`, data)
     dispatch(adminViewUser(data || defaultUser))
   } catch (err) {
     console.error(err)

@@ -1,14 +1,11 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
-const {adminsOnly, isAdminOrTrueUser} = require('../GateKeeper')
+const {adminsOnly, isTrueUser} = require('../GateKeeper')
 module.exports = router
 
 router.get('/', adminsOnly, async (req, res, next) => {
   try {
     const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
       attributes: ['id', 'email', 'name', 'isAdmin']
     })
     res.json(users)
@@ -26,13 +23,23 @@ router.get('/:id', adminsOnly, async (req, res, next) => {
   }
 })
 
-router.put('/:id', isAdminOrTrueUser, async (req, res, next) => {
+router.put('/:id', isTrueUser, async (req, res, next) => {
   try {
-    const specificUser = await User.findByPk(Number(req.params.id))
+    const specificUser = await User.findByPk(req.params.id)
     await specificUser.update(req.body)
     res.json(specificUser)
   } catch (err) {
     next(err)
+  }
+})
+
+router.put('/status/:id', adminsOnly, async (req, res, next) => {
+  try {
+    const specificUser = await User.findByPk(req.params.id)
+    await specificUser.update(req.body)
+    res.json(specificUser)
+  } catch (error) {
+    next(error)
   }
 })
 

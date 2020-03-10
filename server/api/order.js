@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {Order, Itemized} = require('../db/models')
 const {Product} = require('../db/models')
-const {isTrueUser, isAdminOrTrueUser} = require('../GateKeeper')
+const {isTrueUser, adminsOnly} = require('../GateKeeper')
 module.exports = router
 
 router.post('/', async (req, res, next) => {
@@ -37,7 +37,23 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', isAdminOrTrueUser, async (req, res, next) => {
+router.get('/:id', adminsOnly, async (req, res, next) => {
+  try {
+    const orders = await Order.findAll({
+      where: {
+        userId: req.user.id,
+        status: true
+      },
+      include: [{model: Product}]
+    })
+
+    res.json(orders)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/:id', isTrueUser, async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       where: {

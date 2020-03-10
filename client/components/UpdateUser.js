@@ -24,16 +24,6 @@ class UpdateUser extends React.Component {
     })
   }
 
-  // componentDidUpdate(oldProps) {
-  //   if (oldProps.selectedUser !== this.props.selectedUser) {
-  //     this.setState({
-  //       name: this.props.selectedUser.name,
-  //       email: this.props.selectedUser.emain,
-  //       address: this.props.selectedUser.address
-  //     })
-  //   }
-  // }
-
   handleSubmit(event) {
     try {
       event.preventDefault()
