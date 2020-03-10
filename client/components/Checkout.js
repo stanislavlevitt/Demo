@@ -30,6 +30,8 @@ class Checkout extends Component {
         <button type="button" onClick={this.purchaseOrder}>
           <a>Purchase</a>
         </button>
+        <script src="https://www.paypal.com/sdk/js?client-id=sb" />
+        <script>paypal.Buttons().render('body');</script>
       </div>
     )
   }

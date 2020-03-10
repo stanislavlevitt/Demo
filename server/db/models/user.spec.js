@@ -9,14 +9,59 @@ describe('User model', () => {
     return db.sync({force: true})
   })
 
+  describe('Validations', () => {
+    it('requires `name`', async () => {
+      const user = User.build()
+
+      try {
+        await user.validate()
+        throw Error(
+          'validation was successful but should have failed without `name`'
+        )
+      } catch (err) {
+        expect(err.message).to.contain('name cannot be null')
+      }
+    })
+
+    it('requires `name` to not be an empty string', async () => {
+      const user = User.build({
+        name: ''
+      })
+
+      try {
+        await user.validate()
+        throw Error(
+          'validation was successful but should have failed if name is an empty string'
+        )
+      } catch (err) {
+        expect(err.message).to.contain('Validation error')
+      }
+    })
+
+    it('requires `email` to not be a valid email', async () => {
+      const user = User.build({
+        email: 'chopsueyatgmail'
+      })
+
+      try {
+        await user.validate()
+        throw Error(
+          'validation was successful but should have failed if email is invalid'
+        )
+      } catch (err) {
+        expect(err.message).to.contain('Validation error')
+      }
+    })
+  })
+
   describe('instanceMethods', () => {
     describe('correctPassword', () => {
       let cody
 
       beforeEach(async () => {
         cody = await User.create({
-          email: 'cody@puppybook.com',
-          name: 'cody',
+          email: 'user555@yahoots.com',
+          name: 'brody',
           password: 'bones'
         })
       })
