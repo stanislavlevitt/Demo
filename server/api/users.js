@@ -28,7 +28,7 @@ router.get('/:id', adminsOnly, async (req, res, next) => {
 
 router.put('/:id', isAdminOrTrueUser, async (req, res, next) => {
   try {
-    const specificUser = await User.findByPk(req.params.id)
+    const specificUser = await User.findByPk(Number(req.params.id))
     await specificUser.update(req.body)
     res.json(specificUser)
   } catch (err) {
