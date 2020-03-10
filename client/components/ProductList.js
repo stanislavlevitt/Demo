@@ -23,7 +23,6 @@ class ProductList extends Component {
     return (
       <div id="product-container">
         {products.map(product => {
-          const current = products[product.id - 1]
           return (
             <div key={product.id} className="product-item">
               <div id="backgroundimg">
@@ -36,30 +35,6 @@ class ProductList extends Component {
                 ) : (
                   <img src={product.imageUrl} />
                 )}
-                {/* {admin &&
-                  current.stock > 0 && (
-                    <Link to={`/products/update/${product.id}`}>
-                      <img src={product.imageUrl} />
-                    </Link>
-                  )}
-                {admin &&
-                  current.stock === 0 && (
-                    <Fragment>
-                      <p>This Product is Sold Out</p>
-                      <Link to={`/products/update/${product.id}`}>
-                        <img className="soldOut" src={product.imageUrl} />
-                      </Link>
-                    </Fragment>
-                  )}
-                {!admin && current.stock > 0 && <img src={product.imageUrl} />}
-                {!admin &&
-                  current.stock === 0 && (
-                    <Fragment>
-                      <p>This Product is Sold Out</p>
-                      <img className="soldOut" src={product.imageUrl} />
-                    </Fragment>
-                  )} */}
-
                 {admin && (
                   <p>
                     <button
@@ -70,13 +45,6 @@ class ProductList extends Component {
                     </button>
                   </p>
                 )}
-                {/* {current.stock > 0 ? (
-                  <p>
-                    <Link to={`/products/${product.id}`}>Purchase here</Link>
-                  </p>
-                ) : (
-                  ''
-                )} */}
                 <p>
                   <Link to={`/products/${product.id}`}>Purchase here</Link>
                 </p>

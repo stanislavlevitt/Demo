@@ -28,7 +28,7 @@ class Cart extends Component {
           </div>
         )}
         <div className="modal-body" id="modal-body">
-          Sorry, the product is sold out!
+          This is the maximum amount quantity for the current stock!
         </div>
       </div>
     )

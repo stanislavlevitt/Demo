@@ -53,7 +53,7 @@ router.get('/:id', adminsOnly, async (req, res, next) => {
   }
 })
 
-router.get('/:id', isTrueUser, async (req, res, next) => {
+router.get('/user/:id', isTrueUser, async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       where: {
@@ -62,7 +62,6 @@ router.get('/:id', isTrueUser, async (req, res, next) => {
       },
       include: [{model: Product}]
     })
-
     res.json(orders)
   } catch (error) {
     next(error)

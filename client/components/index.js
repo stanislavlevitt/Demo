@@ -5,7 +5,6 @@
  */
 export {default as Navbar} from './Navbar'
 export {default as UserHome} from './user-home'
-export {default as Home} from './Home'
 export {default as ProductList} from './ProductList'
 export {default as UpdateProduct} from './UpdateProduct'
 export {default as Product} from './Product'

@@ -11,7 +11,6 @@ class Navbar extends Component {
       <div className="flex-wrapper">
           <nav>
             <div>
-              <Link to="/home">Home</Link>
               {this.props.isLoggedIn && this.props.admin && <Link to="/adminPage">Admin Page</Link>}
               <Link to="/products">Products</Link>
               <Link to="/cart">Cart({this.props.cart.length})</Link>
@@ -29,10 +28,6 @@ class Navbar extends Component {
   }
 }
 
-
-/** s
- * CONTAINER
- */
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.selectedUser.id,
@@ -51,9 +46,6 @@ const mapDispatch = dispatch => {
 
 export default connect(mapState, mapDispatch)(Navbar)
 
-/**
- * PROP TYPES
- */
 Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired

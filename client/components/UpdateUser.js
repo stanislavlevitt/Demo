@@ -30,10 +30,15 @@ class UpdateUser extends React.Component {
       this.props.updateUser(this.props.match.params.id, this.state)
       const {name, email, address} = this.state
       this.setState({
-        name: name,
-        email: email,
-        address: address
+        name: '',
+        email: '',
+        address: ''
       })
+      let x = document.getElementById('modal-body')
+      x.className = 'show'
+      setTimeout(function() {
+        x.className = x.className.replace('show', '')
+      }, 4000)
     } catch (error) {
       console.error(error)
     }
@@ -61,6 +66,9 @@ class UpdateUser extends React.Component {
             email={this.state.email}
             address={this.state.address}
           />
+        </div>
+        <div className="modal-body" id="modal-body">
+          You've edited your profile!
         </div>
       </div>
     )

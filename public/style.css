@@ -119,10 +119,11 @@ img {
   width: 15%;
   border-bottom: 1px solid black;
 }
-
+/* 
 .pTag {
-  margin-top: 0;
-}
+  margin-left: 100px;
+  margin-right: 100px;
+} */
 
 .totalPrice {
   width: 15%;
@@ -207,4 +208,12 @@ h4.active a {
 #submitForm {
   display: flex;
   flex-direction: column;
+}
+
+.orderHistory {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid black;
+  align-items: center;
 }

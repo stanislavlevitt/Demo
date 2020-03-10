@@ -52,11 +52,7 @@ class CartLine extends Component {
   handleDelete() {
     const cartLine = this.props.cartLine.itemized
     if (this.props.isLoggedIn) {
-      this.props.deleteItem(
-        cartLine.productId,
-        cartLine.orderId,
-        this.props.isLoggedIn
-      )
+      this.props.deleteItem(cartLine.productId, cartLine.orderId, this.props.id)
     }
     if (!this.props.isLoggedIn) {
       this.props.deleteItemLocally(cartLine.productId)
@@ -109,7 +105,8 @@ class CartLine extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: !!state.user.selectedUser.id
+    isLoggedIn: !!state.user.selectedUser.id,
+    id: state.user.selectedUser.id
   }
 }
 

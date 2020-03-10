@@ -5,36 +5,31 @@ import SingleOrder from './SingleOrder'
 import {Link} from 'react-router-dom'
 
 export class UserAccount extends Component {
-  constructor() {
-    super()
-  }
-
   componentDidMount() {
     this.props.getOrders(this.props.user.selectedUser.id)
   }
 
   render() {
     const user = this.props.user.selectedUser
-
     const isFetching =
       !Array.isArray(this.props.orders) || this.props.orders === 0
     return (
       <div>
-        <h1> Account Info </h1>
+        <h2> Account Info </h2>
         <div>
-          <h3>Name: {user.name}</h3>
-          <h3>Email: {user.email}</h3>
+          <p>Name: {user.name}</p>
+          <p>Email: {user.email}</p>
           {user.address ? (
-            <h3>Address: {user.address}</h3>
+            <p>Address: {user.address}</p>
           ) : (
             <p>No address is associated with this user</p>
           )}
-          {user.isAdmin && <p>{user.name} is an Admin user</p>}
+          {user.isAdmin && <p>Status: {user.name} is an Admin user</p>}
           <Link to={`/users/update/${user.id}`}>Edit user information</Link>
         </div>
-        <h1> Order History </h1>
+        <h2> Order History </h2>
         {isFetching ? (
-          <div>Still Loading / No Orders yet...</div>
+          <div>No Orders yet...</div>
         ) : (
           <div>
             {this.props.orders.map(order => (

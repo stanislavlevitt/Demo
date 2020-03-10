@@ -6,7 +6,6 @@ import {getCart, purchaseOrder} from '../store/product'
 class Checkout extends Component {
   constructor(props) {
     super(props)
-
     this.purchaseOrder = this.purchaseOrder.bind(this)
   }
 
@@ -21,8 +20,6 @@ class Checkout extends Component {
     setTimeout(function() {
       x.className = x.className.replace('show', '')
     }, 4000)
-    alert('Purchase Success!')
-    this.props.history.push('/products')
   }
 
   render() {

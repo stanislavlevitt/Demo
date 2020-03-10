@@ -11,13 +11,9 @@ const initialState = {
 
 const GOT_ALL_PRODUCTS = 'GOT_ALL_PRODUCTS'
 const GOT_PRODUCT = 'GOT_PRODUCT'
-const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const GET_CART = 'GET_CART'
-const DELETE = 'DELETE'
 const PURCHASE_ORDER = 'PURCHASE_ORDER'
-const UPDATE_CART_LOCALLY = 'UPDATE_CART_LOCALLY'
 const GET_CART_LOCALLY = 'GET_CART_LOCALLY'
-const DELETE_ITEM_LOCALLY = 'DELETE_ITEM_LOCALLY'
 
 export const GetCart = (products, totalPrice) => ({
   type: GET_CART,
@@ -26,20 +22,12 @@ export const GetCart = (products, totalPrice) => ({
 })
 export const gotAllProduct = products => ({type: GOT_ALL_PRODUCTS, products})
 export const gotProduct = product => ({type: GOT_PRODUCT, product})
-export const UpdatedProduct = product => ({type: UPDATE_PRODUCT, product})
-export const DeleteItem = (productId, orderId) => ({
-  type: DELETE,
-  productId,
-  orderId
-})
 export const Purchase = user => ({type: PURCHASE_ORDER, user})
-export const UpdateCartLocally = item => ({type: UPDATE_CART_LOCALLY, item})
 export const GetCartLocally = (array, total) => ({
   type: GET_CART_LOCALLY,
   array,
   total
 })
-export const DeleteItemLocally = () => ({type: DELETE_ITEM_LOCALLY})
 
 ///Protected
 export const getCart = () => async dispatch => {
@@ -90,7 +78,7 @@ export const deleteProduct = id => async dispatch => {
 export const updateProduct = (id, product) => async dispatch => {
   try {
     const {data} = await axios.put(`/api/products/${id}`, product)
-    dispatch(UpdatedProduct(data))
+    dispatch(gotAllProductFromServer())
   } catch (err) {
     console.error(err)
   }
@@ -200,24 +188,8 @@ export default function(state = initialState, action) {
       return {...state, products: action.products}
     case GOT_PRODUCT:
       return {...state, selectedProduct: action.product}
-    case UPDATE_PRODUCT:
-      const UpdatedProducts = state.products.map(product => {
-        if (product.id === action.product.id) {
-          return action.product
-        } else return product
-      })
-      UpdatedProducts.sort(function(a, b) {
-        return a.id - b.id
-      })
-      return {
-        ...state,
-        selectedProduct: action.product,
-        products: UpdatedProducts
-      }
     case GET_CART:
       return {...state, cart: action.products, total: action.totalPrice}
-    case UPDATE_CART_LOCALLY:
-      return {...state, cart: [...state.cart, action.item]}
     case GET_CART_LOCALLY:
       return {...state, cart: action.array, total: action.total}
     default:

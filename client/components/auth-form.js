@@ -90,6 +90,9 @@ const mapDispatch = dispatch => {
         }
       }
       dispatch(auth(name, email, password, formName))
+      evt.target.Name.value = ''
+      evt.target.email.value = ''
+      evt.target.password.value = ''
     }
   }
 }

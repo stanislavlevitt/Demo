@@ -45,7 +45,6 @@ class Routes extends Component {
         <Route exact path="/" component={ProductList} />
         <Route exact path="/products/:id" component={Product} />
         <Route exact path="/cart" component={Cart} />
-        {/* <Route exact path="/products/:id" component={Product}/> */}
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -69,14 +68,7 @@ class Routes extends Component {
             <Route exact path="/users/update/:id" component={UpdateUser} />
           </Switch>
         )}
-        {/* {isLoggedIn && admin && (
-        <Switch>
-           <Route exact path="/adminPage" component={AdminPage} />
-          <Route exact path="/user/:id" component={SingleUser} />
-          </Switch>
-          )} */}
         {/* Displays our Login component as a fallback */}
-        <Route path="/home" component={Home} />
         <Route component={Login} />
       </Switch>
     )
