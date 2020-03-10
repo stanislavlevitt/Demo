@@ -26,7 +26,12 @@ router.get('/:id', adminsOnly, async (req, res, next) => {
   }
 })
 
-router.put('/:id', adminsOnly, isTrueUser, async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
+  // if (!req.user.isAdmin || req.user.id !== req.params.id) {
+  //   const err = new Error(‘Not allowed!’)
+  //   err.status = 401
+  //   return next(err)
+  // }
   try {
     const specificUser = await User.findByPk(req.params.id)
     await specificUser.update(req.body)

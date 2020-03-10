@@ -16,19 +16,19 @@ const AuthForm = props => {
           <label htmlFor="Name">
             <small>Name</small>
           </label>
-          <input name="Name" type="text" />
+          <input name="Name" required type="text" />
         </div>
         <div>
           <label htmlFor="email">
             <small>Email</small>
           </label>
-          <input name="email" type="text" />
+          <input name="email" required type="text" />
         </div>
         <div>
           <label htmlFor="password">
             <small>Password</small>
           </label>
-          <input name="password" type="password" />
+          <input name="password" required type="password" />
         </div>
         {name === 'signup' && (
           <div>
@@ -82,11 +82,6 @@ const mapDispatch = dispatch => {
       const email = evt.target.email.value
       const password = evt.target.password.value
       evt.preventDefault()
-      // let x = document.getElementById('modal-body')
-      // x.className = 'show'
-      // setTimeout(function() {
-      //   x.className = x.className.replace('show', '')
-      // }, 4000)
       if (formName === 'signup') {
         if (
           evt.target.password.value !== event.target.confirmationPassword.value
@@ -95,7 +90,6 @@ const mapDispatch = dispatch => {
         }
       }
       dispatch(auth(name, email, password, formName))
-      history.push('/products')
     }
   }
 }

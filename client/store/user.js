@@ -38,7 +38,7 @@ export const getOrders = id => async dispatch => {
     const {data} = await axios.get(`/api/orders/${id}`)
     dispatch(gotOrders(data))
   } catch (error) {
-    console.error(err)
+    console.error(error)
   }
 }
 ///Protected

@@ -17,17 +17,22 @@ class UpdateUser extends React.Component {
 
   componentDidMount() {
     this.props.gotUser(this.props.match.params.id)
+    this.setState({
+      name: '',
+      email: '',
+      address: ''
+    })
   }
 
-  componentDidUpdate(oldProps) {
-    if (oldProps.selectedUser !== this.props.selectedUser) {
-      this.setState({
-        name: this.props.selectedUser.name,
-        email: this.props.selectedUser.price,
-        address: this.props.selectedUser.imageUrl
-      })
-    }
-  }
+  // componentDidUpdate(oldProps) {
+  //   if (oldProps.selectedUser !== this.props.selectedUser) {
+  //     this.setState({
+  //       name: this.props.selectedUser.name,
+  //       email: this.props.selectedUser.emain,
+  //       address: this.props.selectedUser.address
+  //     })
+  //   }
+  // }
 
   handleSubmit(event) {
     try {
