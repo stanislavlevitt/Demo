@@ -44,6 +44,9 @@ const AuthForm = props => {
         {error && error.response && <div> {error.response.data} </div>}
       </form>
       <a href="/auth/google">{displayName} with Google</a>
+      <div className="modal-body" id="modal-body">
+        You're logged in!
+      </div>
     </div>
   )
 }
@@ -79,6 +82,11 @@ const mapDispatch = dispatch => {
       const email = evt.target.email.value
       const password = evt.target.password.value
       evt.preventDefault()
+      // let x = document.getElementById('modal-body')
+      // x.className = 'show'
+      // setTimeout(function() {
+      //   x.className = x.className.replace('show', '')
+      // }, 4000)
       if (formName === 'signup') {
         if (
           evt.target.password.value !== event.target.confirmationPassword.value
@@ -87,6 +95,7 @@ const mapDispatch = dispatch => {
         }
       }
       dispatch(auth(name, email, password, formName))
+      history.push('/products')
     }
   }
 }

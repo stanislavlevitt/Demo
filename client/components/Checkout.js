@@ -16,7 +16,11 @@ class Checkout extends Component {
 
   purchaseOrder() {
     this.props.purchaseOrder(this.props.user)
-    alert('Purchase Success!')
+    let x = document.getElementById('modal-body')
+    x.className = 'show'
+    setTimeout(function() {
+      x.className = x.className.replace('show', '')
+    }, 4000)
     this.props.history.push('/products')
   }
 
@@ -30,6 +34,9 @@ class Checkout extends Component {
         <button type="button" onClick={this.purchaseOrder}>
           <a>Purchase</a>
         </button>
+        <div className="modal-body" id="modal-body">
+          Purchase Success!
+        </div>
       </div>
     )
   }

@@ -89,7 +89,7 @@ class Product extends React.Component {
             )}
           </p>
           <div className="modal-body" id="modal-body">
-            {this.state.itemQty} {product.name} added to cart!
+            You've added {this.state.itemQty} {product.name} added to cart!
           </div>
         </div>
       </div>

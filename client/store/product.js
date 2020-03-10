@@ -90,7 +90,6 @@ export const updateProduct = (id, product) => async dispatch => {
   try {
     const {data} = await axios.put(`/api/products/${id}`, product)
     dispatch(UpdatedProduct(data))
-    console.log('data reducer', data)
   } catch (err) {
     console.error(err)
   }

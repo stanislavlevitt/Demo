@@ -20,7 +20,11 @@ class CartLine extends Component {
   increment() {
     const cartLine = this.props.cartLine.itemized
     if (cartLine.quantity >= this.props.cartLine.stock) {
-      alert('PRODUCT SOLD OUT')
+      let x = document.getElementById('modal-body')
+      x.className = 'show'
+      setTimeout(function() {
+        x.className = x.className.replace('show', '')
+      }, 4000)
     } else {
       cartLine.quantity = cartLine.quantity + 1
       if (this.props.isLoggedIn) {

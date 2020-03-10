@@ -27,6 +27,9 @@ class Cart extends Component {
             <h3>You should probably buy something!</h3>
           </div>
         )}
+        <div className="modal-body" id="modal-body">
+          Sorry, the product is sold out!
+        </div>
       </div>
     )
   }

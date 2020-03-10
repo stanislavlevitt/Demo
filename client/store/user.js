@@ -97,8 +97,11 @@ export const auth = (name, email, password, method) => async dispatch => {
   }
   try {
     dispatch(gotUser(res.data))
-    alert("YOU'RE LOGGED IN!")
-    history.push('/products')
+    let x = document.getElementById('modal-body')
+    x.className = 'show'
+    await setTimeout(function() {
+      x.className = x.className.replace('show', '')
+    }, 3000)
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
