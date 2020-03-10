@@ -2,6 +2,15 @@ const router = require('express').Router()
 const {Product} = require('../db/models')
 module.exports = router
 
+const adminsOnly = (req, res, next) => {
+  if (!req.user.isAdmin) {
+    const err = new Error('Not allowed!')
+    err.status = 401
+    return next(err)
+  }
+  next()
+}
+
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll()
@@ -19,12 +28,7 @@ router.get('/:id', async (req, res, next) => {
     next(error)
   }
 })
-router.put('/:id', async (req, res, next) => {
-  if (!req.user.isAdmin) {
-    const err = new Error('Not allowed!')
-    err.status = 401
-    return next(err)
-  }
+router.put('/:id', adminsOnly, async (req, res, next) => {
   try {
     const Newproduct = await Product.findByPk(req.params.id)
     Newproduct.update(req.body)
@@ -34,12 +38,7 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
-  if (!req.user.isAdmin) {
-    const err = new Error('Not allowed!')
-    err.status = 401
-    return next(err)
-  }
+router.delete('/:id', adminsOnly, async (req, res, next) => {
   try {
     await Product.destroy({
       where: {

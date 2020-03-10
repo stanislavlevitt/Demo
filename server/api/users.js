@@ -2,12 +2,24 @@ const router = require('express').Router()
 const {User} = require('../db/models')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+const adminsOnly = (req, res, next) => {
   if (!req.user.isAdmin) {
     const err = new Error('Not allowed!')
     err.status = 401
     return next(err)
   }
+  next()
+}
+
+const isUser = (req, res, next) => {
+  if (req.user.id != req.params.id) {
+    const err = new Error('Not allowed!')
+    err.status = 401
+    return next(err)
+  }
+  next()
+}
+router.get('/', adminsOnly, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -21,12 +33,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
-  if (!req.user.isAdmin || req.user.id) {
-    const err = new Error('Not allowed!')
-    err.status = 401
-    return next(err)
-  }
+router.get('/:id', adminsOnly, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
     res.json(user)
@@ -35,12 +42,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.put('/:id', async (req, res, next) => {
-  if (!req.user.isAdmin || req.user.id) {
-    const err = new Error('Not allowed!')
-    err.status = 401
-    return next(err)
-  }
+router.put('/:id', adminsOnly, isUser, async (req, res, next) => {
   try {
     const specificUser = await User.findByPk(req.params.id)
     await specificUser.update(req.body)
@@ -50,12 +52,7 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
-  if (!req.user.isAdmin) {
-    const err = new Error('Not allowed!')
-    err.status = 401
-    return next(err)
-  }
+router.delete('/:id', adminsOnly, async (req, res, next) => {
   try {
     await User.destroy({
       where: {
