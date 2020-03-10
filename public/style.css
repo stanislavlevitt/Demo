@@ -13,6 +13,9 @@ label {
   display: block;
 }
 
+link {
+  color: aqua;
+}
 nav a {
   display: inline-block;
   margin: 1em;
@@ -31,10 +34,6 @@ form div {
 img {
   width: 200px;
   height: 230px;
-}
-
-.cartbuttons {
-  margin: 5px;
 }
 
 #product-container {
@@ -82,7 +81,7 @@ img {
   margin: 0 auto;
   border-radius: 8px;
   width: 40%;
-  margin-top: 90px;
+  margin-top: 50px;
 }
 
 #productName {
@@ -149,6 +148,32 @@ h4 a:hover {
 h4.active a {
   font-weight: bold;
   color: #333;
+}
+
+#submitForm {
+  display: flex;
+  flex-direction: column;
+}
+
+#modal-body {
+  visibility: hidden;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border: 1px solid;
+  z-index: 10;
+  background-color: black;
+  color: white;
+  width: 300px;
+  padding: 13px;
+  max-width: 80%;
+  margin-top: 20%;
+}
+
+#modal-body.show {
+  visibility: visible;
 }
 
 .all-users {

@@ -23,6 +23,7 @@ const removeUser = () => ({type: REMOVE_USER})
 export const UpdatedUser = user => ({type: UPDATE_USER, user})
 const gotOrders = orders => ({type: GOT_ORDERS, orders})
 
+///Protected
 export const viewUser = id => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${id}`)
@@ -31,27 +32,27 @@ export const viewUser = id => async dispatch => {
     console.error(err)
   }
 }
-
+///Protected
 export const getOrders = id => async dispatch => {
   try {
     const {data} = await axios.get(`/api/orders/${id}`)
     dispatch(gotOrders(data))
   } catch (error) {
-    console.error(err)
+    console.error(error)
   }
 }
-
+///Protected
 export const UpdateAdminStatus = id => async dispatch => {
   try {
     const {data} = await axios.get(`/api/users/${id}`)
     data.isAdmin = !data.isAdmin
-    await axios.put(`/api/users/${id}`, data)
+    await axios.put(`/api/users/status/${id}`, data)
     dispatch(adminViewUser(data || defaultUser))
   } catch (err) {
     console.error(err)
   }
 }
-
+///Protected
 export const getAllUsers = () => async dispatch => {
   try {
     const res = await axios.get('/api/users')
@@ -60,7 +61,7 @@ export const getAllUsers = () => async dispatch => {
     console.error(err)
   }
 }
-
+///Protected
 export const deleteUser = id => async dispatch => {
   try {
     await axios.delete(`/api/users/${id}`)
@@ -78,7 +79,7 @@ export const me = () => async dispatch => {
     console.error(err)
   }
 }
-
+///Protected
 export const updateUser = (id, user) => async dispatch => {
   try {
     const {data} = await axios.put(`/api/users/${id}`, user)
@@ -97,8 +98,11 @@ export const auth = (name, email, password, method) => async dispatch => {
   }
   try {
     dispatch(gotUser(res.data))
-    alert("YOU'RE LOGGED IN!")
-    history.push('/products')
+    let x = document.getElementById('modal-body')
+    x.className = 'show'
+    await setTimeout(function() {
+      x.className = x.className.replace('show', '')
+    }, 3000)
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }

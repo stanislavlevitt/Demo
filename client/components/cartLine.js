@@ -20,7 +20,11 @@ class CartLine extends Component {
   increment() {
     const cartLine = this.props.cartLine.itemized
     if (cartLine.quantity >= this.props.cartLine.stock) {
-      alert('PRODUCT SOLD OUT')
+      let x = document.getElementById('modal-body')
+      x.className = 'show'
+      setTimeout(function() {
+        x.className = x.className.replace('show', '')
+      }, 4000)
     } else {
       cartLine.quantity = cartLine.quantity + 1
       if (this.props.isLoggedIn) {
@@ -48,7 +52,11 @@ class CartLine extends Component {
   handleDelete() {
     const cartLine = this.props.cartLine.itemized
     if (this.props.isLoggedIn) {
-      this.props.deleteItem(cartLine.productId, cartLine.orderId)
+      this.props.deleteItem(
+        cartLine.productId,
+        cartLine.orderId,
+        this.props.isLoggedIn
+      )
     }
     if (!this.props.isLoggedIn) {
       this.props.deleteItemLocally(cartLine.productId)
@@ -111,8 +119,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(updateQtyItem(itemQty, product)),
     updateCart: (product, itemQty) => dispatch(updateCart(product, itemQty)),
     getCart: () => dispatch(getCart()),
-    deleteItem: (productId, orderId) =>
-      dispatch(deleteItem(productId, orderId)),
+    deleteItem: (productId, orderId, userId) =>
+      dispatch(deleteItem(productId, orderId, userId)),
     deleteItemLocally: productId => dispatch(deleteItemLocally(productId)),
     updateQtyItemLocally: (itemQuantity, productId) =>
       dispatch(updateQtyItemLocally(itemQuantity, productId))

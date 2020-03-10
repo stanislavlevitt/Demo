@@ -43,12 +43,20 @@ class Product extends React.Component {
 
   updateCart() {
     this.props.updateCart(this.props.selectedProduct, this.state.itemQty)
-    alert('THIS ITEM HAS BEEN ADDED TO YOUR CART')
+    let x = document.getElementById('modal-body')
+    x.className = 'show'
+    setTimeout(function() {
+      x.className = x.className.replace('show', '')
+    }, 4000)
   }
 
   updateCartLocally() {
     this.props.updateCartLocally(this.props.selectedProduct, this.state.itemQty)
-    alert('THIS ITEM HAS BEEN ADDED TO YOUR CART')
+    let x = document.getElementById('modal-body')
+    x.className = 'show'
+    setTimeout(function() {
+      x.className = x.className.replace('show', '')
+    }, 4000)
   }
 
   render() {
@@ -71,15 +79,18 @@ class Product extends React.Component {
           <p>
             {this.props.isLoggedIn && (
               <button type="button" onClick={this.updateCart}>
-                <Link to="/products">Add to cart</Link>
+                Add to cart
               </button>
             )}
             {!this.props.isLoggedIn && (
               <button type="button" onClick={this.updateCartLocally}>
-                <Link to="/products">Add to cart</Link>
+                Add to cart
               </button>
             )}
           </p>
+          <div className="modal-body" id="modal-body">
+            You've added {this.state.itemQty} {product.name} added to cart!
+          </div>
         </div>
       </div>
     )

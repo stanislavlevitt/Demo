@@ -23,7 +23,7 @@ class ProductList extends Component {
     return (
       <div id="product-container">
         {products.map(product => {
-          // const current = products[product.id - 1]
+          const current = products[product.id - 1]
           return (
             <div key={product.id} className="product-item">
               <div id="backgroundimg">
@@ -77,7 +77,6 @@ class ProductList extends Component {
                 ) : (
                   ''
                 )} */}
-
                 <p>
                   <Link to={`/products/${product.id}`}>Purchase here</Link>
                 </p>

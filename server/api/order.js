@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {Order, Itemized} = require('../db/models')
 const {Product} = require('../db/models')
+const {isTrueUser, adminsOnly} = require('../GateKeeper')
 module.exports = router
 
 router.post('/', async (req, res, next) => {
@@ -16,7 +17,7 @@ router.get('/', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
-        userId: req.session.passport.user,
+        userId: req.user.id,
         status: false
       },
       include: [{model: Product}]
@@ -36,11 +37,11 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', adminsOnly, async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       where: {
-        userId: req.session.passport.user,
+        userId: req.user.id,
         status: true
       },
       include: [{model: Product}]
@@ -52,39 +53,38 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-// router.get('/checkout', async (req, res, next) => {
-//   try {
-//     const order = await Order.findOne({
-//       where: {
-//         userId: req.session.passport.user,
-//         status: false
-//       },
-//       include: [{model: Product}]
-//     })
-//     res.json(order)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
+router.get('/:id', isTrueUser, async (req, res, next) => {
+  try {
+    const orders = await Order.findAll({
+      where: {
+        userId: req.user.id,
+        status: true
+      },
+      include: [{model: Product}]
+    })
 
-router.put('/', async (req, res, next) => {
+    res.json(orders)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:id', isTrueUser, async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
-        userId: req.session.passport.user,
+        userId: req.user.id,
         status: false
       }
     })
     const current = new Date(Date.now())
     const currentDate = current.toDateString()
-
-    console.log('!!!!!!!!', currentDate)
     await order.update({
       status: true,
       purchaseDate: currentDate
     })
     await order.save()
-    await Order.create({userId: req.session.passport.user})
+    await Order.create({userId: req.user.id})
     res.send(order)
   } catch (error) {
     next(error)

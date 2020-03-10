@@ -16,7 +16,7 @@ import {
   UpdateUser,
   Checkout,
   UserAccount,
-  UpdateProduct,
+  UpdateProduct
 } from './components'
 import {me} from './store'
 import {getCart, getCartLocally} from './store/product'

@@ -41,6 +41,7 @@ export const GetCartLocally = (array, total) => ({
 })
 export const DeleteItemLocally = () => ({type: DELETE_ITEM_LOCALLY})
 
+///Protected
 export const getCart = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/orders')
@@ -49,7 +50,7 @@ export const getCart = () => async dispatch => {
     console.log(error)
   }
 }
-
+///Protected
 export const updateCart = (product, itemQty) => async dispatch => {
   try {
     await axios.post(`/api/itemizeds`, {product, itemQty})
@@ -58,7 +59,7 @@ export const updateCart = (product, itemQty) => async dispatch => {
     console.error(err)
   }
 }
-
+///Router doesn't need validation
 export const gotProductFromServer = productId => async dispatch => {
   try {
     const {data: product} = await axios.get(`/api/products/${productId}`)
@@ -67,7 +68,7 @@ export const gotProductFromServer = productId => async dispatch => {
     console.error(err)
   }
 }
-
+///Router doesn't need validation
 export const gotAllProductFromServer = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/products')
@@ -76,7 +77,7 @@ export const gotAllProductFromServer = () => async dispatch => {
     console.error(err)
   }
 }
-
+///Protected
 export const deleteProduct = id => async dispatch => {
   try {
     await axios.delete(`/api/products/${id}`)
@@ -85,17 +86,16 @@ export const deleteProduct = id => async dispatch => {
     console.log(error)
   }
 }
-
+///Protected
 export const updateProduct = (id, product) => async dispatch => {
   try {
     const {data} = await axios.put(`/api/products/${id}`, product)
     dispatch(UpdatedProduct(data))
-    console.log('data reducer', data)
   } catch (err) {
     console.error(err)
   }
 }
-
+//Nopt sure if protected
 export const updateQtyItem = (itemQty, product) => async dispatch => {
   try {
     await axios.put('/api/itemizeds/updateQty', {
@@ -107,19 +107,19 @@ export const updateQtyItem = (itemQty, product) => async dispatch => {
     console.log(error)
   }
 }
-
-export const deleteItem = (productId, orderId) => async dispatch => {
+///Protected
+export const deleteItem = (productId, orderId, userId) => async dispatch => {
   try {
-    await axios.delete(`/api/itemizeds/${productId}/${orderId}`)
+    await axios.delete(`/api/itemizeds/${productId}/${orderId}/${userId}`)
     dispatch(getCart())
   } catch (error) {
     console.log(error)
   }
 }
-
-export const purchaseOrder = user => async dispatch => {
+///Protected
+export const purchaseOrder = (user, userId) => async dispatch => {
   try {
-    const {data} = await axios.put('api/orders', {user})
+    const {data} = await axios.put(`api/orders/${userId}`, {user})
     dispatch(Purchase(data))
   } catch (error) {
     console.error(error)

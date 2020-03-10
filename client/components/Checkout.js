@@ -15,7 +15,12 @@ class Checkout extends Component {
   }
 
   purchaseOrder() {
-    this.props.purchaseOrder(this.props.user)
+    this.props.purchaseOrder(this.props.user, this.props.userId)
+    let x = document.getElementById('modal-body')
+    x.className = 'show'
+    setTimeout(function() {
+      x.className = x.className.replace('show', '')
+    }, 4000)
     alert('Purchase Success!')
     this.props.history.push('/products')
   }
@@ -30,8 +35,9 @@ class Checkout extends Component {
         <button type="button" onClick={this.purchaseOrder}>
           <a>Purchase</a>
         </button>
-        <script src="https://www.paypal.com/sdk/js?client-id=sb" />
-        <script>paypal.Buttons().render('body');</script>
+        <div className="modal-body" id="modal-body">
+          Purchase Success!
+        </div>
       </div>
     )
   }
@@ -40,13 +46,14 @@ class Checkout extends Component {
 const mapStateToProps = state => ({
   cart: state.product.cart,
   user: state.user,
-  totalPrice: state.product.totalPrice
+  userId: state.user.selectedUser.id,
+  totalPrice: state.product.total
 })
 
 const mapDispatchToProps = dispatch => {
   return {
     getCart: () => dispatch(getCart()),
-    purchaseOrder: status => dispatch(purchaseOrder(status))
+    purchaseOrder: (status, id) => dispatch(purchaseOrder(status, id))
   }
 }
 

@@ -16,19 +16,19 @@ const AuthForm = props => {
           <label htmlFor="Name">
             <small>Name</small>
           </label>
-          <input name="Name" type="text" />
+          <input name="Name" required type="text" />
         </div>
         <div>
           <label htmlFor="email">
             <small>Email</small>
           </label>
-          <input name="email" type="text" />
+          <input name="email" required type="text" />
         </div>
         <div>
           <label htmlFor="password">
             <small>Password</small>
           </label>
-          <input name="password" type="password" />
+          <input name="password" required type="password" />
         </div>
         {name === 'signup' && (
           <div>
@@ -44,6 +44,9 @@ const AuthForm = props => {
         {error && error.response && <div> {error.response.data} </div>}
       </form>
       <a href="/auth/google">{displayName} with Google</a>
+      <div className="modal-body" id="modal-body">
+        You're logged in!
+      </div>
     </div>
   )
 }

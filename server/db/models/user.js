@@ -80,6 +80,12 @@ const setSaltAndPassword = user => {
   }
 }
 
+User.beforeValidate(user => {
+  if (user.name.includes('<') || user.name.includes('>')) {
+    user.name = ''
+  }
+})
+
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
 User.beforeBulkCreate(users => {
