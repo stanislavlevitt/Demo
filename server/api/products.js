@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {Product} = require('../db/models')
+const {adminsOnly} = require('../GateKeeper')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -19,9 +20,8 @@ router.get('/:id', async (req, res, next) => {
     next(error)
   }
 })
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', adminsOnly, async (req, res, next) => {
   try {
-    console.log('req body', req.body)
     const Newproduct = await Product.findByPk(req.params.id)
     Newproduct.update(req.body)
     res.json(Newproduct)
@@ -30,7 +30,7 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', adminsOnly, async (req, res, next) => {
   try {
     await Product.destroy({
       where: {

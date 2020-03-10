@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {Itemized} = require('../db/models')
 const {Order} = require('../db/models')
+const {isTrueUser} = require('../GateKeeper')
 
 module.exports = router
 
@@ -17,7 +18,7 @@ router.post('/', async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
-        userId: req.session.passport.user,
+        userId: req.user.id,
         status: false
       }
     })
@@ -67,16 +68,20 @@ router.put('/updateQty', async (req, res, next) => {
   }
 })
 
-router.delete('/:productId/:orderId', async (req, res, next) => {
-  try {
-    const item = await Itemized.destroy({
-      where: {
-        productId: req.params.productId,
-        orderId: req.params.orderId
-      }
-    })
-    res.json(item)
-  } catch (error) {
-    next(error)
+router.delete(
+  '/:productId/:orderId/:id',
+  isTrueUser,
+  async (req, res, next) => {
+    try {
+      const item = await Itemized.destroy({
+        where: {
+          productId: req.params.productId,
+          orderId: req.params.orderId
+        }
+      })
+      res.json(item)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
