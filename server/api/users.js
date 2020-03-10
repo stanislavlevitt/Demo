@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
-const {adminsOnly, isTrueUser} = require('../GateKeeper')
+const {adminsOnly, isAdminOrTrueUser} = require('../GateKeeper')
 module.exports = router
 
 router.get('/', adminsOnly, async (req, res, next) => {
@@ -26,7 +26,7 @@ router.get('/:id', adminsOnly, async (req, res, next) => {
   }
 })
 
-router.put('/:id', adminsOnly, isTrueUser, async (req, res, next) => {
+router.put('/:id', isAdminOrTrueUser, async (req, res, next) => {
   try {
     const specificUser = await User.findByPk(req.params.id)
     await specificUser.update(req.body)
