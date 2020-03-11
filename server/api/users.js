@@ -26,7 +26,11 @@ router.get('/:id', adminsOnly, async (req, res, next) => {
 router.put('/:id', isTrueUser, async (req, res, next) => {
   try {
     const specificUser = await User.findByPk(req.params.id)
-    await specificUser.update(req.body)
+    await specificUser.update({
+      name: req.body.name,
+      email: req.body.email,
+      address: req.body.address
+    })
     res.json(specificUser)
   } catch (err) {
     next(err)
