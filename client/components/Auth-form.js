@@ -93,6 +93,7 @@ const mapDispatch = dispatch => {
       evt.target.Name.value = ''
       evt.target.email.value = ''
       evt.target.password.value = ''
+      evt.target.confirmationPassword.value = ''
     }
   }
 }
