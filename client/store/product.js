@@ -14,6 +14,7 @@ const GOT_PRODUCT = 'GOT_PRODUCT'
 const GET_CART = 'GET_CART'
 const PURCHASE_ORDER = 'PURCHASE_ORDER'
 const GET_CART_LOCALLY = 'GET_CART_LOCALLY'
+const ADD_PRODUCT = 'ADD_PRODUCT'
 
 export const GetCart = (products, totalPrice) => ({
   type: GET_CART,
@@ -23,6 +24,7 @@ export const GetCart = (products, totalPrice) => ({
 export const gotAllProduct = products => ({type: GOT_ALL_PRODUCTS, products})
 export const gotProduct = product => ({type: GOT_PRODUCT, product})
 export const Purchase = user => ({type: PURCHASE_ORDER, user})
+export const addedProduct = product => ({type: ADD_PRODUCT, product})
 export const GetCartLocally = (array, total) => ({
   type: GET_CART_LOCALLY,
   array,
@@ -69,6 +71,15 @@ export const gotAllProductFromServer = () => async dispatch => {
 export const deleteProduct = id => async dispatch => {
   try {
     await axios.delete(`/api/products/${id}`)
+    dispatch(gotAllProductFromServer())
+  } catch (error) {
+    console.log(error)
+  }
+}
+//Protected
+export const addProduct = product => async dispatch => {
+  try {
+    const {data} = await axios.post('/api/products', product)
     dispatch(gotAllProductFromServer())
   } catch (error) {
     console.log(error)

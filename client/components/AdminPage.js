@@ -8,6 +8,8 @@ export const AdminPage = () => {
       <Link to="/allUsers">All Users</Link>
       <br />
       <Link to="/products">All Products</Link>
+      <br />
+      <Link to="/addproduct">Add Product</Link>
     </div>
   )
 }
