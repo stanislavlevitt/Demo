@@ -3,6 +3,15 @@ const {Product} = require('../db/models')
 const {adminsOnly} = require('../GateKeeper')
 module.exports = router
 
+router.post('/', adminsOnly, async (req, res, next) => {
+  try {
+    const newCreatedProduct = await Product.create(req.body)
+    res.json(newCreatedProduct)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll()

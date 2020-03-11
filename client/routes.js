@@ -16,7 +16,8 @@ import {
   UpdateUser,
   Checkout,
   UserAccount,
-  UpdateProduct
+  UpdateProduct,
+  AddProduct
 } from './components'
 import {me} from './store'
 import {getCart, getCartLocally} from './store/product'
@@ -53,6 +54,7 @@ class Routes extends Component {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/products" component={ProductList} />
             <Route exact path="/" component={ProductList} />
+            <Route exact path="/addproduct" component={AddProduct} />
             <Route exact path="/products/:id" component={Product} />
             <Route
               exact
