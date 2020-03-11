@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {gotProductFromServer, addProduct} from '../store/product'
+import {addProduct} from '../store/product'
 import AddForm from './AddProductForm'
 
 class AddProduct extends React.Component {
@@ -61,7 +61,9 @@ class AddProduct extends React.Component {
   }
 }
 
-const mapStateToProps = () => {}
+const mapStateToProps = () => {
+  return {}
+}
 
 const mapDispatchToProps = dispatch => {
   return {
