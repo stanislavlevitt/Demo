@@ -30,14 +30,6 @@ const AuthForm = props => {
           </label>
           <input name="password" required type="password" />
         </div>
-        {name === 'signup' && (
-          <div>
-            <label htmlFor="confirmationPassword">
-              <small>Confirmation password</small>
-            </label>
-            <input name="confirmationPassword" type="password" />
-          </div>
-        )}
         <div>
           <button type="submit">{displayName}</button>
         </div>
