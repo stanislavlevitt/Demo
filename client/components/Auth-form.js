@@ -44,9 +44,6 @@ const AuthForm = props => {
         {error && error.response && <div> {error.response.data} </div>}
       </form>
       <a href="/auth/google">{displayName} with Google</a>
-      <div className="modal-body" id="modal-body">
-        You're logged in!
-      </div>
     </div>
   )
 }
@@ -82,18 +79,10 @@ const mapDispatch = dispatch => {
       const email = evt.target.email.value
       const password = evt.target.password.value
       evt.preventDefault()
-      if (formName === 'signup') {
-        if (
-          evt.target.password.value !== event.target.confirmationPassword.value
-        ) {
-          alert('WARNING: THE CONFIRMATION PASSWORD IS WRONG')
-        }
-      }
       dispatch(auth(name, email, password, formName))
       evt.target.Name.value = ''
       evt.target.email.value = ''
       evt.target.password.value = ''
-      evt.target.confirmationPassword.value = ''
     }
   }
 }
