@@ -4,6 +4,7 @@ import {getAllClients} from '../store/clients'
 import {getFilteredFunds} from '../store/funds'
 import {getFilteredInvestment} from '../store/investments'
 import {getCashFlowValue} from '../store/cashFlow'
+const numeral = require('numeral')
 
 export class CashFlow extends Component {
   constructor() {
@@ -13,6 +14,7 @@ export class CashFlow extends Component {
       fundId: 0,
       investmentId: 0,
       amount: '',
+      newAmount: '',
       date: '',
       rate: 0.0
     }
@@ -20,6 +22,9 @@ export class CashFlow extends Component {
     this.clientChange = this.clientChange.bind(this)
     this.fundChange = this.fundChange.bind(this)
     this.investmentChange = this.investmentChange.bind(this)
+    this.dateChange = this.dateChange.bind(this)
+    this.rateChange = this.rateChange.bind(this)
+    this.calculate = this.calculate.bind(this)
   }
 
   componentDidMount() {
@@ -46,6 +51,27 @@ export class CashFlow extends Component {
     this.setState({
       [event.target.name]: event.target.value,
       amount: this.props.cashFlowValue
+    })
+  }
+
+  dateChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  rateChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  calculate() {
+    const value =
+      (Number(this.state.rate) + 1) * Number(this.props.cashFlowAmount)
+    const strValue = numeral(value.toFixed(2)).format('$0,0.00')
+    this.setState({
+      newAmount: strValue
     })
   }
 
@@ -128,14 +154,29 @@ export class CashFlow extends Component {
               }
             />
             <label htmlFor="newAmount">Update Value</label>
-            <input type="number" name="newAmount" value={this.state.amount} />
+            <input
+              type="text"
+              name="newAmount"
+              value={this.state.newAmount === '' ? '' : this.state.newAmount}
+            />
           </div>
           <div className="Form-Values">
             <label htmlFor="date">Date</label>
-            <input type="date" name="date" value={this.state.date} />
+            <input type="date" name="date" onChange={this.dateChange} />
             <label htmlFor="rate">Value</label>
-            <input type="number" name="rate" value={this.state.rate} />
-            <button type="button">Calculate</button>
+            <input
+              type="number"
+              name="rate"
+              step=".01"
+              onChange={this.rateChange}
+            />
+            <button
+              type="button"
+              disabled={this.state.date === '' || this.state.rate === 0.0}
+              onClick={this.calculate}
+            >
+              Calculate
+            </button>
           </div>
           <div className="Form-Buttons">
             <button type="button">Cancel</button>
@@ -151,7 +192,8 @@ const mapStateToProps = state => ({
   clients: state.clients.allClients,
   investments: state.investments.allInvestments,
   funds: state.funds.allFunds,
-  cashFlowValue: state.cashFlow.currentValue
+  cashFlowValue: state.cashFlow.currentValue,
+  cashFlowAmount: state.cashFlow.amount
 })
 
 const mapDispatchToProps = dispatch => ({
