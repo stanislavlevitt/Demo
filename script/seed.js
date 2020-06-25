@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {Clients, Funds, Investments} = require('../server/db/models')
+const {Clients, Funds, Investments, CashFlows} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -66,31 +66,74 @@ async function seed() {
 
   const investments = await Promise.all([
     Investments.create({
-      name: 'investment1',
+      name: 'investment1, Fund 1, HF',
       date: 'Fri Jun 22 2018 11:02:01',
       amount: 1000.0,
       clientId: 1,
-      fundId: 3
+      fundId: 1
     }),
     Investments.create({
-      name: 'investment2',
+      name: 'investment2, Fund 2 PL',
       date: 'Sun Jun 23 2019 10:09:05',
       amount: 950.5,
       clientId: 2,
+      fundId: 2
+    }),
+    Investments.create({
+      name: 'investment3, Fund 5 PC',
+      date: 'Sun Jun 23 2019 10:09:05',
+      amount: 950.5,
+      clientId: 2,
+      fundId: 5
+    }),
+    Investments.create({
+      name: 'investment4, Fund3 VC',
+      date: 'Wed Jun 24 2020 09:19:35',
+      amount: 860.89,
+      clientId: 3,
       fundId: 3
     }),
     Investments.create({
-      name: 'investment3',
+      name: 'investment5, Fund 4 RE',
       date: 'Wed Jun 24 2020 09:19:35',
       amount: 860.89,
-      clientId: 1,
+      clientId: 3,
       fundId: 1
+    })
+  ])
+
+  const cashFlow = await Promise.all([
+    CashFlows.create({
+      investmentId: 1,
+      date: 'Fri Jun 22 2018 11:02:01',
+      return: 0.05
+    }),
+    CashFlows.create({
+      investmentId: 2,
+      date: 'Sun Jun 23 2019 10:09:05',
+      return: 0.15
+    }),
+    CashFlows.create({
+      investmentId: 3,
+      date: 'Sun Jun 23 2019 10:09:05',
+      return: 0.15
+    }),
+    CashFlows.create({
+      investmentId: 4,
+      date: 'Wed Jun 24 2020 09:19:35',
+      return: 0.1
+    }),
+    CashFlows.create({
+      investmentId: 5,
+      date: 'Wed Jun 24 2020 09:19:35',
+      return: 0.1
     })
   ])
 
   console.log(`seeded ${clients.length} clients`)
   console.log(`seeded ${funds.length} funds`)
   console.log(`seeded ${investments.length} investments`)
+  console.log(`seeded ${cashFlow.length} CashFlow`)
   console.log(`seeded successfully`)
 }
 

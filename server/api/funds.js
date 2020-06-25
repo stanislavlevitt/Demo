@@ -13,3 +13,12 @@ router.get('/:clientId', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/', async (req, res, next) => {
+  try {
+    const funds = await Funds.findAll()
+    res.json(funds)
+  } catch (err) {
+    next(err)
+  }
+})
