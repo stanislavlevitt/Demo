@@ -19,3 +19,38 @@ router.get('/:investmentId', async (req, res, next) => {
     next(err)
   }
 })
+
+router.put('/', async (req, res, next) => {
+  try {
+    await CashFlows.update(
+      {
+        date: req.body.date,
+        return: req.body.rate
+      },
+      {
+        where: {
+          id: req.body.cashId
+        }
+      }
+    )
+
+    await Investments.update(
+      {
+        date: req.body.date,
+        amount: parseFloat(req.body.amount)
+      },
+      {
+        where: {
+          id: req.body.investmentId
+        }
+      }
+    )
+
+    res.json({
+      message: 'Update successfully',
+      status: 200
+    })
+  } catch (err) {
+    next(err)
+  }
+})

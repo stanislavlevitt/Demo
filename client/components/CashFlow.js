@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {getAllClients} from '../store/clients'
 import {getFilteredFunds} from '../store/funds'
 import {getFilteredInvestment} from '../store/investments'
-import {getCashFlowValue} from '../store/cashFlow'
+import {getCashFlowValue, updateCashFlowData} from '../store/cashFlow'
 const numeral = require('numeral')
 
 export class CashFlow extends Component {
@@ -13,8 +13,8 @@ export class CashFlow extends Component {
       clientId: 0,
       fundId: 0,
       investmentId: 0,
-      amount: '',
       newAmount: '',
+      amount: '',
       date: '',
       rate: 0.0
     }
@@ -49,8 +49,7 @@ export class CashFlow extends Component {
     this.props.getCashFlowValue(event.target.value)
 
     this.setState({
-      [event.target.name]: event.target.value,
-      amount: this.props.cashFlowValue
+      [event.target.name]: event.target.value
     })
   }
 
@@ -71,18 +70,22 @@ export class CashFlow extends Component {
       (Number(this.state.rate) + 1) * Number(this.props.cashFlowAmount)
     const strValue = numeral(value.toFixed(2)).format('$0,0.00')
     this.setState({
-      newAmount: strValue
+      newAmount: strValue,
+      amount: value.toFixed(2)
     })
   }
 
-  handleSubmit(event) {
+  handleSubmit() {
+    this.props.updateCashFlowData(this.state, this.props.cashFlowId)
+
     this.setState({
-      clientName: '',
-      fundName: '',
-      investmentName: '',
-      amount: 0,
+      clientId: 0,
+      fundId: 0,
+      investmentId: 0,
+      newAmount: '',
+      amount: '',
       date: '',
-      return: 0.0
+      rate: 0.0
     })
   }
 
@@ -168,6 +171,7 @@ export class CashFlow extends Component {
               type="number"
               name="rate"
               step=".01"
+              min="0"
               onChange={this.rateChange}
             />
             <button
@@ -193,7 +197,8 @@ const mapStateToProps = state => ({
   investments: state.investments.allInvestments,
   funds: state.funds.allFunds,
   cashFlowValue: state.cashFlow.currentValue,
-  cashFlowAmount: state.cashFlow.amount
+  cashFlowAmount: state.cashFlow.amount,
+  cashFlowId: state.cashFlow.id
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -201,7 +206,8 @@ const mapDispatchToProps = dispatch => ({
   getCashFlowValue: investmentId => dispatch(getCashFlowValue(investmentId)),
   getFilteredFunds: id => dispatch(getFilteredFunds(id)),
   getFilteredInvestment: (clientId, fundId) =>
-    dispatch(getFilteredInvestment(clientId, fundId))
+    dispatch(getFilteredInvestment(clientId, fundId)),
+  updateCashFlowData: (obj, id) => dispatch(updateCashFlowData(obj, id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CashFlow)
