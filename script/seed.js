@@ -1,105 +1,99 @@
 'use strict'
 
 const db = require('../server/db')
-const faker = require('faker')
-const {User, Product, Order} = require('../server/db/models')
-
-const usersArr = []
-for (let i = 0; i < 10; i++) {
-  const user = {
-    name: faker.fake('{{name.firstName}} {{name.lastName}}'),
-    email: faker.fake('{{internet.email}}'),
-    address: faker.fake('{{address.streetAddress}}'),
-    password: faker.fake('{{internet.password}}')
-  }
-  usersArr.push(user)
-}
+const {Clients, Funds, Investments} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const Codye = await User.create({
-    name: 'Codye',
-    email: 'cody@email.com',
-    password: '123'
-  })
-  const Murphy = await User.create({
-    name: 'Murphy',
-    email: 'murphy@email.com',
-    password: '123'
-  })
-  const Dan = await User.create({
-    name: 'Dan',
-    email: 'dan@email.com',
-    password: '1234535'
-  })
-  const stas = await User.create({
-    name: 'stas',
-    email: 'stas@stas.com',
-    password: 'stas',
-    isAdmin: true
-  })
-
-  await Order.create({userId: stas.id})
-  await Order.create({userId: Dan.id})
-  await Order.create({userId: Murphy.id})
-  await Order.create({userId: Codye.id})
-
-  const products = await Promise.all([
-    Product.create({
-      name: 'MacBookPro 13-inch',
-      type: 'Laptop',
-      price: 1500,
-      imageUrl: 'https://www.adorama.com/images/Large/acmv962lla13.jpg',
-      stock: 40
+  const clients = await Promise.all([
+    Clients.create({
+      name: 'client 1',
+      description: 'description for client 1',
+      permission: 'All'
     }),
-    Product.create({
-      name: 'MacBookPro Air',
-      type: 'Laptop',
-      price: 1099,
-      imageUrl: 'https://www.adorama.com/images/Large/acmvfh2lla.jpg',
-      stock: 70
+    Clients.create({
+      name: 'client 2',
+      description: 'description for client 2',
+      permission: 'PPF'
     }),
-    Product.create({
-      name: 'MacBookPro 16-inch',
-      type: 'Laptop',
-      price: 2399,
-      imageUrl:
-        'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16touch-silver-select-201911?wid=1808&hei=1686&fmt=jpeg&qlt=80&.v=1572825196932',
-      stock: 10
-    }),
-    Product.create({
-      name: 'iPad Pro',
-      type: 'Tablet',
-      price: 799,
-      imageUrl:
-        'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-12-select-wifi-silver-201810_GEO_US?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1576264060419',
-      stock: 100
-    }),
-    Product.create({
-      name: 'iPad Air',
-      type: 'Tablet',
-      price: 499,
-      imageUrl:
-        'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-select-wifi-gold-201911?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1573800135063',
-      stock: 500
-    }),
-    Product.create({
-      name: 'iPad mini',
-      type: 'Tablet',
-      price: 399,
-      imageUrl:
-        'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-select-wifi-silver-201911?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1573825370078',
-      stock: 70
+    Clients.create({
+      name: 'client 3',
+      description: 'description for client 3',
+      permission: 'PF'
     })
   ])
+
+  const funds = await Promise.all([
+    Funds.create({
+      name: 'Fund1',
+      type: 'HF',
+      inception: '2018-06-22',
+      description: 'description for Fund1'
+    }),
+    Funds.create({
+      name: 'Fund2',
+      type: 'PL',
+      inception: '2019-06-23',
+      description: 'description for Fund2'
+    }),
+    Funds.create({
+      name: 'Fund3',
+      type: 'VC',
+      inception: '2020-06-24',
+      description: 'description for Fund3'
+    }),
+    Funds.create({
+      name: 'Fund4',
+      type: 'RE',
+      inception: '2017-06-21',
+      description: 'description for Fund4'
+    }),
+    Funds.create({
+      name: 'Fund5',
+      type: 'PC',
+      inception: '2016-06-20',
+      description: 'description for Fund5'
+    }),
+    Funds.create({
+      name: 'Fund6',
+      type: 'HF',
+      inception: '2015-06-19',
+      description: 'description for Fund6'
+    })
+  ])
+
+  const investments = await Promise.all([
+    Investments.create({
+      name: 'investment1',
+      date: 'Fri Jun 22 2018 11:02:01',
+      amount: 1000.0,
+      clientId: 1,
+      fundId: 3
+    }),
+    Investments.create({
+      name: 'investment2',
+      date: 'Sun Jun 23 2019 10:09:05',
+      amount: 950.5,
+      clientId: 2,
+      fundId: 3
+    }),
+    Investments.create({
+      name: 'investment3',
+      date: 'Wed Jun 24 2020 09:19:35',
+      amount: 860.89,
+      clientId: 1,
+      fundId: 1
+    })
+  ])
+
+  console.log(`seeded ${clients.length} clients`)
+  console.log(`seeded ${funds.length} funds`)
+  console.log(`seeded ${investments.length} investments`)
   console.log(`seeded successfully`)
 }
 
-// We've separated the `seed` function from the `runSeed` function.
-// This way we can isolate the error handling and exit trapping.
-// The `seed` function is concerned only with modifying the database.
 async function runSeed() {
   console.log('seeding...')
   try {
@@ -114,12 +108,8 @@ async function runSeed() {
   }
 }
 
-// Execute the `seed` function, IF we ran this module directly (`node seed`).
-// `Async` functions always return a promise, so we can use `catch` to handle
-// any errors that might occur inside of `seed`.
 if (module === require.main) {
   runSeed()
 }
 
-// we export the seed function for testing purposes (see `./seed.spec.js`)
 module.exports = seed
