@@ -14,7 +14,7 @@ const SingleUser = props => {
   return (
     <div className="Single-Client">
       <h1>{client.name}</h1>
-      {funds ? (
+      {funds.length > 0 ? (
         <table>
           <tbody>
             <tr>

@@ -32,6 +32,7 @@ export const updateCashFlowData = (obj, id) => async dispatch => {
   try {
     obj.cashId = id
     await axios.put(`/api/cashFlow/`, obj)
+    dispatch(gotCashFlowValue('', '', null))
   } catch (err) {
     console.error(err)
   }

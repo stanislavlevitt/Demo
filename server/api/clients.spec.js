@@ -12,12 +12,12 @@ describe('Clients routes', () => {
   })
 
   describe('/api/clients/', () => {
-    const codysDescription = 'Cody Client Description Test'
+    const clientDesc = 'Client Description Test'
 
     beforeEach(() => {
       return Clients.create({
-        name: 'Cody',
-        description: 'Cody Client Description Test'
+        name: 'Client 9',
+        description: 'Client Description Test'
       })
     })
 
@@ -27,7 +27,7 @@ describe('Clients routes', () => {
         .expect(200)
 
       expect(res.body).to.be.an('array')
-      expect(res.body[0].description).to.be.equal(codysDescription)
+      expect(res.body[0].description).to.be.equal(clientDesc)
     })
-  }) // end describe('/api/users')
-}) // end describe('User routes')
+  }) // end describe('/api/clients')
+}) // end describe('Clients routes')

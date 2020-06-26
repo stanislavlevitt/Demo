@@ -38,4 +38,4 @@ describe('Client model', () => {
       }
     })
   })
-}) // end describe('User model')
+}) // end describe('Client model')

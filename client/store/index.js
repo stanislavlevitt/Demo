@@ -1,5 +1,4 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux'
-import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import clients from './clients'
@@ -14,7 +13,7 @@ const reducer = combineReducers({
   cashFlow
 })
 const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
+  applyMiddleware(thunkMiddleware)
 )
 const store = createStore(reducer, middleware)
 
