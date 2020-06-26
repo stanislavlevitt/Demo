@@ -3,7 +3,11 @@ import {connect} from 'react-redux'
 import {getAllClients} from '../store/clients'
 import {getOnlyFunds} from '../store/funds'
 import {getFilteredInvestment} from '../store/investments'
-import {getCashFlowValue, updateCashFlowData} from '../store/cashFlow'
+import {
+  getCashFlowValue,
+  updateCashFlowData,
+  gotCashFlowValue
+} from '../store/cashFlow'
 const numeral = require('numeral')
 
 export class CashFlow extends Component {
@@ -37,6 +41,7 @@ export class CashFlow extends Component {
       [event.target.name]: event.target.value
     })
     this.props.getOnlyFunds(event.target.value)
+    this.props.resetCashFlow('', '', null)
   }
 
   fundChange(event) {
@@ -44,6 +49,7 @@ export class CashFlow extends Component {
       [event.target.name]: event.target.value
     })
     this.props.getFilteredInvestment(this.state.clientId, event.target.value)
+    this.props.resetCashFlow('', '', null)
   }
 
   investmentChange(event) {
@@ -163,7 +169,7 @@ export class CashFlow extends Component {
                   type="text"
                   name="currentAmount"
                   value={
-                    this.props.cashFlowValue === null
+                    this.props.cashFlowValue === ''
                       ? ''
                       : this.props.cashFlowValue
                   }
@@ -248,7 +254,9 @@ const mapDispatchToProps = dispatch => ({
   getOnlyFunds: id => dispatch(getOnlyFunds(id)),
   getFilteredInvestment: (clientId, fundId) =>
     dispatch(getFilteredInvestment(clientId, fundId)),
-  updateCashFlowData: (obj, id) => dispatch(updateCashFlowData(obj, id))
+  updateCashFlowData: (obj, id) => dispatch(updateCashFlowData(obj, id)),
+  resetCashFlow: (amountWithRate, amountBeforeRate, id) =>
+    dispatch(gotCashFlowValue(amountWithRate, amountBeforeRate, id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CashFlow)

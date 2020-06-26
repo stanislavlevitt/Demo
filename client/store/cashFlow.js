@@ -10,7 +10,7 @@ const defaultState = {
   id: null
 }
 
-const gotCashFlowValue = (amountWithRate, amountBeforeRate, id) => ({
+export const gotCashFlowValue = (amountWithRate, amountBeforeRate, id) => ({
   type: GOT_CASHFLOW_VALUE,
   amountWithRate,
   amountBeforeRate,
