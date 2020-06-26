@@ -31,6 +31,26 @@ export class CashFlow extends Component {
     this.props.getAllClients()
   }
 
+  // handleChange(event){
+  //   if(event.target.name ===clientId){
+  //     this.setState({
+  //       [event.target.name]: event.target.value
+  //     })
+  //     this.props.getFilteredFunds(event.target.value)
+  //   }
+  //   else if (event.target.name ===fundId){
+  //     this.setState({
+  //       [event.target.name]: event.target.value
+  //     })
+  //     this.props.getFilteredInvestment(this.state.clientId, event.target.value)
+  //   }
+  //   else if (event.target.name ===investmentId){
+  //     this.setState({
+  //       [event.target.name]: event.target.value
+  //     })
+  //   }
+  // }
+
   clientChange(event) {
     this.setState({
       [event.target.name]: event.target.value

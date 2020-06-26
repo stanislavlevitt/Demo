@@ -2,55 +2,57 @@ body {
   font-family: 'Inconsolata', sans-serif;
   text-align: center;
   background-color: #f4f7f6;
-  /* background-image: url('https://i.ytimg.com/vi/7dkrwPrmH-Y/maxresdefault.jpg'); */
   background-size: 100%;
 }
+h1 {
+  margin: 30px;
+}
 a {
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 label {
   display: block;
 }
 
-link {
-  color: aqua;
-}
 nav a {
   display: inline-block;
   margin: 1em;
+  text-decoration: none;
+  font-size: large;
 }
 
 .All-Clients {
   margin: 0 auto;
   width: 50%;
-  background-color: rgba(250, 235, 215, 0.338);
 }
 
-.Single-Clients {
+.Clients-List {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  width: 50%;
-  background-color: rgba(250, 235, 215, 0.338);
 }
+
+.Single-Client {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  width: 70%;
+}
+
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 70%;
   border: 1px solid black;
-  margin-left: 200px;
+  margin-top: 10px;
 }
+
 th,
 td {
   border: 1px solid black;
+  padding: 5px;
 }
 th {
   background-color: #dddddd;
 }
-/*
-.pTag {
-  margin-left: 100px;
-  margin-right: 100px;
-} */

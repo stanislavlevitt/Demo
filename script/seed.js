@@ -9,17 +9,17 @@ async function seed() {
 
   const clients = await Promise.all([
     Clients.create({
-      name: 'client 1',
+      name: 'Client 1',
       description: 'description for client 1',
       permission: 'All'
     }),
     Clients.create({
-      name: 'client 2',
+      name: 'Client 2',
       description: 'description for client 2',
       permission: 'PPF'
     }),
     Clients.create({
-      name: 'client 3',
+      name: 'Client 3',
       description: 'description for client 3',
       permission: 'PF'
     })

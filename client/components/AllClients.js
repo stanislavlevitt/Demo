@@ -11,15 +11,13 @@ const AllClients = props => {
   return (
     <div className="All-Clients">
       <h1> All Client Page</h1>
-      {props.clients.map(client => (
-        <div key={client.id} className="all-users">
-          <Link to={`/clients/${client.id}`}>
-            <div>
-              <h3>{client.name}</h3>
-            </div>
+      <div className="Clients-List">
+        {props.clients.map(client => (
+          <Link to={`/clients/${client.id}`} key={client.id}>
+            <h3>{client.name}</h3>
           </Link>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
