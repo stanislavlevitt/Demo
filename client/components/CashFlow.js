@@ -23,71 +23,65 @@ export class CashFlow extends Component {
       rate: 0.0
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.clientChange = this.clientChange.bind(this)
-    this.fundChange = this.fundChange.bind(this)
-    this.investmentChange = this.investmentChange.bind(this)
-    this.dateChange = this.dateChange.bind(this)
-    this.rateChange = this.rateChange.bind(this)
-    this.calculate = this.calculate.bind(this)
-    this.cancel = this.cancel.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
     this.props.getAllClients()
   }
 
-  clientChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-    this.props.getOnlyFunds(event.target.value)
+  handleChange(event){
+    if (event.target.name === "clientId"){
+      this.setState({
+        [event.target.name]: event.target.value
+      })
+      this.props.getOnlyFunds(event.target.value)
+      this.props.resetCashFlow('', '', null)
+    }
+    else if(event.target.name === "fundId"){
+      this.setState({
+        [event.target.name]: event.target.value
+      })
+      this.props.getFilteredInvestment(this.state.clientId, event.target.value)
     this.props.resetCashFlow('', '', null)
-  }
-
-  fundChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-    this.props.getFilteredInvestment(this.state.clientId, event.target.value)
-    this.props.resetCashFlow('', '', null)
-  }
-
-  investmentChange(event) {
-    this.props.getCashFlowValue(event.target.value)
+    }
+    else if(event.target.name === "investmentId"){
+      this.props.getCashFlowValue(event.target.value)
 
     this.setState({
       [event.target.name]: event.target.value
     })
+    }
+    else if(event.target.name === "date"){
+      this.setState({
+        [event.target.name]: event.target.value
+      })
+    }
+    else if(event.target.name === "rate"){
+      this.setState({
+        [event.target.name]: event.target.value
+      })
+    }
   }
 
-  dateChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  rateChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  calculate() {
-    const value =
+  handleClick(event){
+    if (event.target.name === "cancel"){
+      this.setState({
+        newAmount: '',
+        date: '',
+        rate: 0
+      })
+    }
+    else{
+      const value =
       (Number(this.state.rate) + 1) * Number(this.props.cashFlowAmount)
     const strValue = numeral(value.toFixed(2)).format('$0,0.00')
     this.setState({
       newAmount: strValue,
       amount: value.toFixed(2)
     })
-  }
-
-  cancel() {
-    this.setState({
-      newAmount: '',
-      date: '',
-      rate: 0
-    })
+    }
   }
 
   handleSubmit() {
@@ -115,7 +109,7 @@ export class CashFlow extends Component {
               <select
                 id="clientName"
                 name="clientId"
-                onChange={this.clientChange}
+                onChange={this.handleChange}
               >
                 <option value="" selected>
                   Client Name
@@ -129,7 +123,7 @@ export class CashFlow extends Component {
                     )
                   })}
               </select>
-              <select id="fundName" name="fundId" onChange={this.fundChange}>
+              <select id="fundName" name="fundId" onChange={this.handleChange}>
                 <option value="" selected>
                   Investment Type
                 </option>
@@ -147,7 +141,7 @@ export class CashFlow extends Component {
               <select
                 id="investmentName"
                 name="investmentId"
-                onChange={this.investmentChange}
+                onChange={this.handleChange}
               >
                 <option value="" selected>
                   Investment Name
@@ -192,7 +186,7 @@ export class CashFlow extends Component {
                 <input
                   type="date"
                   name="date"
-                  onChange={this.dateChange}
+                  onChange={this.handleChange}
                   value={this.state.date}
                   min={new Date().toISOString().slice(0, 10)}
                 />
@@ -205,7 +199,7 @@ export class CashFlow extends Component {
                   step=".01"
                   min="0"
                   value={this.state.rate}
-                  onChange={this.rateChange}
+                  onChange={this.handleChange}
                 />
               </div>
               <button
@@ -216,13 +210,13 @@ export class CashFlow extends Component {
                   this.state.date === '' ||
                   this.state.rate === 0
                 }
-                onClick={this.calculate}
+                onClick={this.handleClick}
               >
                 Calculate
               </button>
             </div>
             <div className="Form-Values">
-              <button type="button" onClick={this.cancel}>
+              <button type="button" onClick={this.handleClick} name="cancel">
                 Cancel
               </button>
               <button

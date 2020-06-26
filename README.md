@@ -8,7 +8,6 @@
 * [React](https://reactjs.org/)
 * [Redux](https://redux.js.org/)
 * [PostgreSQL](https://www.postgresql.org/)
-* [Heroku](https://www.heroku.com/)
 * [Node](https://nodejs.org/en/)
 
 <br />
