@@ -127,7 +127,7 @@ export class CashFlow extends Component {
         <h1>Cash Flow</h1>
         <div className="Form">
           <form onSubmit={this.handleSubmit}>
-            <div className="Form-Names">
+            <div className="Form-Values">
               <select
                 id="clientName"
                 name="clientId"
@@ -179,43 +179,54 @@ export class CashFlow extends Component {
               </select>
             </div>
             <div className="Form-Values">
-              <label htmlFor="currentAmount">Current Value</label>
-              <input
-                type="text"
-                name="currentAmount"
-                value={
-                  this.props.cashFlowValue === null
-                    ? ''
-                    : this.props.cashFlowValue
-                }
-              />
-              <label htmlFor="newAmount">Update Value</label>
-              <input
-                type="text"
-                name="newAmount"
-                value={this.state.newAmount === '' ? '' : this.state.newAmount}
-              />
+              <div className="Form-Group">
+                <label htmlFor="currentAmount">Current Value</label>
+                <input
+                  type="text"
+                  name="currentAmount"
+                  value={
+                    this.props.cashFlowValue === null
+                      ? ''
+                      : this.props.cashFlowValue
+                  }
+                />
+              </div>
+              <div className="Form-Group">
+                <label htmlFor="newAmount">Update Value</label>
+                <input
+                  type="text"
+                  name="newAmount"
+                  value={
+                    this.state.newAmount === '' ? '' : this.state.newAmount
+                  }
+                />
+              </div>
             </div>
             <div className="Form-Values">
-              <label htmlFor="date">Date</label>
-              <input
-                type="date"
-                name="date"
-                onChange={this.dateChange}
-                value={this.state.date}
-                min={new Date().toISOString().slice(0, 10)}
-              />
-              <label htmlFor="rate">Value</label>
-              <input
-                type="number"
-                name="rate"
-                step=".01"
-                min="0"
-                value={this.state.rate}
-                onChange={this.rateChange}
-              />
+              <div className="Form-Group">
+                <label htmlFor="date">Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  onChange={this.dateChange}
+                  value={this.state.date}
+                  min={new Date().toISOString().slice(0, 10)}
+                />
+              </div>
+              <div className="Form-Group">
+                <label htmlFor="rate">Value</label>
+                <input
+                  type="number"
+                  name="rate"
+                  step=".01"
+                  min="0"
+                  value={this.state.rate}
+                  onChange={this.rateChange}
+                />
+              </div>
               <button
                 type="button"
+                id="calculate"
                 disabled={
                   !this.props.cashFlowValue ||
                   this.state.date === '' ||
@@ -226,7 +237,7 @@ export class CashFlow extends Component {
                 Calculate
               </button>
             </div>
-            <div className="Form-Buttons">
+            <div className="Form-Values">
               <button type="button" onClick={this.cancel}>
                 Cancel
               </button>

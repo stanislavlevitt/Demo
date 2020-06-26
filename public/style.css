@@ -11,10 +11,6 @@ a {
   text-decoration: underline;
 }
 
-label {
-  display: inline-block;
-}
-
 nav a {
   display: inline-block;
   margin: 1em;
@@ -70,22 +66,16 @@ th {
   width: 40%;
 }
 
-.Form-Names {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px;
-}
-
 .Form-Values {
   display: flex;
   justify-content: space-between;
-  padding: 5px;
+  padding: 10px;
 }
 
-.Form-Buttons {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px;
+#calculate {
+  margin-top: 20px;
+  width: 17%;
+  padding: 2px;
 }
 
 form button {
@@ -101,4 +91,14 @@ button:disabled {
   cursor: no-drop;
 }
 
+.Form-Group {
+  display: flex;
+  flex-direction: column;
+}
+
+.Form-Group label {
+  align-self: start;
+  padding-bottom: 5px;
+  font-size: small;
+}
 /* End of Styling for CashFlow Component*/
