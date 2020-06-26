@@ -1,24 +1,57 @@
-# GraceShopper Gang
-This is an e-commerce site created by Ya-Sin, Sunil, Stas and Trevor. As some of our first group-project work, we came together to build this site from scratch in nine days.
+**Final Project for Canoe**
+<br/>
 
-## Site Functionality
+## Tech Stack
 
-* New users can sign up through the site or with Google
-* Returning users can login through the site or with Google
-* Logged in/guest users can add products to their carts/update their carts
-* Logged in users can make purchases in their cart and view their personal profile and order history
-* Admin users can delete users. Changed admin status on a user. Update product information. Delete or add a product to the main product page.
+---
 
-## Starting
+* [React](https://reactjs.org/)
+* [Redux](https://redux.js.org/)
+* [PostgreSQL](https://www.postgresql.org/)
+* [Heroku](https://www.heroku.com/)
+* [Node](https://nodejs.org/en/)
 
-* Fork this repo to your own github
-* Clone your fork to your local machine.
-* In your command line, run ‘createdb boilermaker’
-* Make sure your Postgres database is running!
-* npm install
-* npm run seed
-* npm test
+<br />
 
-## Deployment
+## App Walk through
 
-This section has been moved here : https://devcenter.heroku.com/categories/deployment
+---
+
+<p align="center"><strong>Clients be able view types of funds which they have permission to.</strong></p>
+<p align="center"><strong>The types of funds that Clients don’t have permission to will be masked (simple string manipulation: replacing actual words with ***).</strong></p>
+<p align="center"><strong>Client 1 can view all types of funds, Client 2 can only view VC and RE funds, Client 3 can only view PL and PC funds.</strong></p>
+<p align="center">
+  <img src="/public/GetClients.gif"/>
+</p>
+<br />
+
+<p align="center"><strong> A user should be able to choose existing clients from the Client Name drop down.</strong></p>
+<p align="center"><strong>Once a client is selected and the user clicks on Investment Type dropdown, he or she should only see the types of funds invested.</strong></p>
+<p align="center"><strong>When client name and fund type are selected and the user clicks on the Investment Name dropdown, the user should only be able to see the investments he or she made.</strong></p>
+
+<p align="center">
+ <img src="/public/CashFlow.gif"/>
+</p>
+<br />
+
+<p align="center"><strong> After Client Name, Investment Type and Investment Name are selected, the Current Value input field should be automatically populated with the latest value from the database.</strong></p>
+<p align="center"><strong>When the user types in a new date and value, e.g. 2020-07-01, 10% and clicks on Calculate, the Updated Value input box should be populated with a correct number.</strong></p>
+<p align="center"><strong>When user hits submit, the record will be saved into the cash_flows table for the selected investment. When user selected the same investment again, the current value should be updated to the latest one.</strong></p>
+
+## Local Setup
+
+---
+
+**From the terminal run:**
+
+<pre>
+git clone https://github.com/stanislavlevitt/Demo
+cd Project
+npm install
+npm start-dev
+</pre>
+
+**After npm start-dev**<br />
+The App will start running in development mode.<br />
+Open [http://localhost:8080](http://localhost:8080)<br />
+The page will reload if you make edits.
