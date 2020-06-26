@@ -12,7 +12,7 @@ a {
 }
 
 label {
-  display: block;
+  display: inline-block;
 }
 
 nav a {
@@ -22,6 +22,7 @@ nav a {
   font-size: large;
 }
 
+/* Start of Styling for All Clients Component*/
 .All-Clients {
   margin: 0 auto;
   width: 50%;
@@ -32,7 +33,9 @@ nav a {
   flex-direction: column;
   justify-content: center;
 }
+/* End of Styling for All Clients Component*/
 
+/* Start of Styling for Single Clients Component*/
 .Single-Client {
   display: flex;
   flex-direction: column;
@@ -56,3 +59,33 @@ td {
 th {
   background-color: #dddddd;
 }
+/* End of Styling for All Clients Component*/
+
+/* Start of Styling for CashFlow Component*/
+.Form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  width: 40%;
+}
+
+.Form-Names {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.Form-Values {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.Form-Buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+/* End of Styling for CashFlow Component*/

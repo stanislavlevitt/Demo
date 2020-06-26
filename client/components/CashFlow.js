@@ -105,108 +105,120 @@ export class CashFlow extends Component {
       newAmount: '',
       amount: '',
       date: '',
-      rate: 0.0
+      rate: 0
     })
   }
 
+  // eslint-disable-next-line complexity
   render() {
     return (
       <div>
         <h1>Cash Flow</h1>
-        <form onSubmit={this.handleSubmit}>
-          <div className="Form-Names">
-            <select
-              id="clientName"
-              name="clientId"
-              onChange={this.clientChange}
-            >
-              <option value="" disabled selected hidden>
-                Client Name
-              </option>
-              {this.props.clients.length > 0 &&
-                this.props.clients.map(client => {
-                  return (
-                    <option key={client.id} value={client.id}>
-                      {client.name}
-                    </option>
-                  )
-                })}
-            </select>
-            <select id="fundName" name="fundId" onChange={this.fundChange}>
-              <option value="" disabled selected hidden>
-                Investment Type
-              </option>
-              {this.props.funds.length > 0 &&
-                this.props.funds.map(fund => {
-                  if (!fund.name.includes('*')) {
+        <div className="Form">
+          <form onSubmit={this.handleSubmit}>
+            <div className="Form-Names">
+              <select
+                id="clientName"
+                name="clientId"
+                onChange={this.clientChange}
+              >
+                <option value="" disabled selected hidden>
+                  Client Name
+                </option>
+                {this.props.clients.length > 0 &&
+                  this.props.clients.map(client => {
                     return (
-                      <option key={fund.id} value={fund.id}>
-                        {fund.type}
+                      <option key={client.id} value={client.id}>
+                        {client.name}
                       </option>
                     )
-                  }
-                })}
-            </select>
-            <select
-              id="investmentName"
-              name="investmentId"
-              onChange={this.investmentChange}
-            >
-              <option value="" disabled selected hidden>
-                Investment Name
-              </option>
-              {this.props.investments.length > 0 &&
-                this.props.investments.map(investment => {
-                  return (
-                    <option key={investment.id} value={investment.id}>
-                      {investment.name}
-                    </option>
-                  )
-                })}
-            </select>
-          </div>
-          <div className="Form-Values">
-            <label htmlFor="currentAmount">Current Value</label>
-            <input
-              type="text"
-              name="currentAmount"
-              value={
-                this.props.cashFlowValue === null
-                  ? ''
-                  : this.props.cashFlowValue
-              }
-            />
-            <label htmlFor="newAmount">Update Value</label>
-            <input
-              type="text"
-              name="newAmount"
-              value={this.state.newAmount === '' ? '' : this.state.newAmount}
-            />
-          </div>
-          <div className="Form-Values">
-            <label htmlFor="date">Date</label>
-            <input type="date" name="date" onChange={this.dateChange} />
-            <label htmlFor="rate">Value</label>
-            <input
-              type="number"
-              name="rate"
-              step=".01"
-              min="0"
-              onChange={this.rateChange}
-            />
-            <button
-              type="button"
-              disabled={this.state.date === '' || this.state.rate === 0.0}
-              onClick={this.calculate}
-            >
-              Calculate
-            </button>
-          </div>
-          <div className="Form-Buttons">
-            <button type="button">Cancel</button>
-            <button type="submit">Submit</button>
-          </div>
-        </form>
+                  })}
+              </select>
+              <select id="fundName" name="fundId" onChange={this.fundChange}>
+                <option value="" disabled selected hidden>
+                  Investment Type
+                </option>
+                {this.props.funds.length > 0 &&
+                  this.props.funds.map(fund => {
+                    if (!fund.name.includes('*')) {
+                      return (
+                        <option key={fund.id} value={fund.id}>
+                          {fund.type}
+                        </option>
+                      )
+                    }
+                  })}
+              </select>
+              <select
+                id="investmentName"
+                name="investmentId"
+                onChange={this.investmentChange}
+              >
+                <option value="" disabled selected hidden>
+                  Investment Name
+                </option>
+                {this.props.investments.length > 0 &&
+                  this.props.investments.map(investment => {
+                    return (
+                      <option key={investment.id} value={investment.id}>
+                        {investment.name}
+                      </option>
+                    )
+                  })}
+              </select>
+            </div>
+            <div className="Form-Values">
+              <label htmlFor="currentAmount">Current Value</label>
+              <input
+                type="text"
+                name="currentAmount"
+                value={
+                  this.props.cashFlowValue === null
+                    ? ''
+                    : this.props.cashFlowValue
+                }
+              />
+              <label htmlFor="newAmount">Update Value</label>
+              <input
+                type="text"
+                name="newAmount"
+                value={this.state.newAmount === '' ? '' : this.state.newAmount}
+              />
+            </div>
+            <div className="Form-Values">
+              <label htmlFor="date">Date</label>
+              <input type="date" name="date" onChange={this.dateChange} />
+              <label htmlFor="rate">Value</label>
+              <input
+                type="number"
+                name="rate"
+                step=".01"
+                min="0"
+                onChange={this.rateChange}
+              />
+              <button
+                type="button"
+                disabled={
+                  !this.props.cashFlowValue ||
+                  this.state.date === '' ||
+                  this.state.rate === 0
+                }
+                onClick={this.calculate}
+              >
+                Calculate
+              </button>
+            </div>
+            <div className="Form-Buttons">
+              <button type="button">Cancel</button>
+              <button
+                type="submit"
+                disabled={this.state.newAmount === '' || this.state.rate === 0}
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     )
   }
