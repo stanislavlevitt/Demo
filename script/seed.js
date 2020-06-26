@@ -82,14 +82,14 @@ async function seed() {
     Investments.create({
       name: 'investment3, Fund 5 PC',
       date: 'Sun Jun 23 2019 10:09:05',
-      amount: 950.5,
+      amount: 900.0,
       clientId: 2,
       fundId: 5
     }),
     Investments.create({
       name: 'investment4, Fund3 VC',
       date: 'Wed Jun 24 2020 09:19:35',
-      amount: 860.89,
+      amount: 560.23,
       clientId: 3,
       fundId: 3
     }),

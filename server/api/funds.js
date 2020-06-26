@@ -14,10 +14,13 @@ router.get('/:clientId', async (req, res, next) => {
   }
 })
 
-router.get('/', async (req, res, next) => {
+router.get('/form/:clientId', async (req, res, next) => {
   try {
+    const client = await Clients.findByPk(req.params.clientId)
+    const {permission} = client.dataValues
     const funds = await Funds.findAll()
-    res.json(funds)
+    const filteredFunds = Funds.allowedFormFunds(funds, permission)
+    res.json(filteredFunds)
   } catch (err) {
     next(err)
   }

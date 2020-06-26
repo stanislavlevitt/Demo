@@ -61,4 +61,25 @@ Funds.filterPermission = function(funds, permission) {
   }
 }
 
+Funds.allowedFormFunds = function(funds, permission) {
+  switch (permission) {
+    case 'All':
+      return funds
+    case 'PPF':
+      return funds.filter(fund => {
+        if (fund.dataValues.type === 'PL' || fund.dataValues.type === 'PC') {
+          return fund
+        }
+      })
+    case 'PF':
+      return funds.filter(fund => {
+        if (fund.dataValues.type === 'VC' || fund.dataValues.type === 'RE') {
+          return fund
+        }
+      })
+    default:
+      break
+  }
+}
+
 module.exports = Funds

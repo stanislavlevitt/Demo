@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getAllClients} from '../store/clients'
-import {getFilteredFunds} from '../store/funds'
+import {getOnlyFunds} from '../store/funds'
 import {getFilteredInvestment} from '../store/investments'
 import {getCashFlowValue, updateCashFlowData} from '../store/cashFlow'
 const numeral = require('numeral')
@@ -32,31 +32,11 @@ export class CashFlow extends Component {
     this.props.getAllClients()
   }
 
-  // handleChange(event){
-  //   if(event.target.name ===clientId){
-  //     this.setState({
-  //       [event.target.name]: event.target.value
-  //     })
-  //     this.props.getFilteredFunds(event.target.value)
-  //   }
-  //   else if (event.target.name ===fundId){
-  //     this.setState({
-  //       [event.target.name]: event.target.value
-  //     })
-  //     this.props.getFilteredInvestment(this.state.clientId, event.target.value)
-  //   }
-  //   else if (event.target.name ===investmentId){
-  //     this.setState({
-  //       [event.target.name]: event.target.value
-  //     })
-  //   }
-  // }
-
   clientChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     })
-    this.props.getFilteredFunds(event.target.value)
+    this.props.getOnlyFunds(event.target.value)
   }
 
   fundChange(event) {
@@ -97,13 +77,11 @@ export class CashFlow extends Component {
   }
 
   cancel() {
-    console.log(this.state)
     this.setState({
       newAmount: '',
       date: '',
       rate: 0
     })
-    console.log(this.state)
   }
 
   handleSubmit() {
@@ -151,7 +129,7 @@ export class CashFlow extends Component {
                 </option>
                 {this.props.funds.length > 0 &&
                   this.props.funds.map(fund => {
-                    if (!fund.name.includes('*')) {
+                    {
                       return (
                         <option key={fund.id} value={fund.id}>
                           {fund.type}
@@ -267,7 +245,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getAllClients: () => dispatch(getAllClients()),
   getCashFlowValue: investmentId => dispatch(getCashFlowValue(investmentId)),
-  getFilteredFunds: id => dispatch(getFilteredFunds(id)),
+  getOnlyFunds: id => dispatch(getOnlyFunds(id)),
   getFilteredInvestment: (clientId, fundId) =>
     dispatch(getFilteredInvestment(clientId, fundId)),
   updateCashFlowData: (obj, id) => dispatch(updateCashFlowData(obj, id))
