@@ -7,129 +7,131 @@ async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const clients = await Promise.all([
-    Clients.create({
-      name: 'Client 1',
-      description: 'description for client 1',
-      permission: 'All'
-    }),
-    Clients.create({
-      name: 'Client 2',
-      description: 'description for client 2',
-      permission: 'PPF'
-    }),
-    Clients.create({
-      name: 'Client 3',
-      description: 'description for client 3',
-      permission: 'PF'
-    })
-  ])
-
-  const funds = await Promise.all([
-    Funds.create({
-      name: 'Fund1',
-      type: 'HF',
-      inception: '2018-06-22',
-      description: 'description for Fund1'
-    }),
-    Funds.create({
-      name: 'Fund2',
-      type: 'PL',
-      inception: '2019-06-23',
-      description: 'description for Fund2'
-    }),
-    Funds.create({
-      name: 'Fund3',
-      type: 'VC',
-      inception: '2020-06-24',
-      description: 'description for Fund3'
-    }),
-    Funds.create({
-      name: 'Fund4',
-      type: 'RE',
-      inception: '2017-06-21',
-      description: 'description for Fund4'
-    }),
-    Funds.create({
-      name: 'Fund5',
-      type: 'PC',
-      inception: '2016-06-20',
-      description: 'description for Fund5'
-    }),
-    Funds.create({
-      name: 'Fund6',
-      type: 'HF',
-      inception: '2015-06-19',
-      description: 'description for Fund6'
-    })
-  ])
-
-  const investments = await Promise.all([
-    Investments.create({
-      name: 'investment1, Fund 1, HF',
-      date: 'Fri Jun 22 2018 11:02:01',
-      amount: 1000.0,
-      clientId: 1,
-      fundId: 1
-    }),
-    Investments.create({
-      name: 'investment2, Fund 2 PL',
-      date: 'Sun Jun 23 2019 10:09:05',
-      amount: 950.5,
-      clientId: 2,
-      fundId: 2
-    }),
-    Investments.create({
-      name: 'investment3, Fund 5 PC',
-      date: 'Sun Jun 23 2019 10:09:05',
-      amount: 900.0,
-      clientId: 2,
-      fundId: 5
-    }),
-    Investments.create({
-      name: 'investment4, Fund3 VC',
-      date: 'Wed Jun 24 2020 09:19:35',
-      amount: 560.23,
-      clientId: 3,
-      fundId: 3
-    }),
-    Investments.create({
-      name: 'investment5, Fund 4 RE',
-      date: 'Wed Jun 24 2020 09:19:35',
-      amount: 860.89,
-      clientId: 3,
-      fundId: 1
-    })
-  ])
+  //Start of Client Seeds
+  const Client1 = await Clients.create({
+    name: 'Client 1',
+    description: 'description for client 1',
+    permission: 'All'
+  })
+  const Client2 = await Clients.create({
+    name: 'Client 2',
+    description: 'description for client 2',
+    permission: 'PPF'
+  })
+  const Client3 = await Clients.create({
+    name: 'Client 3',
+    description: 'description for client 3',
+    permission: 'PF'
+  })
+  // End of Client Seeds
+  // Start of Fund Seeds
+  const Fund1 = await Funds.create({
+    name: 'Fund 1',
+    type: 'HF',
+    inception: '2018-06-22',
+    description: 'description for Fund 1'
+  })
+  const Fund2 = await Funds.create({
+    name: 'Fund 2',
+    type: 'PL',
+    inception: '2019-06-23',
+    description: 'description for Fund 2'
+  })
+  const Fund3 = await Funds.create({
+    name: 'Fund 3',
+    type: 'VC',
+    inception: '2020-06-24',
+    description: 'description for Fund 3'
+  })
+  const Fund4 = await Funds.create({
+    name: 'Fund 4',
+    type: 'RE',
+    inception: '2017-06-21',
+    description: 'description for Fund 4'
+  })
+  const Fund5 = await Funds.create({
+    name: 'Fund 5',
+    type: 'PC',
+    inception: '2016-06-20',
+    description: 'description for Fund 5'
+  })
+  // End of Funds Seeds
+  // Start of Investment Seeds
+  const Investments1 = await Investments.create({
+    name: 'investment1, Fund 1, HF',
+    date: 'Fri Jun 22 2018 11:02:01',
+    amount: 1000.0,
+    clientId: Client1.id,
+    fundId: Fund1.id
+  })
+  const Investments2 = await Investments.create({
+    name: 'investment2, Fund 2 PL',
+    date: 'Sun Jun 23 2019 10:09:05',
+    amount: 950.5,
+    clientId: Client2.id,
+    fundId: Fund2.id
+  })
+  const Investments3 = await Investments.create({
+    name: 'investment3, Fund 5 PC',
+    date: 'Sun Jun 23 2019 10:09:05',
+    amount: 900.0,
+    clientId: Client2.id,
+    fundId: Fund5.id
+  })
+  const Investments4 = await Investments.create({
+    name: 'investment4, Fund3 VC',
+    date: 'Wed Jun 24 2020 09:19:35',
+    amount: 560.23,
+    clientId: Client3.id,
+    fundId: Fund3.id
+  })
+  const Investments5 = await Investments.create({
+    name: 'investment5, Fund 4 RE',
+    date: 'Wed Jun 24 2020 09:19:35',
+    amount: 860.89,
+    clientId: Client3.id,
+    fundId: Fund4.id
+  })
+  // End of Investment Seeds
+  //Start of CashFlow Seeds
 
   const cashFlow = await Promise.all([
     CashFlows.create({
-      investmentId: 1,
+      investmentId: Investments1.id,
       date: 'Fri Jun 22 2018 11:02:01',
       return: 0.05
     }),
     CashFlows.create({
-      investmentId: 2,
+      investmentId: Investments2.id,
       date: 'Sun Jun 23 2019 10:09:05',
       return: 0.15
     }),
     CashFlows.create({
-      investmentId: 3,
+      investmentId: Investments3.id,
       date: 'Sun Jun 23 2019 10:09:05',
       return: 0.15
     }),
     CashFlows.create({
-      investmentId: 4,
+      investmentId: Investments4.id,
       date: 'Wed Jun 24 2020 09:19:35',
       return: 0.1
     }),
     CashFlows.create({
-      investmentId: 5,
+      investmentId: Investments5.id,
       date: 'Wed Jun 24 2020 09:19:35',
       return: 0.1
     })
   ])
 
+  const clients = [Client1, Client2, Clients]
+  const funds = [Fund1, Fund2, Fund3, Fund4, Fund5]
+  const investments = [
+    Investments1,
+    Investments2,
+    Investments3,
+    Investments4,
+    Investments5
+  ]
   console.log(`seeded ${clients.length} clients`)
   console.log(`seeded ${funds.length} funds`)
   console.log(`seeded ${investments.length} investments`)
