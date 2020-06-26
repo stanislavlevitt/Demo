@@ -25,6 +25,7 @@ export class CashFlow extends Component {
     this.dateChange = this.dateChange.bind(this)
     this.rateChange = this.rateChange.bind(this)
     this.calculate = this.calculate.bind(this)
+    this.cancel = this.cancel.bind(this)
   }
 
   componentDidMount() {
@@ -95,6 +96,16 @@ export class CashFlow extends Component {
     })
   }
 
+  cancel() {
+    console.log(this.state)
+    this.setState({
+      newAmount: '',
+      date: '',
+      rate: 0
+    })
+    console.log(this.state)
+  }
+
   handleSubmit() {
     this.props.updateCashFlowData(this.state, this.props.cashFlowId)
 
@@ -122,7 +133,7 @@ export class CashFlow extends Component {
                 name="clientId"
                 onChange={this.clientChange}
               >
-                <option value="" disabled selected hidden>
+                <option value="" selected>
                   Client Name
                 </option>
                 {this.props.clients.length > 0 &&
@@ -135,7 +146,7 @@ export class CashFlow extends Component {
                   })}
               </select>
               <select id="fundName" name="fundId" onChange={this.fundChange}>
-                <option value="" disabled selected hidden>
+                <option value="" selected>
                   Investment Type
                 </option>
                 {this.props.funds.length > 0 &&
@@ -154,7 +165,7 @@ export class CashFlow extends Component {
                 name="investmentId"
                 onChange={this.investmentChange}
               >
-                <option value="" disabled selected hidden>
+                <option value="" selected>
                   Investment Name
                 </option>
                 {this.props.investments.length > 0 &&
@@ -187,13 +198,20 @@ export class CashFlow extends Component {
             </div>
             <div className="Form-Values">
               <label htmlFor="date">Date</label>
-              <input type="date" name="date" onChange={this.dateChange} />
+              <input
+                type="date"
+                name="date"
+                onChange={this.dateChange}
+                value={this.state.date}
+                min={new Date().toISOString().slice(0, 10)}
+              />
               <label htmlFor="rate">Value</label>
               <input
                 type="number"
                 name="rate"
                 step=".01"
                 min="0"
+                value={this.state.rate}
                 onChange={this.rateChange}
               />
               <button
@@ -209,7 +227,9 @@ export class CashFlow extends Component {
               </button>
             </div>
             <div className="Form-Buttons">
-              <button type="button">Cancel</button>
+              <button type="button" onClick={this.cancel}>
+                Cancel
+              </button>
               <button
                 type="submit"
                 disabled={this.state.newAmount === '' || this.state.rate === 0}

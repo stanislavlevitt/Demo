@@ -88,4 +88,17 @@ th {
   padding: 5px;
 }
 
+form button {
+  padding: 2px 25px;
+  color: white;
+  background: rgb(70, 70, 70);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #909293;
+  cursor: no-drop;
+}
+
 /* End of Styling for CashFlow Component*/
