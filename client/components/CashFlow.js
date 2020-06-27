@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getAllClients} from '../store/clients'
-import {getOnlyFunds} from '../store/funds'
-import {getFilteredInvestment} from '../store/investments'
+import {getOnlyFunds,gotFilteredFunds} from '../store/funds'
+import {getFilteredInvestment, gotFilteredInvestments} from '../store/investments'
 import {
   getCashFlowValue,
   updateCashFlowData,
@@ -23,37 +23,60 @@ export class CashFlow extends Component {
       rate: 0.0
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    this.handleValueChange = this.handleValueChange.bind(this)
+    this.handleClientChange = this.handleClientChange.bind(this)
+    this.handleFundChange = this.handleFundChange.bind(this)
+    this.handleInvestChange = this.handleInvestChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
     this.props.getAllClients()
+    this.props.resetInvestments([])
+    this.props.resetFunds([])
   }
 
-  handleChange(event){
-    if (event.target.name === "clientId"){
+  handleClientChange(event){
+    if(event.target.value === "") {
+      this.props.resetFunds([])
+    }
+    else{
       this.setState({
         [event.target.name]: event.target.value
       })
       this.props.getOnlyFunds(event.target.value)
-      this.props.resetCashFlow('', '', null)
     }
-    else if(event.target.name === "fundId"){
+      this.props.resetInvestments([])
+      this.props.resetCashFlow('', '', null)
+  }
+
+  handleFundChange(event){
+    if(event.target.value === "") {
+      this.props.resetInvestments([])
+    }
+    else{
       this.setState({
         [event.target.name]: event.target.value
       })
       this.props.getFilteredInvestment(this.state.clientId, event.target.value)
-    this.props.resetCashFlow('', '', null)
     }
-    else if(event.target.name === "investmentId"){
-      this.props.getCashFlowValue(event.target.value)
+      this.props.resetCashFlow('', '', null)
+  }
 
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+  handleInvestChange(event){
+    if(event.target.value === "") {
+      this.props.resetCashFlow('', '', null)
     }
-    else if(event.target.name === "date"){
+    else{
+      this.props.getCashFlowValue(event.target.value)
+      this.setState({
+      [event.target.name]: event.target.value
+      })
+    }
+  }
+
+  handleValueChange(event){
+    if(event.target.name === "date"){
       this.setState({
         [event.target.name]: event.target.value
       })
@@ -109,7 +132,7 @@ export class CashFlow extends Component {
               <select
                 id="clientName"
                 name="clientId"
-                onChange={this.handleChange}
+                onChange={this.handleClientChange}
               >
                 <option value="" selected>
                   Client Name
@@ -123,25 +146,23 @@ export class CashFlow extends Component {
                     )
                   })}
               </select>
-              <select id="fundName" name="fundId" onChange={this.handleChange}>
+              <select id="fundName" name="fundId" onChange={this.handleFundChange}>
                 <option value="" selected>
                   Investment Type
                 </option>
                 {this.props.funds.length > 0 &&
                   this.props.funds.map(fund => {
-                    {
                       return (
                         <option key={fund.id} value={fund.id}>
                           {fund.type}
                         </option>
                       )
-                    }
                   })}
               </select>
               <select
                 id="investmentName"
                 name="investmentId"
-                onChange={this.handleChange}
+                onChange={this.handleInvestChange}
               >
                 <option value="" selected>
                   Investment Name
@@ -186,7 +207,7 @@ export class CashFlow extends Component {
                 <input
                   type="date"
                   name="date"
-                  onChange={this.handleChange}
+                  onChange={this.handleValueChange}
                   value={this.state.date}
                   min={new Date().toISOString().slice(0, 10)}
                 />
@@ -199,7 +220,7 @@ export class CashFlow extends Component {
                   step=".01"
                   min="0"
                   value={this.state.rate}
-                  onChange={this.handleChange}
+                  onChange={this.handleValueChange}
                 />
               </div>
               <button
@@ -250,7 +271,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getFilteredInvestment(clientId, fundId)),
   updateCashFlowData: (obj, id) => dispatch(updateCashFlowData(obj, id)),
   resetCashFlow: (amountWithRate, amountBeforeRate, id) =>
-    dispatch(gotCashFlowValue(amountWithRate, amountBeforeRate, id))
+    dispatch(gotCashFlowValue(amountWithRate, amountBeforeRate, id)),
+    resetInvestments: (invest)=> dispatch(gotFilteredInvestments(invest)),
+    resetFunds: (funds)=> dispatch(gotFilteredFunds(funds))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CashFlow)

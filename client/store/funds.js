@@ -7,7 +7,7 @@ const defaultState = {
   allFunds: []
 }
 
-const gotFilteredFunds = funds => ({
+export const gotFilteredFunds = funds => ({
   type: GOT_FILTERED_FUNDS,
   funds
 })

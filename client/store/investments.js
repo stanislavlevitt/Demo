@@ -13,7 +13,7 @@ const gotAllInvestments = investment => ({
   investment
 })
 
-const gotFilteredInvestments = investment => ({
+export const gotFilteredInvestments = investment => ({
   type: GOT_FILTERED_INVESTMENTS,
   investment
 })
