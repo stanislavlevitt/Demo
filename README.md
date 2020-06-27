@@ -1,6 +1,9 @@
 **Final Project for Canoe**
 <br/>
 
+The DATABASE-SCREENSHOTS folder contains five images of the database. One screenshot of all the models and four individual screenshots of each table.
+
+
 ## Tech Stack
 
 ---
